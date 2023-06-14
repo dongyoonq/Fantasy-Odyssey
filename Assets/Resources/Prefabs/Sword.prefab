@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4413313946366956380}
   - component: {fileID: -387184866702048090}
   m_Layer: 0
-  m_Name: Mesh_Warrior_WeaponSword
+  m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,9 +96,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ff09921580e69438ff268cc8ca470c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponhandleData: {fileID: 11400000, guid: f79669eb1344b1a4b91fea0159cf9c43, type: 2}
-  weaponAnimator: {fileID: 9100000, guid: ad13c025e8a70fd47b3f8683eb90d849, type: 2}
-  _name: 
-  attackDamage: 0
-  attackSpeed: 0
-  attackRange: 0
+  type: 0
+  weaponData: {fileID: 11400000, guid: f79669eb1344b1a4b91fea0159cf9c43, type: 2}

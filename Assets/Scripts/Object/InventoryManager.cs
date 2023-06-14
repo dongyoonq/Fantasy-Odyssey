@@ -6,7 +6,7 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance { get; private set; }
     private static InventoryManager instance;
-    public GameObject sword;/// 테스트용 카론의 노
+    public GameObject sword;
 
     void Awake()
     {
@@ -37,9 +37,8 @@ public class InventoryManager : MonoBehaviour
            }
         */
 
-        // 카론의 노 테스트용
         GameObject weapon = Instantiate(sword);
-        Player.Instance.weaponManager.RegisterWeapon(weapon);
-        Player.Instance.weaponManager.SetWeapon(weapon);
+        //Player.Instance.weaponManager.RegisterWeapon(weapon);
+        //Player.Instance.weaponManager.SetWeapon(weapon);
     }
 }

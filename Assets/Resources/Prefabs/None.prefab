@@ -44,9 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ff09921580e69438ff268cc8ca470c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponhandleData: {fileID: 11400000, guid: 61b31505aeb5378478e5dadd6266d076, type: 2}
-  weaponAnimator: {fileID: 22100000, guid: 2f790fd2787339e4b98eaef858d71539, type: 2}
-  _name: 
-  attackDamage: 3
-  attackSpeed: 1
-  attackRange: 2
+  type: 0
+  weaponData: {fileID: 11400000, guid: 61b31505aeb5378478e5dadd6266d076, type: 2}

@@ -15,3 +15,10 @@ MonoBehaviour:
   localPosition: {x: 0, y: 0, z: 0}
   localRotation: {x: 0, y: 0, z: 0}
   localScale: {x: 1, y: 1, z: 1}
+  weaponAnimator: {fileID: 22100000, guid: 2f790fd2787339e4b98eaef858d71539, type: 2}
+  _name: 
+  attackDamage: 5
+  attackSpeed: 1
+  attackRange: 2
+  requireLevel: 0
+  requireJob: 

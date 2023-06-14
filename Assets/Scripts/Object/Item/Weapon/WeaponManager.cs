@@ -6,7 +6,7 @@ using UnityEngine;
 public class WeaponManager
 {
     // 현재 무기 스크립트
-    public BaseWeapon Weapon { get; private set; }
+    public Weapon Weapon { get; private set; }
     // 이 부분은 크게 신경 안 쓰셔도 됩니다.
     public Action<GameObject> unRegisterWeapon { get; set; }
     // 무기를 쥐는 손의 트랜스폼
@@ -26,11 +26,11 @@ public class WeaponManager
     {
         if (!weapons.Contains(weapon))
         {
-            BaseWeapon weaponInfo = weapon.GetComponent<BaseWeapon>();
+            Weapon weaponInfo = weapon.GetComponent<Weapon>();
             weapon.transform.SetParent(handPosition);
-            weapon.transform.localPosition = weaponInfo.HandleData.localPosition;
-            weapon.transform.localEulerAngles = weaponInfo.HandleData.localRotation;
-            weapon.transform.localScale = weaponInfo.HandleData.localScale;
+            weapon.transform.localPosition = weaponInfo.WeaponData.localPosition;
+            weapon.transform.localEulerAngles = weaponInfo.WeaponData.localRotation;
+            weapon.transform.localScale = weaponInfo.WeaponData.localScale;
             weapons.Add(weapon);
             weapon.SetActive(false);
         }
@@ -52,9 +52,9 @@ public class WeaponManager
         if (Weapon == null)
         {
             weaponObject = weapon;
-            Weapon = weapon.GetComponent<BaseWeapon>();
+            Weapon = weapon.GetComponent<Weapon>();
             weaponObject.SetActive(true);
-            Player.Instance.animator.runtimeAnimatorController = Weapon.WeaponAnimator;
+            Player.Instance.animator.runtimeAnimatorController = Weapon.WeaponData.WeaponAnimator;
             return;
         }
 
@@ -64,8 +64,8 @@ public class WeaponManager
             {
                 weaponObject = weapon;
                 weaponObject.SetActive(true);
-                Weapon = weapon.GetComponent<BaseWeapon>();
-                Player.Instance.animator.runtimeAnimatorController = Weapon.WeaponAnimator;
+                Weapon = weapon.GetComponent<Weapon>();
+                Player.Instance.animator.runtimeAnimatorController = Weapon.WeaponData.WeaponAnimator;
                 continue;
             }
             weapons[i].SetActive(false);

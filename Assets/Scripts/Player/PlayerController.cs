@@ -19,6 +19,16 @@ public class PlayerController : MonoBehaviour
     private int groundLayer;
     private bool isGrounded;
 
+    private void OnEnable()
+    {
+       // Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void OnDisable()
+    {
+      //  Cursor.lockState = CursorLockMode.None;
+    }
+
     void Start()
     {
         player = GetComponent<Player>();
@@ -89,7 +99,7 @@ public class PlayerController : MonoBehaviour
             else if (context.interaction is PressInteraction)   // 일반 공격
             {
                 bool isAvailableAttack = !AttackState.IsAttack &&
-                                          (player.weaponManager.Weapon.ComboCount < 3);
+                                          (GetWeapon().ComboCount < 3);
                 if (isAvailableAttack)
                 {
                     player.stateMachine.ChangeState(StateName.ATTACK);
@@ -97,6 +107,18 @@ public class PlayerController : MonoBehaviour
 
             }
         }
+    }
+
+    public Weapon GetWeapon()
+    {
+        if (player.wearingEquip[Equipment.EquipmentType.Weapon])
+        {
+            Equipment equipment = player.wearingEquip[Equipment.EquipmentType.Weapon];
+            Weapon weapon = equipment as Weapon;
+            return weapon;
+        }
+
+        return null;
     }
 
     protected bool IsGrounded()

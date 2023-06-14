@@ -1,38 +1,38 @@
 using System.Collections;
 using UnityEngine;
 
-public class TestWeapon : BaseWeapon
+public class TestWeapon : Weapon
 {
     public readonly int hashIsAttackAnimation = Animator.StringToHash("IsAttack");
     public readonly int hashAttackAnimation = Animator.StringToHash("AttackCombo");
     public readonly int hashAttackSpeedAnimation = Animator.StringToHash("AttackSpeed");
     private Coroutine checkAttackReInputCor;
 
-    public override void Attack(BaseState state)
+    public override void Attack()
     {
         ComboCount++;
-        Player.Instance.animator.SetFloat(hashAttackSpeedAnimation, AttackSpeed);
+        Player.Instance.animator.SetFloat(hashAttackSpeedAnimation, WeaponData.AttackSpeed);
         Player.Instance.animator.SetBool(hashIsAttackAnimation, true);
         Player.Instance.animator.SetInteger(hashAttackAnimation, ComboCount);
         CheckAttackReInput(AttackState.CanReInputTime);
     }
 
-    public override void ChargingAttack(BaseState state)
+    public override void ChargingAttack()
     {
 
     }
 
-    public override void DashAttack(BaseState state)
+    public override void DashAttack()
     {
 
     }
 
-    public override void Skill(BaseState state)
+    public override void Skill()
     {
 
     }
 
-    public override void UltimateSkill(BaseState state)
+    public override void UltimateSkill()
     {
 
     }
@@ -57,5 +57,20 @@ public class TestWeapon : BaseWeapon
 
         ComboCount = 0;
         Player.Instance.animator.SetInteger(hashAttackAnimation, 0);
+    }
+
+    public override void Use()
+    {
+        Attack();
+    }
+
+    public override void ApplyStatusModifier(Player player)
+    {
+
+    }
+
+    public override void RemoveStatusModifier(Player player)
+    {
+
     }
 }

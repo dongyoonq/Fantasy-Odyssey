@@ -2,12 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Equipment : Item
+public abstract class Equipment : Item
 {
-    public EquipmentData data;
+    public EquipmentType type;
 
-    public override void Use()
+    public enum EquipmentType
     {
-        
+        Weapon,
+        Armor,
+        Bottom,
+        Shoes,
+        Glove,
+        Potion,
+        Other
     }
+
+    public abstract void ApplyStatusModifier(Player player);
+    public abstract void RemoveStatusModifier(Player player);
 }
