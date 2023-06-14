@@ -1,0 +1,108 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
+using UnityEngine.InputSystem.XR;
+
+[RequireComponent(typeof(Player))]
+public class PlayerController : MonoBehaviour
+{
+    public Player player { get; private set; }
+    public Vector3 moveDir { get; private set; }
+    public Vector3 MouseDirection { get; private set; }
+
+    [Header("땅 체크")]
+    [SerializeField, Tooltip("캐릭터가 땅에 붙어 있는지 확인하기 위한 CheckBox 시작 지점입니다.")]
+    Transform groundCheck;
+    private int groundLayer;
+    private bool isGrounded;
+
+    void Start()
+    {
+        player = GetComponent<Player>();
+        groundLayer = 1 << LayerMask.NameToLayer("Ground");
+    }
+
+    void FixedUpdate()
+    {
+        isGrounded = IsGrounded();
+    }
+
+    void Update()
+    {
+        Fall();
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        moveDir = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            Jump();
+    }
+
+    void Jump()
+    {
+        player.YSpeed = player.JumpPower;
+    }
+
+    void Fall()
+    {
+        player.YSpeed += Physics.gravity.y * Time.deltaTime;
+
+        if (isGrounded && player.YSpeed < 0)
+            player.YSpeed = 0;
+
+        player.controller.Move(Vector3.up * player.YSpeed * Time.deltaTime);
+    }
+
+    [NonSerialized] public bool OnRunKey;
+
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            player.MoveSpeed = player.RunSpeed;
+            OnRunKey = true;
+        }
+        else
+        {
+            player.MoveSpeed = player.WalkSpeed;
+            OnRunKey = false;
+        }
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (context.interaction is HoldInteraction)         // 차지 공격
+            {
+
+            }
+
+            else if (context.interaction is PressInteraction)   // 일반 공격
+            {
+                bool isAvailableAttack = !AttackState.IsAttack &&
+                                          (player.weaponManager.Weapon.ComboCount < 3);
+                if (isAvailableAttack)
+                {
+                    player.stateMachine.ChangeState(StateName.ATTACK);
+                }
+
+            }
+        }
+    }
+
+    protected bool IsGrounded()
+    {
+        Vector3 boxSize = new Vector3(transform.lossyScale.x, 0.4f, transform.lossyScale.z);
+        return Physics.CheckBox(groundCheck.position, boxSize, Quaternion.identity,
+               groundLayer);
+    }
+}
