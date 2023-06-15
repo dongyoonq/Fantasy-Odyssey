@@ -11,7 +11,7 @@ public abstract class Weapon : Equipment
 
     [SerializeField] protected WeaponData weaponData;
 
-    public abstract void Attack();         // 기본 공격
+    public abstract void LeftAttack();         // 기본 공격
     public abstract void DashAttack();     // 대시 공격
     public abstract void ChargingAttack(); // 차지 공격
     public abstract void Skill();          // 스킬

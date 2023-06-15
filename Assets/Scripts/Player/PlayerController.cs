@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         AttackState.ComboCount = 0;
-        AttackState.IsAttack = false;
+        AttackState.IsLeftAttack = false;
         player = GetComponent<Player>();
         groundLayer = 1 << LayerMask.NameToLayer("Ground");
     }
@@ -93,20 +93,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
+    public static bool isCharging = false;
+
+    public void OnLeftAttack(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
             if (context.interaction is HoldInteraction)         // 차지 공격
             {
-
+                isCharging = true;
             }
-
             else if (context.interaction is PressInteraction)   // 일반 공격
             {
                 if (GetWeapon() == null)
                 {
-                    bool isNonWeaponAttack = !AttackState.IsAttack &&
+                    bool isNonWeaponAttack = !AttackState.IsLeftAttack &&
                           (AttackState.ComboCount < 3);
 
                     if (isNonWeaponAttack)
@@ -117,7 +118,7 @@ public class PlayerController : MonoBehaviour
                     return;
                 }
 
-                bool isAvailableAttack = !AttackState.IsAttack &&
+                bool isAvailableAttack = !AttackState.IsLeftAttack &&
                           (GetWeapon()?.ComboCount < GetWeapon()?.WeaponData.MaxCombo);
 
                 if (isAvailableAttack)
@@ -129,11 +130,31 @@ public class PlayerController : MonoBehaviour
 
             }
         }
+        else if (context.canceled)
+        {
+            if (isCharging && GetWeapon() != null)
+            {
+                player.stateMachine.ChangeState(StateName.ATTACK);
+                isCharging = false;
+            }
+        }
+    }
+
+    public void OnRightAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed && !AttackState.IsLeftAttack && GetWeapon() != null)
+        {
+            if (context.interaction is PressInteraction)
+            {
+                player.inputBuffer.Enqueue(Player.Input.RAttack);
+                player.stateMachine.ChangeState(StateName.ATTACK);
+            }
+        }
     }
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.performed && context.interaction is PressInteraction && !Player.Instance.animator.GetBool("Dash"))
+        if (context.performed && context.interaction is PressInteraction && !Player.Instance.animator.GetBool("Dash") && !Player.Instance.animator.GetBool("IsDashAttack") && !Player.Instance.animator.GetBool("IsLeftAttack"))
         {
             player.inputBuffer.Enqueue(Player.Input.Dash);
             // 대시 입력을 막아야 하는 상황이 있을 경우 return;

@@ -44,6 +44,8 @@ public class DashState : BaseState
             Controller.transform.position = Vector3.Lerp(start, end, rate);
             yield return null;
         }
+
+        Player.Instance.animator.SetBool("Dash", false);
     }
 
     public override void Update()

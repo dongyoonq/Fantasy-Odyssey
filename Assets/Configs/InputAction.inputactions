@@ -33,12 +33,21 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
+                    "name": "LeftAttack",
                     "type": "Button",
                     "id": "eb2d9bb0-1a9d-4295-803c-0b6ace5aacb5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightAttack",
+                    "type": "Button",
+                    "id": "07eaa557-298c-458c-b53d-222d457fb446",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
                 },
                 {
@@ -222,7 +231,7 @@
                     "interactions": "Hold,Press(behavior=1)",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "LeftAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -245,6 +254,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c9d9828-aa55-4213-9f11-6fdc7c3ea1f3",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

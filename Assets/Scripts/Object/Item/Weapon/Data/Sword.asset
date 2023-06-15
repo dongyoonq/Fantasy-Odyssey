@@ -18,7 +18,7 @@ MonoBehaviour:
   weaponAnimator: {fileID: 22100000, guid: 3d6719177b35a684ca85d14a75006520, type: 2}
   _name: Sword
   attackPower: 50
-  attackSpeed: 1.5
+  attackSpeed: 1.3
   attackRange: 5
   maxCombo: 3
   requireLevel: 3

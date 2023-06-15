@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class AttackState : BaseState
 {
-    public static bool IsAttack = false;
+    public static bool IsLeftAttack = false;
     public const float CanReInputTime = 1.2f;
     public static int ComboCount = 0;
 
-    public static readonly int hashIsAttackAnimation = Animator.StringToHash("IsAttack");
+    public static readonly int hashIsLeftAttackAnimation = Animator.StringToHash("IsLeftAttack");
     public static readonly int hashAttackAnimation = Animator.StringToHash("AttackCombo");
     public static readonly int hashAttackSpeedAnimation = Animator.StringToHash("AttackSpeed");
     private Coroutine checkAttackReInputCor;
@@ -17,7 +17,7 @@ public class AttackState : BaseState
 
     public override void Enter()
     {
-        IsAttack = true;
+        IsLeftAttack = true;
         if (Controller.GetWeapon())
             Controller.GetWeapon()?.Use();
         else
@@ -28,7 +28,7 @@ public class AttackState : BaseState
     {
         ComboCount++;
         Player.Instance.animator.SetFloat(hashAttackSpeedAnimation, Player.Instance.Status.AttackSpeed);
-        Player.Instance.animator.SetBool(hashIsAttackAnimation, true);
+        Player.Instance.animator.SetBool(hashIsLeftAttackAnimation, true);
         Player.Instance.animator.SetInteger(hashAttackAnimation, ComboCount);
         CheckAttackReInput(CanReInputTime);
     }
