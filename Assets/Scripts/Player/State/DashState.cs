@@ -4,27 +4,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
-public class JumpState : BaseState
+public class DashState : BaseState
 {
-    public JumpState(PlayerController controller) : base(controller)
+    public DashState(PlayerController controller) : base(controller)
     {
     }
-
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.started)
-            Jump();
-    }
-
-    void Jump()
-    {
-        Player.Instance.YSpeed = Player.Instance.JumpPower;
-    }
-
 
     public override void Enter()
     {
-
     }
 
     public override void Update()
@@ -39,6 +26,5 @@ public class JumpState : BaseState
 
     public override void Exit()
     {
-        Player.Instance.YSpeed = 0f;
     }
 }

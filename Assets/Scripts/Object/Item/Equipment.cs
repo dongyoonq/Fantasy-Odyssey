@@ -17,6 +17,6 @@ public abstract class Equipment : Item
         Other
     }
 
-    public abstract void ApplyStatusModifier(Player player);
-    public abstract void RemoveStatusModifier(Player player);
+    public abstract void ApplyStatusModifier();
+    public abstract void RemoveStatusModifier();
 }

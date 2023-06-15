@@ -3,8 +3,9 @@ using UnityEngine;
 
 public enum StateName
 {
-    MOVE = 100,
+    MOVE,
     ATTACK,
+    Dash,
 }
 
 public class StateMachine

@@ -7,6 +7,8 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour
 {
     public static Player Instance { get { return instance; } }
+    private static Player instance;
+
     public StateMachine stateMachine { get; private set; }
     public CharacterController controller { get; private set; }
     public Animator animator { get; private set; }
@@ -14,61 +16,43 @@ public class Player : MonoBehaviour
     public Inventory inventory { get; private set; }
     public Dictionary<Equipment.EquipmentType, Equipment> wearingEquip { get; private set; }
 
-    private static Player instance;
+    [SerializeField] PlayerStatusData status;
+    public PlayerStatusData Status { get { return status; } }
+
+    [SerializeField] public string playerName;
+    [SerializeField] public float walkSpeed;
+    [SerializeField] public float runSpeed;
+    [SerializeField] public float JumpPower;
 
     [NonSerialized] public float MoveSpeed;
-    public float MaxHP { get { return maxHP; } }
-    public float CurrentHP { get { return currentHP; } }
-    public float AttackPower { get { return attackPower; } }
-    public float Deffense { get { return deffense; } }
-    public float WalkSpeed { get { return walkspeed; } set { walkspeed = value; } }
-    public float RunSpeed { get { return runspeed; } set { runspeed = value; } }
-    public float JumpPower { get { return jumpPower; } }
-    public float YSpeed { get { return ySpeed; } set { ySpeed = value; } }
-
+    [NonSerialized] public float YSpeed;
+    [NonSerialized] public float CurrentHP;
 
     [SerializeField] Transform hand;
 
-    [Header("캐릭터 스탯")]
-    [SerializeField] protected float maxHP;
-    [SerializeField] protected float currentHP;
-    [SerializeField] protected float deffense;
-    [SerializeField] protected float attackPower;
-    [SerializeField] protected float walkspeed;
-    [SerializeField] protected float runspeed;
-    [SerializeField] protected float jumpPower;
-    [SerializeField] protected float ySpeed;
-
-    [SerializeField] GameObject weapon;
-
     void Awake()
     {
-        MoveSpeed = walkspeed;
+        MoveSpeed = walkSpeed;
 
-        if (instance == null)
+        if (instance != null)
         {
-            instance = this;
-            inventory = new Inventory();
-            wearingEquip = new Dictionary<Equipment.EquipmentType, Equipment>();
-            controller = GetComponent<CharacterController>();
-            animator = GetComponent<Animator>();
-            capsuleCollider = GetComponent<CapsuleCollider>();
-
-            DontDestroyOnLoad(gameObject);
+            Destroy(this);
             return;
         }
 
-        DestroyImmediate(gameObject);
+        instance = this;
+        inventory = new Inventory();
+        wearingEquip = new Dictionary<Equipment.EquipmentType, Equipment>();
+        controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        CurrentHP = Status.MaxHp;
+        SetStatus();
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
     {
-        // Test
-        Equipment none = Resources.Load<Equipment>("Prefabs/None");
-        Equipment instnace = Instantiate(none);
-        AddItemToInventory(instnace);
-        OnEquip(instnace);
-
         InitStateMachine();
     }
 
@@ -82,15 +66,10 @@ public class Player : MonoBehaviour
         stateMachine?.FixedUpdateState();
     }
 
-    public void OnUpdateStat(float maxHP, float currentHP, float deffense, float walkspeed, float runspeed, float attackPower, float jumpPower)
+    private void OnDestroy()
     {
-        this.maxHP = maxHP;
-        this.currentHP = currentHP;
-        this.deffense = deffense;
-        this.walkspeed = walkspeed;
-        this.runspeed = runspeed;
-        this.attackPower = attackPower;
-        this.jumpPower = jumpPower;
+        if (instance == this)
+            instance = null;
     }
 
     private void InitStateMachine()
@@ -98,7 +77,15 @@ public class Player : MonoBehaviour
         PlayerController controller = GetComponent<PlayerController>();
         stateMachine = new StateMachine(StateName.MOVE, new MoveState(controller)); // 등록
         stateMachine.AddState(StateName.ATTACK, new AttackState(controller));
+        stateMachine.AddState(StateName.Dash, new DashState(controller));
+    }
 
+    void SetStatus()
+    {
+        Status.AttackPower = Status.attackPower;
+        Status.AttackSpeed = Status.attackSpeed;
+        Status.Deffense = Status.deffense;
+        Status.MaxHp = Status.maxHP;
     }
 
     // 인벤토리 추가 메서드
@@ -131,9 +118,8 @@ public class Player : MonoBehaviour
         // 착용한 분위에 이 장비를 착용 시킨다.
         wearingEquip.Add(equipment.type, equipment);
         // 그 장비에 대한 스텟 적용
-        equipment.ApplyStatusModifier(this);
+        equipment.ApplyStatusModifier();
         RegisterWeapon(equipment.gameObject);
-
         return true;
     }
 
@@ -156,7 +142,7 @@ public class Player : MonoBehaviour
             // 착용중인 장비를 지워준다.
             wearingEquip.Remove(equipment.type);
             // 스텟 미적용
-            equipment.RemoveStatusModifier(this);
+            equipment.RemoveStatusModifier();
 
             UnRegisterWeapon(equipment.gameObject);
             //Destroy(equipment);
@@ -167,8 +153,6 @@ public class Player : MonoBehaviour
             return false;
         }
     }
-
-    public Action<GameObject> unRegisterWeapon { get; set; }
 
     // 무기 등록
     public void RegisterWeapon(GameObject weapon)
@@ -188,7 +172,6 @@ public class Player : MonoBehaviour
     // 무기 삭제
     public void UnRegisterWeapon(GameObject weapon)
     {
-        //unRegisterWeapon.Invoke(weapon.gameObject);
         weapon.gameObject.SetActive(false);
     }
 

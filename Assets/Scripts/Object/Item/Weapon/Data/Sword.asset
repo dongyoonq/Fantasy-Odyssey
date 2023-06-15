@@ -16,9 +16,9 @@ MonoBehaviour:
   localRotation: {x: 0, y: 0, z: 0}
   localScale: {x: 1, y: 1, z: 1}
   weaponAnimator: {fileID: 22100000, guid: 3d6719177b35a684ca85d14a75006520, type: 2}
-  _name: 
-  attackDamage: 15
+  _name: Sword
+  attackPower: 50
   attackSpeed: 1.5
   attackRange: 5
-  requireLevel: 0
+  requireLevel: 3
   requireJob: 

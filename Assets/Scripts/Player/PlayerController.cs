@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        AttackState.ComboCount = 0;
+        AttackState.IsAttack = false;
         player = GetComponent<Player>();
         groundLayer = 1 << LayerMask.NameToLayer("Ground");
     }
@@ -52,12 +54,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && isGrounded)
             Jump();
     }
 
     void Jump()
     {
+        player.animator.SetTrigger("Jump");
         player.YSpeed = player.JumpPower;
     }
 
@@ -77,12 +80,12 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            player.MoveSpeed = player.RunSpeed;
+            player.MoveSpeed = player.runSpeed;
             OnRunKey = true;
         }
         else
         {
-            player.MoveSpeed = player.WalkSpeed;
+            player.MoveSpeed = player.walkSpeed;
             OnRunKey = false;
         }
     }
@@ -98,8 +101,19 @@ public class PlayerController : MonoBehaviour
 
             else if (context.interaction is PressInteraction)   // 일반 공격
             {
+                if (GetWeapon() == null)
+                {
+                    bool isNonWeaponAttack = !AttackState.IsAttack &&
+                          (AttackState.ComboCount < 3);
+
+                    if (isNonWeaponAttack)
+                        player.stateMachine.ChangeState(StateName.ATTACK);
+                }
+
                 bool isAvailableAttack = !AttackState.IsAttack &&
-                                          (GetWeapon().ComboCount < 3);
+                          (GetWeapon()?.ComboCount < 3);
+
+
                 if (isAvailableAttack)
                 {
                     player.stateMachine.ChangeState(StateName.ATTACK);
@@ -109,9 +123,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            // .. change state
+        }
+    }
+
     public Weapon GetWeapon()
     {
-        if (player.wearingEquip[Equipment.EquipmentType.Weapon])
+        if (player.wearingEquip.ContainsKey(Equipment.EquipmentType.Weapon))
         {
             Equipment equipment = player.wearingEquip[Equipment.EquipmentType.Weapon];
             Weapon weapon = equipment as Weapon;

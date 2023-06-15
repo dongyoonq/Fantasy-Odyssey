@@ -12,7 +12,7 @@ public class WeaponData : ScriptableObject
     // 이 무기를 사용할 때의 애니메이터
     public RuntimeAnimatorController WeaponAnimator { get { return weaponAnimator; } }
     public string Name { get { return _name; } }
-    public float AttackDamage { get { return attackDamage; } }
+    public float AttackPower { get { return attackPower; } }
     public float AttackSpeed { get { return attackSpeed; } }
     public float AttackRange { get { return attackRange; } }
     public int ReqLvl { get { return requireLevel; } }
@@ -21,7 +21,7 @@ public class WeaponData : ScriptableObject
     [Header("무기 정보")]
     [SerializeField] RuntimeAnimatorController weaponAnimator;
     [SerializeField] string _name;
-    [SerializeField] float attackDamage;
+    [SerializeField] float attackPower;
     [SerializeField] float attackSpeed;
     [SerializeField] float attackRange;
     [SerializeField] int requireLevel;
