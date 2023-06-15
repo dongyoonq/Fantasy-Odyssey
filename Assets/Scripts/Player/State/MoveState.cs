@@ -7,6 +7,8 @@ using UnityEngine.InputSystem.XR;
 
 public class MoveState : BaseState
 {
+    float orgMoveSpeed;
+
     public MoveState(PlayerController controller) : base(controller)
     {
     }

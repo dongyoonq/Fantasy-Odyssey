@@ -241,7 +241,7 @@
                     "name": "",
                     "id": "f1d11145-c453-4b68-ac6d-7f2aae4b18d9",
                     "path": "<Keyboard>/leftCtrl",
-                    "interactions": "",
+                    "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "",
                     "action": "Dash",

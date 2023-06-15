@@ -33,7 +33,7 @@ public class AttackState : BaseState
         CheckAttackReInput(CanReInputTime);
     }
 
-    public void CheckAttackReInput(float reInputTime)
+    private void CheckAttackReInput(float reInputTime)
     {
         if (checkAttackReInputCor != null)
             Player.Instance.StopCoroutine(checkAttackReInputCor);

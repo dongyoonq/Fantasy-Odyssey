@@ -4,6 +4,7 @@ using UnityEngine;
 public class Sword : Weapon
 {
     private Coroutine checkAttackReInputCor;
+    public static readonly int hashIsDashAttack = Animator.StringToHash("IsDashAttack");
 
     public override void Attack()
     {
@@ -21,7 +22,10 @@ public class Sword : Weapon
 
     public override void DashAttack()
     {
-
+        //Player.Instance.MoveSpeed = 0;
+        Player.Instance.animator.applyRootMotion = false;
+        Player.Instance.animator.SetBool(hashIsDashAttack, true);
+        ComboCount = 0;
     }
 
     public override void Skill()
@@ -44,11 +48,14 @@ public class Sword : Weapon
     private IEnumerator CheckAttackReInputCoroutine(float reInputTime)
     {
         float currentTime = 0f;
+
         while (true)
         {
             currentTime += Time.deltaTime;
             if (currentTime >= reInputTime)
                 break;
+
+
             yield return null;
         }
 
@@ -58,6 +65,14 @@ public class Sword : Weapon
 
     public override void Use()
     {
+        if (Player.Instance.inputBuffer.Peek() == Player.Input.Dash)
+        {
+            Player.Instance.inputBuffer.Dequeue();
+            Player.Instance.animator.SetBool("Dash", false);
+            DashAttack();
+            return;
+        }
+
         Attack();
     }
 

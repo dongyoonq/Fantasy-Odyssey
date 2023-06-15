@@ -20,5 +20,6 @@ MonoBehaviour:
   attackPower: 50
   attackSpeed: 1.5
   attackRange: 5
+  maxCombo: 3
   requireLevel: 3
   requireJob: 

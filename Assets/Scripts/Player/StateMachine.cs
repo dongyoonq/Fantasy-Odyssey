@@ -6,6 +6,7 @@ public enum StateName
     MOVE,
     ATTACK,
     Dash,
+    DashAttack,
 }
 
 public class StateMachine

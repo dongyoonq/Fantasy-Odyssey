@@ -14,7 +14,9 @@ public class Player : MonoBehaviour
     public Animator animator { get; private set; }
     public CapsuleCollider capsuleCollider { get; private set; }
     public Inventory inventory { get; private set; }
+
     public Dictionary<Equipment.EquipmentType, Equipment> wearingEquip { get; private set; }
+    public Queue<Input> inputBuffer { get; private set; }
 
     [SerializeField] PlayerStatusData status;
     public PlayerStatusData Status { get { return status; } }
@@ -30,6 +32,14 @@ public class Player : MonoBehaviour
 
     [SerializeField] Transform hand;
 
+    public enum Input
+    {
+        LAttack,
+        RAttack,
+        Dash,
+        Jump,
+    }
+
     void Awake()
     {
         MoveSpeed = walkSpeed;
@@ -41,12 +51,14 @@ public class Player : MonoBehaviour
         }
 
         instance = this;
+
         inventory = new Inventory();
         wearingEquip = new Dictionary<Equipment.EquipmentType, Equipment>();
+        inputBuffer = new Queue<Input>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         capsuleCollider = GetComponent<CapsuleCollider>();
-        CurrentHP = Status.MaxHp;
+
         SetStatus();
         DontDestroyOnLoad(gameObject);
     }
@@ -78,10 +90,12 @@ public class Player : MonoBehaviour
         stateMachine = new StateMachine(StateName.MOVE, new MoveState(controller)); // µî·Ï
         stateMachine.AddState(StateName.ATTACK, new AttackState(controller));
         stateMachine.AddState(StateName.Dash, new DashState(controller));
+        stateMachine.AddState(StateName.DashAttack, new DashAttackState(controller));
     }
 
     void SetStatus()
     {
+        CurrentHP = Status.MaxHp;
         Status.AttackPower = Status.attackPower;
         Status.AttackSpeed = Status.attackSpeed;
         Status.Deffense = Status.deffense;

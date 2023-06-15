@@ -10,7 +10,7 @@ using UnityEngine.InputSystem.XR;
 public class PlayerController : MonoBehaviour
 {
     public Player player { get; private set; }
-    public Vector3 moveDir { get; private set; }
+    public Vector3 moveDir { get; set; }
     public Vector3 MouseDirection { get; private set; }
 
     [Header("땅 체크")]
@@ -21,12 +21,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-       // Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnDisable()
     {
-      //  Cursor.lockState = CursorLockMode.None;
+        //Cursor.lockState = CursorLockMode.None;
     }
 
     void Start()
@@ -54,8 +54,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && isGrounded)
+        if (context.started && isGrounded && !Player.Instance.animator.GetBool("Dash"))
+        {
+            player.inputBuffer.Enqueue(Player.Input.Jump);
             Jump();
+        }
     }
 
     void Jump()
@@ -107,16 +110,21 @@ public class PlayerController : MonoBehaviour
                           (AttackState.ComboCount < 3);
 
                     if (isNonWeaponAttack)
+                    {
                         player.stateMachine.ChangeState(StateName.ATTACK);
+                    }
+
+                    return;
                 }
 
                 bool isAvailableAttack = !AttackState.IsAttack &&
-                          (GetWeapon()?.ComboCount < 3);
-
+                          (GetWeapon()?.ComboCount < GetWeapon()?.WeaponData.MaxCombo);
 
                 if (isAvailableAttack)
                 {
+                    player.inputBuffer.Enqueue(Player.Input.LAttack);
                     player.stateMachine.ChangeState(StateName.ATTACK);
+                    return;
                 }
 
             }
@@ -125,9 +133,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && context.interaction is PressInteraction && !Player.Instance.animator.GetBool("Dash"))
         {
-            // .. change state
+            player.inputBuffer.Enqueue(Player.Input.Dash);
+            // 대시 입력을 막아야 하는 상황이 있을 경우 return;
+            player.stateMachine.ChangeState(StateName.Dash);
         }
     }
 
