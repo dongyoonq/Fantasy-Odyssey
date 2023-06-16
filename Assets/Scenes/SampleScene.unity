@@ -533,7 +533,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 148433583}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnAttack
+        m_MethodName: OnLeftAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
