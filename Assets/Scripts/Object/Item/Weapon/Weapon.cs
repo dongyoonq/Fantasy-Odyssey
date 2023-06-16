@@ -15,5 +15,5 @@ public abstract class Weapon : Equipment
     public abstract void DashAttack();     // ´ë½Ã °ø°Ý
     public abstract void ChargingAttack(); // Â÷Áö °ø°Ý
     public abstract void Skill();          // ½ºÅ³
-    public abstract void UltimateSkill();  // ±Ã±Ø±â
+    public abstract void UltimateSkill(PlayerController controller);  // ±Ã±Ø±â
 }

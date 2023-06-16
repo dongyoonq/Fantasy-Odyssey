@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public static Player Instance { get { return instance; } }
     private static Player instance;
 
+    public PlayerController playerController { get; private set; }
     public StateMachine stateMachine { get; private set; }
     public CharacterController controller { get; private set; }
     public Animator animator { get; private set; }
@@ -57,6 +58,7 @@ public class Player : MonoBehaviour
         inputBuffer = new Queue<Input>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        playerController = GetComponent<PlayerController>();
         capsuleCollider = GetComponent<CapsuleCollider>();
 
         SetStatus();
@@ -193,7 +195,7 @@ public class Player : MonoBehaviour
     {
         if (inventory.list.Contains(item))
         {
-            item.Use();
+            item.Use(playerController);
             RemoveItemFromInventory(item);
         }
     }

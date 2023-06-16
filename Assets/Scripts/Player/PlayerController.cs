@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private int groundLayer;
     private bool isGrounded;
 
+    AttackState attackState;
+
     private void OnEnable()
     {
         //Cursor.lockState = CursorLockMode.Locked;
@@ -31,8 +33,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        AttackState.ComboCount = 0;
-        AttackState.IsLeftAttack = false;
+        attackState = Player.Instance.stateMachine.GetState(StateName.ATTACK) as AttackState;
+        attackState.ComboCount = 0;
+        attackState.IsLeftAttack = false;
         player = GetComponent<Player>();
         groundLayer = 1 << LayerMask.NameToLayer("Ground");
     }
@@ -56,7 +59,6 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && isGrounded && !Player.Instance.animator.GetBool("Dash"))
         {
-            player.inputBuffer.Enqueue(Player.Input.Jump);
             Jump();
         }
     }
@@ -69,10 +71,11 @@ public class PlayerController : MonoBehaviour
 
     void Fall()
     {
-        player.YSpeed += Physics.gravity.y * Time.deltaTime;
-
         if (isGrounded && player.YSpeed < 0)
             player.YSpeed = 0;
+        else
+            player.YSpeed += Physics.gravity.y * Time.deltaTime;
+
 
         player.controller.Move(Vector3.up * player.YSpeed * Time.deltaTime);
     }
@@ -93,7 +96,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public static bool isCharging = false;
+    public bool isCharging = false;
 
     public void OnLeftAttack(InputAction.CallbackContext context)
     {
@@ -107,8 +110,8 @@ public class PlayerController : MonoBehaviour
             {
                 if (GetWeapon() == null)
                 {
-                    bool isNonWeaponAttack = !AttackState.IsLeftAttack &&
-                          (AttackState.ComboCount < 3);
+                    bool isNonWeaponAttack = !attackState.IsLeftAttack &&
+                          (attackState.ComboCount < 3);
 
                     if (isNonWeaponAttack)
                     {
@@ -118,7 +121,7 @@ public class PlayerController : MonoBehaviour
                     return;
                 }
 
-                bool isAvailableAttack = !AttackState.IsLeftAttack &&
+                bool isAvailableAttack = !attackState.IsLeftAttack &&
                           (GetWeapon()?.ComboCount < GetWeapon()?.WeaponData.MaxCombo);
 
                 if (isAvailableAttack)
@@ -142,7 +145,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnRightAttack(InputAction.CallbackContext context)
     {
-        if (context.performed && !AttackState.IsLeftAttack && GetWeapon() != null)
+        if (context.performed && !attackState.IsLeftAttack && GetWeapon() != null)
         {
             if (context.interaction is PressInteraction)
             {
@@ -152,12 +155,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool isUltAttack = false;
+
+    public void OnUltAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed && !attackState.IsLeftAttack && GetWeapon() != null && !Player.Instance.animator.GetBool("Dash"))
+        {
+            if (context.interaction is PressInteraction)
+            {
+                isUltAttack = true;
+                player.stateMachine.ChangeState(StateName.ATTACK);
+            }
+        }
+    }
+
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.performed && context.interaction is PressInteraction && !Player.Instance.animator.GetBool("Dash") && !Player.Instance.animator.GetBool("IsDashAttack") && !Player.Instance.animator.GetBool("IsLeftAttack"))
+        if (context.performed && context.interaction is PressInteraction && isGrounded && !Player.Instance.animator.GetBool("Dash") 
+            && !Player.Instance.animator.GetBool("IsDashAttack") && !Player.Instance.animator.GetBool("IsLeftAttack") &&
+            !Player.Instance.animator.GetBool("IsRightAttack") && !Player.Instance.animator.GetBool("IsChargingAttack") && !Player.Instance.animator.GetBool("IsSkillAttack") && !Player.Instance.animator.GetBool("IsUltAttack"))
         {
             player.inputBuffer.Enqueue(Player.Input.Dash);
-            // 대시 입력을 막아야 하는 상황이 있을 경우 return;
+
             player.stateMachine.ChangeState(StateName.Dash);
         }
     }

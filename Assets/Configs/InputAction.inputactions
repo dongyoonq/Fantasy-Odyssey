@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "UltAttack",
+                    "type": "Button",
+                    "id": "a59afc93-73e9-4fac-b5c3-9e437e76b050",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -265,6 +274,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "RightAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2ea6349f-7474-4792-8a89-7ce258f67c03",
+                    "path": "<Keyboard>/v",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UltAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

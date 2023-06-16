@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class AttackState : BaseState
 {
-    public static bool IsLeftAttack = false;
+    public bool IsLeftAttack = false;
     public const float CanReInputTime = 1.2f;
-    public static int ComboCount = 0;
+    public int ComboCount = 0;
 
     public static readonly int hashIsLeftAttackAnimation = Animator.StringToHash("IsLeftAttack");
     public static readonly int hashAttackAnimation = Animator.StringToHash("AttackCombo");
@@ -19,7 +19,7 @@ public class AttackState : BaseState
     {
         IsLeftAttack = true;
         if (Controller.GetWeapon())
-            Controller.GetWeapon()?.Use();
+            Controller.GetWeapon()?.Use(Player.Instance.playerController);
         else
             Attack();
     }

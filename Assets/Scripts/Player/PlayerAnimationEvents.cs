@@ -1,54 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerAnimationEvents : MonoBehaviour
 {
+    AttackState attackState;
+
+    private void Start()
+    {
+        attackState = Player.Instance.stateMachine.GetState(StateName.ATTACK) as AttackState;
+    }
+
     public void OnFinishedAttack()
     {
-        AttackState.IsLeftAttack = false;
+        attackState.IsLeftAttack = false;
         Player.Instance.animator.SetBool("IsLeftAttack", false);
         Player.Instance.stateMachine.ChangeState(StateName.MOVE);
-        if (Player.Instance.inputBuffer.Count != 0)
-            Player.Instance.inputBuffer.Dequeue();
     }
 
     public void OnFineshedRightAttack()
     {
-        AttackState.IsLeftAttack = false;
+        attackState.IsLeftAttack = false;
         Player.Instance.animator.SetBool("IsRightAttack", false);
         Player.Instance.stateMachine.ChangeState(StateName.MOVE);
-        if (Player.Instance.inputBuffer.Count != 0)
-            Player.Instance.inputBuffer.Dequeue();
     }
 
     public void OnFinishedDashAttack()
     {
-        AttackState.IsLeftAttack = false;
-        Player.Instance.animator.applyRootMotion = false;
+        attackState.IsLeftAttack = false;
         Player.Instance.animator.SetBool("IsDashAttack", false);
         Player.Instance.stateMachine.ChangeState(StateName.MOVE);
-
-        if (Player.Instance.inputBuffer.Count != 0)
-            Player.Instance.inputBuffer.Dequeue();
     }
 
     public void OnFinishedChargingAttack()
     {
-        AttackState.IsLeftAttack = false;
-        Player.Instance.animator.applyRootMotion = false;
+        attackState.IsLeftAttack = false;
         Player.Instance.animator.SetBool("IsChargingAttack", false);
+        Player.Instance.stateMachine.ChangeState(StateName.MOVE);
+    }
+
+    public void OnFinishedSkillAttack()
+    {
+        attackState.IsLeftAttack = false;
+        Player.Instance.animator.SetBool("IsSkillAttack", false);
+        Player.Instance.stateMachine.ChangeState(StateName.MOVE);
+    }
+
+    public void OnFinishedUltSkillAttack()
+    {
+        attackState.IsLeftAttack = false;
+        Player.Instance.animator.SetBool("IsUltAttack", false);
         Player.Instance.stateMachine.ChangeState(StateName.MOVE);
     }
 
     public void OnFinishedDash()
     {
         Player.Instance.stateMachine.ChangeState(StateName.MOVE);
+
+        if (Player.Instance.inputBuffer.Count != 0 && Player.Instance.inputBuffer.Peek() == Player.Input.Dash)
+            Player.Instance.inputBuffer.Dequeue();
     }
 
     public void OnFinshedJump()
     {
-        if (Player.Instance.inputBuffer.Count != 0)
-            Player.Instance.inputBuffer.Dequeue();
+
     }
 }
