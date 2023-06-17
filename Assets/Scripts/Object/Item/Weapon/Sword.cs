@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static UnityEngine.ParticleSystem;
 
 public class Sword : Weapon
 {
@@ -23,13 +24,40 @@ public class Sword : Weapon
     public readonly int hashIsSkillAtaack = Animator.StringToHash("IsSkillAttack");
     public readonly int hashIsUltSkillAtaack = Animator.StringToHash("IsUltAttack");
 
+    Vector3 playerRot;
+    Vector3 playerPos;
+    Vector3 playerHandPos;
+
     private void Start()
     {
         attackState = Player.Instance.playerController.attackState;
     }
 
+    private void LateUpdate()
+    {
+        playerRot = Player.Instance.transform.rotation.eulerAngles;
+        playerPos = Player.Instance.transform.position;
+        playerHandPos = Player.Instance.hand.position;
+    }
+
     public override void LeftAttack()
     {
+        if (ComboCount == 0)
+        {
+            ParticleSystem particle = Instantiate(weaponData.Effects[0], playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -160), Player.Instance.transform);
+            Destroy(particle.gameObject, 0.4f);
+        }
+        else if (ComboCount == 1)
+        {
+            ParticleSystem particle = Instantiate(weaponData.Effects[0], playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 25f, 15), Player.Instance.transform);
+            Destroy(particle.gameObject, 0.4f);
+        }
+        else if (ComboCount == 2)
+        {
+            ParticleSystem particle = Instantiate(weaponData.Effects[1], playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 60f, 0), Player.Instance.transform);
+            Destroy(particle.gameObject, 0.7f);
+        }
+
         Player.Instance.animator.SetFloat(attackState.hashAttackSpeedAnimation, Player.Instance.Status.AttackSpeed);
         Player.Instance.animator.SetBool(attackState.hashIsLeftAttackAnimation, true);
         Player.Instance.animator.SetInteger(attackState.hashAttackAnimation, ++ComboCount);
@@ -41,33 +69,85 @@ public class Sword : Weapon
 
     public void RightAttack()
     {
+        StartCoroutine(syncRightAttackParticle());
         Player.Instance.animator.SetBool(hashIsRightAttack, true);
         ComboCount = 0;
     }
 
+    IEnumerator syncRightAttackParticle()
+    {
+        yield return new WaitForSeconds(0.3f);
+        ParticleSystem particle = Instantiate(weaponData.Effects[2], new Vector3(playerHandPos.x, playerHandPos.y - 0.2f, playerHandPos.z), Quaternion.Euler(playerRot), Player.Instance.transform);
+        Destroy(particle.gameObject, 0.2f);
+    }
+
     public override void ChargingAttack()
     {
+        StartCoroutine(syncChargeAttackParticle());
         Player.Instance.animator.SetBool(hashIsChargingAttack, true);
         ComboCount = 0;
     }
 
+    IEnumerator syncChargeAttackParticle()
+    {
+        yield return new WaitForSeconds(0.4f);
+        ParticleSystem particle = Instantiate(weaponData.Effects[4], playerPos + (Player.Instance.transform.forward * 3.5f), Quaternion.Euler(playerRot), Player.Instance.transform);
+        Destroy(particle.gameObject, 0.8f);
+        yield return new WaitForSeconds(0.6f);
+        particle = Instantiate(weaponData.Effects[5], new Vector3(playerPos.x, 0, playerPos.z) + Player.Instance.transform.forward * 5f, Quaternion.identity);
+        Destroy(particle.gameObject, 0.5f);
+    }
+
     public override void DashAttack()
     {
+        StartCoroutine(syncDashttackParticle());
         Player.Instance.animator.SetBool(hashIsDashAttack, true);
         ComboCount = 0;
     }
 
+    IEnumerator syncDashttackParticle()
+    {
+        yield return new WaitForSeconds(0.9f);
+        ParticleSystem particle = Instantiate(weaponData.Effects[0], playerPos, Quaternion.Euler(playerRot.x, playerRot.y, playerRot.z - 90), Player.Instance.transform);
+        Destroy(particle.gameObject, 0.3f);
+    }
+
     public override void Skill()
     {
+        StartCoroutine(syncSkillParticle());
         Player.Instance.animator.SetBool(hashIsSkillAtaack, true);
         ComboCount = 0;
     }
 
+    IEnumerator syncSkillParticle()
+    {
+        yield return new WaitForSeconds(0.3f);
+        ParticleSystem particle = Instantiate(weaponData.Effects[3], playerHandPos, Quaternion.Euler(playerRot), Player.Instance.transform);
+        Destroy(particle.gameObject, 0.8f);
+    }
+
     public override void UltimateSkill()
     {
+        StartCoroutine(syncUltParticle());
         Player.Instance.animator.SetBool(hashIsUltSkillAtaack, true);
         Player.Instance.playerController.isUltAttack = false;
         ComboCount = 0;
+    }
+
+    IEnumerator syncUltParticle()
+    {
+        yield return new WaitForSeconds(0.1f);
+        ParticleSystem particle = Instantiate(weaponData.Effects[0], playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -140), Player.Instance.transform);
+        Destroy(particle.gameObject, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        particle = Instantiate(weaponData.Effects[0], new Vector3(playerHandPos.x - 0.5f, playerHandPos.y, playerHandPos.z), Quaternion.Euler(playerRot.x, playerRot.y, 40), Player.Instance.transform);
+        Destroy(particle.gameObject, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        particle = Instantiate(weaponData.Effects[0], playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, 140), Player.Instance.transform);
+        Destroy(particle.gameObject, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        particle = Instantiate(weaponData.Effects[2], playerHandPos, Quaternion.Euler(new Vector3(playerRot.x + 25f, playerRot.y, playerRot.z)), Player.Instance.transform);
+        Destroy(particle.gameObject, 0.2f);
     }
 
     public void CheckAttackReInput(float reInputTime)

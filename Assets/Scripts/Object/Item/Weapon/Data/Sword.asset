@@ -23,3 +23,10 @@ MonoBehaviour:
   maxCombo: 3
   requireLevel: 3
   requireJob: 
+  effects:
+  - {fileID: 5063868544612913794, guid: cf18f38c29f8b97409a9dc025dc2c746, type: 3}
+  - {fileID: 3921829739452803101, guid: c789374bbd2cbc14b986f3afb07ea3ab, type: 3}
+  - {fileID: 8265239671555715699, guid: 668ea53cbe594394aa7ead1ed1b6a360, type: 3}
+  - {fileID: 4732819486570062229, guid: 78985842385eca04b8e6d64fd10956b5, type: 3}
+  - {fileID: 9140075238261780318, guid: b6a803b299f53524ca7daa99402e3f4d, type: 3}
+  - {fileID: 8840240737215147532, guid: fe3ee72e823a9594f8b4d6123576de8c, type: 3}

@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     [NonSerialized] public float YSpeed;
     [NonSerialized] public float CurrentHP;
 
-    [SerializeField] Transform hand;
+    [SerializeField] public Transform hand;
 
     public enum Input
     {

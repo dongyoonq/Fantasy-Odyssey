@@ -18,6 +18,7 @@ public class WeaponData : ScriptableObject
     public float MaxCombo { get { return maxCombo; } }
     public int ReqLvl { get { return requireLevel; } }
     public string ReqJob { get { return requireJob; } }
+    public List<ParticleSystem> Effects { get { return effects; } }
 
     [Header("무기 정보")]
     [SerializeField] RuntimeAnimatorController weaponAnimator;
@@ -28,4 +29,6 @@ public class WeaponData : ScriptableObject
     [SerializeField] int maxCombo;
     [SerializeField] int requireLevel;
     [SerializeField] string requireJob;
+
+    [SerializeField] List<ParticleSystem> effects = new List<ParticleSystem>();
 }
