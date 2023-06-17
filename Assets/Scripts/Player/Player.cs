@@ -195,7 +195,7 @@ public class Player : MonoBehaviour
     {
         if (inventory.list.Contains(item))
         {
-            item.Use(playerController);
+            item.Use();
             RemoveItemFromInventory(item);
         }
     }

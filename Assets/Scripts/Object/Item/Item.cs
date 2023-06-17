@@ -15,5 +15,5 @@ public abstract class Item : MonoBehaviour
     protected string itemName;
     protected int price;
 
-    public abstract void Use(PlayerController controller);
+    public abstract void Use();
 }

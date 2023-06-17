@@ -8,9 +8,9 @@ public class AttackState : BaseState
     public const float CanReInputTime = 1.2f;
     public int ComboCount = 0;
 
-    public static readonly int hashIsLeftAttackAnimation = Animator.StringToHash("IsLeftAttack");
-    public static readonly int hashAttackAnimation = Animator.StringToHash("AttackCombo");
-    public static readonly int hashAttackSpeedAnimation = Animator.StringToHash("AttackSpeed");
+    public readonly int hashIsLeftAttackAnimation = Animator.StringToHash("IsLeftAttack");
+    public readonly int hashAttackAnimation = Animator.StringToHash("AttackCombo");
+    public readonly int hashAttackSpeedAnimation = Animator.StringToHash("AttackSpeed");
     private Coroutine checkAttackReInputCor;
 
     public AttackState(PlayerController controller) : base(controller) { }
@@ -19,7 +19,7 @@ public class AttackState : BaseState
     {
         IsLeftAttack = true;
         if (Controller.GetWeapon())
-            Controller.GetWeapon()?.Use(Player.Instance.playerController);
+            Controller.GetWeapon()?.Use();
         else
             Attack();
     }

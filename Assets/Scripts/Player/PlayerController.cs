@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private int groundLayer;
     private bool isGrounded;
 
-    AttackState attackState;
+    public AttackState attackState;
 
     private void OnEnable()
     {
@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.performed && context.interaction is PressInteraction && isGrounded && !Player.Instance.animator.GetBool("Dash") 
+        if (context.performed && context.interaction is PressInteraction && isGrounded && !Player.Instance.animator.GetBool("Dash")
             && !Player.Instance.animator.GetBool("IsDashAttack") && !Player.Instance.animator.GetBool("IsLeftAttack") &&
             !Player.Instance.animator.GetBool("IsRightAttack") && !Player.Instance.animator.GetBool("IsChargingAttack") && !Player.Instance.animator.GetBool("IsSkillAttack") && !Player.Instance.animator.GetBool("IsUltAttack"))
         {

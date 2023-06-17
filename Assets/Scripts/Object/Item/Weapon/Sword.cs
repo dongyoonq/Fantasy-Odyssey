@@ -5,6 +5,17 @@ using UnityEngine.Rendering;
 
 public class Sword : Weapon
 {
+    List<Player.Input> commandKey = new List<Player.Input>()
+    {   Player.Input.LAttack,
+        Player.Input.LAttack,
+        Player.Input.RAttack,
+        Player.Input.LAttack
+    };
+
+    AttackState attackState;
+    Coroutine bufferTimer;
+    Queue<Player.Input> commandBuffer = new Queue<Player.Input>();
+
     private Coroutine checkAttackReInputCor;
     public readonly int hashIsRightAttack = Animator.StringToHash("IsRightAttack");
     public readonly int hashIsDashAttack = Animator.StringToHash("IsDashAttack");
@@ -12,15 +23,20 @@ public class Sword : Weapon
     public readonly int hashIsSkillAtaack = Animator.StringToHash("IsSkillAttack");
     public readonly int hashIsUltSkillAtaack = Animator.StringToHash("IsUltAttack");
 
-    List<Player.Input> commandKey = new List<Player.Input>() { Player.Input.LAttack, Player.Input.LAttack, Player.Input.RAttack, Player.Input.LAttack };
+    private void Start()
+    {
+        attackState = Player.Instance.playerController.attackState;
+    }
 
     public override void LeftAttack()
     {
-        ComboCount++;
-        Player.Instance.animator.SetFloat(AttackState.hashAttackSpeedAnimation, Player.Instance.Status.AttackSpeed);
-        Player.Instance.animator.SetBool(AttackState.hashIsLeftAttackAnimation, true);
-        Player.Instance.animator.SetInteger(AttackState.hashAttackAnimation, ComboCount);
+        Player.Instance.animator.SetFloat(attackState.hashAttackSpeedAnimation, Player.Instance.Status.AttackSpeed);
+        Player.Instance.animator.SetBool(attackState.hashIsLeftAttackAnimation, true);
+        Player.Instance.animator.SetInteger(attackState.hashAttackAnimation, ++ComboCount);
         CheckAttackReInput(AttackState.CanReInputTime);
+
+        if (ComboCount >= weaponData.MaxCombo)
+            StopCommandBufferTimer();
     }
 
     public void RightAttack()
@@ -47,10 +63,10 @@ public class Sword : Weapon
         ComboCount = 0;
     }
 
-    public override void UltimateSkill(PlayerController controller)
+    public override void UltimateSkill()
     {
         Player.Instance.animator.SetBool(hashIsUltSkillAtaack, true);
-        controller.isUltAttack = false;
+        Player.Instance.playerController.isUltAttack = false;
         ComboCount = 0;
     }
 
@@ -76,53 +92,29 @@ public class Sword : Weapon
         }
 
         ComboCount = 0;
-        Player.Instance.animator.SetInteger(AttackState.hashAttackAnimation, 0);
+        Player.Instance.animator.SetInteger(attackState.hashAttackAnimation, 0);
     }
 
-    Queue<Player.Input> commandBuffer = new Queue<Player.Input>();
-
-    public override void Use(PlayerController controller)
+    public override void Use()
     {
-        if (controller.isCharging)
+        if (Player.Instance.playerController.isCharging)
         {
-            if (Player.Instance.inputBuffer.Count != 0 && Player.Instance.inputBuffer.Peek() == Player.Input.Dash)
-                Player.Instance.inputBuffer.Dequeue();
-
-            if (bufferTimer != null)
-            {
-                StopCoroutine(bufferTimer);
-                bufferTimer = null;
-            }
-
-            commandBuffer.Clear();
+            StopCommandBufferTimer();
             ChargingAttack();
 
             return;
         }
-        else if (controller.isUltAttack) 
+        else if (Player.Instance.playerController.isUltAttack)
         {
-            if (Player.Instance.inputBuffer.Count != 0 && Player.Instance.inputBuffer.Peek() == Player.Input.Dash)
-                Player.Instance.inputBuffer.Dequeue();
-
-            if (bufferTimer != null)
-            {
-                StopCoroutine(bufferTimer);
-                bufferTimer = null;
-            }
-
-            commandBuffer.Clear();
-            UltimateSkill(controller);
+            StopCommandBufferTimer();
+            UltimateSkill();
 
             return;
         }
         else if (Player.Instance.inputBuffer.Count != 0 && Player.Instance.inputBuffer.Peek() == Player.Input.RAttack)
         {
             commandBuffer.Enqueue(Player.Instance.inputBuffer.Peek());
-            Debug.Log(Player.Instance.inputBuffer.Peek());
             Player.Instance.inputBuffer.Dequeue();
-
-            while (Player.Instance.inputBuffer.Count != 0 && Player.Instance.inputBuffer.Peek() == Player.Input.Dash)
-                Player.Instance.inputBuffer.Dequeue();
 
             if (commandBuffer.Count >= commandKey.Count)
                 CheckCommandSkill();
@@ -132,21 +124,10 @@ public class Sword : Weapon
         }
         else if (Player.Instance.inputBuffer.Count != 0 && Player.Instance.inputBuffer.Peek() == Player.Input.Dash)
         {
-            while (Player.Instance.inputBuffer.Count != 0 && Player.Instance.inputBuffer.Peek() == Player.Input.Dash)
-                Player.Instance.inputBuffer.Dequeue();
-
-            if (Player.Instance.inputBuffer.Count != 0)
-                Player.Instance.inputBuffer.Dequeue();
-
+            Player.Instance.inputBuffer.Clear();
             Player.Instance.animator.SetBool("Dash", false);
 
-            if (bufferTimer != null)
-            {
-                StopCoroutine(bufferTimer);
-                bufferTimer = null;
-            }
-
-            commandBuffer.Clear();
+            StopCommandBufferTimer();
             DashAttack();
 
             return;
@@ -155,11 +136,7 @@ public class Sword : Weapon
         if (bufferTimer == null)
             bufferTimer = StartCoroutine(CommandTimer());
 
-        while (Player.Instance.inputBuffer.Count != 0 && Player.Instance.inputBuffer.Peek() == Player.Input.Dash)
-            Player.Instance.inputBuffer.Dequeue();
-
         commandBuffer.Enqueue(Player.Instance.inputBuffer.Peek());
-        Debug.Log(Player.Instance.inputBuffer.Peek());
         Player.Instance.inputBuffer.Dequeue();
 
         if (commandBuffer.Count >= commandKey.Count)
@@ -167,12 +144,7 @@ public class Sword : Weapon
             if (CheckCommandSkill())
             {
                 Skill();
-
-                if (bufferTimer != null)
-                {
-                    StopCoroutine(bufferTimer);
-                    bufferTimer = null;
-                }
+                StopCommandBufferTimer();
                 return;
             }
         }
@@ -204,8 +176,6 @@ public class Sword : Weapon
         return true;
     }
 
-    Coroutine bufferTimer;
-
     private IEnumerator CommandTimer()
     {
         float currentTime = 0f;
@@ -220,13 +190,18 @@ public class Sword : Weapon
             yield return null;
         }
 
-        commandBuffer.Clear();
-        Debug.Log("타이머 종료");
+        StopCommandBufferTimer();
+    }
 
+    void StopCommandBufferTimer()
+    {
+        //Debug.Log("타이머 종료");
         if (bufferTimer != null)
         {
             StopCoroutine(bufferTimer);
             bufferTimer = null;
         }
+
+        commandBuffer.Clear();
     }
 }
