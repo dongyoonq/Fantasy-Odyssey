@@ -12,31 +12,58 @@ public abstract class Weapon : Equipment
 
     [SerializeField] protected WeaponData weaponData;
 
-    public abstract void LeftAttack();         // 기본 공격
+    public abstract void LeftAttack();     // 기본 공격
     public abstract void DashAttack();     // 대시 공격
     public abstract void ChargingAttack(); // 차지 공격
     public abstract void Skill();          // 스킬
     public abstract void UltimateSkill();  // 궁극기
 
-    protected void AttackJudgement(int damage, float range, float forwardAngle, float upAngle)
+    protected void AttackCircleJudgement(int damage, float range, float forwardAngle, float upAngle)
     {
         Collider[] colliders = Physics.OverlapSphere(Player.Instance.transform.position, range, LayerMask.GetMask("Monster"));
         foreach (Collider collider in colliders)
         {
             Vector3 dirTarget = (collider.transform.position - Player.Instance.transform.position).normalized;
-            Vector2 dir2DTarget = new Vector2(dirTarget.x, dirTarget.z);
 
-            if (Vector3.Dot(Player.Instance.transform.up, dirTarget) >= Mathf.Cos(upAngle * 0.5f * Mathf.Deg2Rad))
-            {
-                if (Vector2.Dot(Player.Instance.transform.forward, dir2DTarget) >= Mathf.Cos(forwardAngle * 0.5f * Mathf.Deg2Rad))
-                    collider.GetComponent<IHitable>().Hit(damage);
-            }
+            if (Vector3.Dot(Player.Instance.transform.up, dirTarget) >= Mathf.Cos(upAngle * 0.5f * Mathf.Deg2Rad) &&
+                Vector2.Dot(Player.Instance.transform.forward, dirTarget) >= Mathf.Cos(forwardAngle * 0.5f * Mathf.Deg2Rad))
+                collider.GetComponent<IHitable>().Hit(damage);
         }
+    }
+
+    protected void AttackBoxJudgement(int damage, Vector3 center, Vector3 size, Quaternion rotation)
+    {
+        Collider[] colliders = Physics.OverlapBox(center,
+            size, rotation, LayerMask.GetMask("Monster"));
+        foreach (Collider collider in colliders)
+            collider.GetComponent<IHitable>().Hit(damage);
     }
 
     protected Vector3 AngleToDir(float angle)
     {
         float rad = angle * Mathf.Deg2Rad;
         return new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad));
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!weaponData.debug)
+            return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 2.2f);
+
+        // LeftAttackRange
+        /*
+         * leftattackfinish angle is 360
+        Vector3 rightDir = AngleToDir(Player.Instance.transform.eulerAngles.y + 200 * 0.5f);    
+        Vector3 leftDir = AngleToDir(Player.Instance.transform.eulerAngles.y - 200 * 0.5f);
+        Debug.DrawRay(Player.Instance.transform.position, rightDir * 2.2f, Color.red);
+        Debug.DrawRay(Player.Instance.transform.position, leftDir * 2.2f, Color.red);
+        */
+
+        // RightAttackRange
+        //Gizmos.color = Color.cyan;
+        //Gizmos.DrawWireCube(transform.position + transform.forward * 1f, new Vector3(0.4f,0.4f,1.8f));
     }
 }

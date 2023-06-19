@@ -42,22 +42,22 @@ public class ResourceManager : MonoBehaviour
             return Object.Instantiate(original, position, rotation, parent);
     }
 
-    public T Instantiate<T>(string path, T original, bool pooling = false) where T : Object
+    public T Instantiate<T>(string path, bool pooling = false) where T : Object
     {
-        return Instantiate(path, original, Vector3.zero, Quaternion.identity, null, pooling);
+        return Instantiate<T>(path, Vector3.zero, Quaternion.identity, null, pooling);
     }
 
-    public T Instantiate<T>(string path, T original, Transform parent, bool pooling = false) where T : Object
+    public T Instantiate<T>(string path, Transform parent, bool pooling = false) where T : Object
     {
-        return Instantiate(path, original, Vector3.zero, Quaternion.identity, parent, pooling);
+        return Instantiate<T>(path, Vector3.zero, Quaternion.identity, parent, pooling);
     }
 
-    public T Instantiate<T>(string path, T original, Vector3 position, Quaternion rotation, bool pooling = false) where T : Object
+    public T Instantiate<T>(string path, Vector3 position, Quaternion rotation, bool pooling = false) where T : Object
     {
-        return Instantiate(path, original, position, rotation, null, pooling);
+        return Instantiate<T>(path, position, rotation, null, pooling);
     }
 
-    public T Instantiate<T>(string path, T original, Vector3 position, Quaternion rotation, Transform parent, bool pooling = false) where T : Object
+    public T Instantiate<T>(string path, Vector3 position, Quaternion rotation, Transform parent, bool pooling = false) where T : Object
     {
         T instance = Load<T>(path);
         return Instantiate(instance, position, rotation, parent, pooling);

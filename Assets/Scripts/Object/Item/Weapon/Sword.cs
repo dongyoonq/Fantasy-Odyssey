@@ -45,7 +45,7 @@ public class Sword : Weapon
         if (ComboCount == 0)
         {
             TotalDamage = Player.Instance.Status.AttackPower;
-            AttackJudgement(TotalDamage, 2.2f, 200f, 180f);
+            AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
             particle = GameManager.Resouce.Instantiate(weaponData.Effects[0],
                 playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -160), Player.Instance.transform, true);
             Destroy(particle.gameObject, 0.4f);
@@ -53,7 +53,7 @@ public class Sword : Weapon
         else if (ComboCount == 1)
         {
             TotalDamage = Player.Instance.Status.AttackPower;
-            AttackJudgement(TotalDamage, 2.2f, 200f, 180f);
+            AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
             particle = 
                 GameManager.Resouce.Instantiate(weaponData.Effects[0], 
                 playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 25f, 15), Player.Instance.transform, true);
@@ -62,7 +62,7 @@ public class Sword : Weapon
         else if (ComboCount == 2)
         {
             TotalDamage = Player.Instance.Status.AttackPower + 30;
-            AttackJudgement(TotalDamage, 2.5f, 360f, 180f);
+            AttackCircleJudgement(TotalDamage, 2.5f, 360f, 240f);
             particle = GameManager.Resouce.Instantiate(weaponData.Effects[1], 
                 playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 60f, 0), Player.Instance.transform, true);
             Destroy(particle.gameObject, 0.7f);
@@ -80,7 +80,8 @@ public class Sword : Weapon
     public void RightAttack()
     {
         TotalDamage = Player.Instance.Status.AttackPower - 20;
-        AttackJudgement(TotalDamage, 3f, 180f, 180f);
+        AttackBoxJudgement(TotalDamage, transform.position + transform.forward * 1f, new Vector3(0.4f, 0.4f, 1.8f), 
+            Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles));
         StartCoroutine(syncRightAttackParticle());
         Player.Instance.animator.SetBool(hashIsRightAttack, true);
         ComboCount = 0;
@@ -91,11 +92,12 @@ public class Sword : Weapon
         yield return new WaitForSeconds(0.3f);
         particle = GameManager.Resouce.Instantiate(weaponData.Effects[2], 
             new Vector3(playerHandPos.x, playerHandPos.y - 0.2f, playerHandPos.z), Quaternion.Euler(playerRot), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.2f);
+        Destroy(particle.gameObject, 0.4f);
     }
 
     public override void ChargingAttack()
     {
+        StartCoroutine(ActiveChargeAttackHitBox());
         StartCoroutine(syncChargeAttackParticle());
         Player.Instance.animator.SetBool(hashIsChargingAttack, true);
         ComboCount = 0;
@@ -113,8 +115,17 @@ public class Sword : Weapon
         Destroy(particle.gameObject, 0.5f);
     }
 
+    IEnumerator ActiveChargeAttackHitBox()
+    {
+        yield return new WaitForSeconds(0.7f);
+        transform.GetChild(0).gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
+
     public override void DashAttack()
     {
+        StartCoroutine(ActiveDashAttackHitBox());
         StartCoroutine(syncDashttackParticle());
         Player.Instance.animator.SetBool(hashIsDashAttack, true);
         ComboCount = 0;
@@ -128,8 +139,17 @@ public class Sword : Weapon
         Destroy(particle.gameObject, 0.3f);
     }
 
+    IEnumerator ActiveDashAttackHitBox()
+    {
+        yield return new WaitForSeconds(0.9f);
+        transform.GetChild(1).gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        transform.GetChild(1).gameObject.SetActive(false);
+    }
+
     public override void Skill()
     {
+        StartCoroutine(ActiveSkillAttackHitBox());
         StartCoroutine(syncSkillParticle());
         Player.Instance.animator.SetBool(hashIsSkillAtaack, true);
         ComboCount = 0;
@@ -143,6 +163,25 @@ public class Sword : Weapon
         Destroy(particle.gameObject, 0.8f);
     }
 
+    IEnumerator ActiveSkillAttackHitBox()
+    {
+        GameObject hitObj = GameManager.Resouce.Instantiate<GameObject>("Prefabs/Sword/SkillAttackHitBox", true);
+
+        float rate = 0;
+        Vector3 start = Player.Instance.transform.position;
+        Vector3 end = Player.Instance.transform.position + (Player.Instance.transform.forward * 10f) + (Player.Instance.transform.up * 1f);
+        float totalTime = Vector3.Distance(start, end) / 10f;
+
+        while (rate < totalTime)
+        {
+            rate += Time.deltaTime;
+            hitObj.transform.position = Vector3.Lerp(start, end, rate);
+            yield return null;
+        }
+
+        Destroy(hitObj);
+    }
+
     public override void UltimateSkill()
     {
         StartCoroutine(syncUltParticle());
@@ -153,19 +192,25 @@ public class Sword : Weapon
 
     IEnumerator syncUltParticle()
     {
+        TotalDamage = Player.Instance.Status.AttackPower;
         yield return new WaitForSeconds(0.1f);
+        AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
         particle = GameManager.Resouce.Instantiate(weaponData.Effects[0],
             playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -140), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.5f);
         yield return new WaitForSeconds(0.5f);
+        AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
         particle = GameManager.Resouce.Instantiate(weaponData.Effects[0], 
             new Vector3(playerHandPos.x - 0.5f, playerHandPos.y, playerHandPos.z), Quaternion.Euler(playerRot.x, playerRot.y, 40), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.5f);
         yield return new WaitForSeconds(0.5f);
+        AttackCircleJudgement(TotalDamage + 20, 2.5f, 190f, 240f);
         particle = GameManager.Resouce.Instantiate(weaponData.Effects[0], 
             playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, 140), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.5f);
         yield return new WaitForSeconds(0.5f);
+        AttackBoxJudgement(TotalDamage + 30, transform.position + transform.forward * 1f, new Vector3(0.4f, 0.4f, 1.8f),
+            Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles));
         particle = GameManager.Resouce.Instantiate(weaponData.Effects[2], 
             playerHandPos, Quaternion.Euler(new Vector3(playerRot.x + 25f, playerRot.y, playerRot.z)), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.2f);
@@ -304,28 +349,5 @@ public class Sword : Weapon
         }
 
         commandBuffer.Clear();
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (!weaponData.debug)
-            return;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(Player.Instance.transform.position, 2.5f);
-
-        // LeftAttackRange
-        /*
-        Vector3 rightDir = AngleToDir(Player.Instance.transform.eulerAngles.y + 200 * 0.5f);
-        Vector3 leftDir = AngleToDir(Player.Instance.transform.eulerAngles.y - 200 * 0.5f);
-        Debug.DrawRay(Player.Instance.transform.position, rightDir * 2.2f, Color.red);
-        Debug.DrawRay(Player.Instance.transform.position, leftDir * 2.2f, Color.red);
-        */
-
-        // LeftAttackFinishRange
-        Vector3 rightDir = AngleToDir(Player.Instance.transform.eulerAngles.y + 20 * 0.5f);
-        Vector3 leftDir = AngleToDir(Player.Instance.transform.eulerAngles.y - 20 * 0.5f);
-        Debug.DrawRay(Player.Instance.transform.position, rightDir * 3f, Color.red);
-        Debug.DrawRay(Player.Instance.transform.position, leftDir * 3f, Color.red);
     }
 }
