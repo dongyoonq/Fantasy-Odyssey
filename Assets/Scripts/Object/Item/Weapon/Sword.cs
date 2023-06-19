@@ -44,12 +44,16 @@ public class Sword : Weapon
     {
         if (ComboCount == 0)
         {
+            TotalDamage = Player.Instance.Status.AttackPower;
+            AttackJudgement(TotalDamage, 2.2f, 200f, 180f);
             particle = GameManager.Resouce.Instantiate(weaponData.Effects[0],
                 playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -160), Player.Instance.transform, true);
             Destroy(particle.gameObject, 0.4f);
         }
         else if (ComboCount == 1)
         {
+            TotalDamage = Player.Instance.Status.AttackPower;
+            AttackJudgement(TotalDamage, 2.2f, 200f, 180f);
             particle = 
                 GameManager.Resouce.Instantiate(weaponData.Effects[0], 
                 playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 25f, 15), Player.Instance.transform, true);
@@ -57,6 +61,8 @@ public class Sword : Weapon
         }
         else if (ComboCount == 2)
         {
+            TotalDamage = Player.Instance.Status.AttackPower + 30;
+            AttackJudgement(TotalDamage, 2.5f, 360f, 180f);
             particle = GameManager.Resouce.Instantiate(weaponData.Effects[1], 
                 playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 60f, 0), Player.Instance.transform, true);
             Destroy(particle.gameObject, 0.7f);
@@ -73,6 +79,8 @@ public class Sword : Weapon
 
     public void RightAttack()
     {
+        TotalDamage = Player.Instance.Status.AttackPower - 20;
+        AttackJudgement(TotalDamage, 3f, 180f, 180f);
         StartCoroutine(syncRightAttackParticle());
         Player.Instance.animator.SetBool(hashIsRightAttack, true);
         ComboCount = 0;
@@ -296,5 +304,28 @@ public class Sword : Weapon
         }
 
         commandBuffer.Clear();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!weaponData.debug)
+            return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(Player.Instance.transform.position, 2.5f);
+
+        // LeftAttackRange
+        /*
+        Vector3 rightDir = AngleToDir(Player.Instance.transform.eulerAngles.y + 200 * 0.5f);
+        Vector3 leftDir = AngleToDir(Player.Instance.transform.eulerAngles.y - 200 * 0.5f);
+        Debug.DrawRay(Player.Instance.transform.position, rightDir * 2.2f, Color.red);
+        Debug.DrawRay(Player.Instance.transform.position, leftDir * 2.2f, Color.red);
+        */
+
+        // LeftAttackFinishRange
+        Vector3 rightDir = AngleToDir(Player.Instance.transform.eulerAngles.y + 20 * 0.5f);
+        Vector3 leftDir = AngleToDir(Player.Instance.transform.eulerAngles.y - 20 * 0.5f);
+        Debug.DrawRay(Player.Instance.transform.position, rightDir * 3f, Color.red);
+        Debug.DrawRay(Player.Instance.transform.position, leftDir * 3f, Color.red);
     }
 }

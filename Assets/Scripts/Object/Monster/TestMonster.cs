@@ -2,15 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetTest : MonoBehaviour, IHitable
+public class TestMonster : MonoBehaviour, IHitable
 {
-    public int Hp = 100;
-
+    [SerializeField] int Hp;
+    
     public void Hit(int damamge)
     {
         Hp -= damamge;
-
-        if (Hp <= 0)
-            Destroy(gameObject);
     }
 }
