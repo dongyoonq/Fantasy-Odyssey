@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
-using static UnityEngine.ParticleSystem;
 
 public class Sword : Weapon
 {
@@ -15,6 +14,7 @@ public class Sword : Weapon
 
     AttackState attackState;
     Coroutine bufferTimer;
+    ParticleSystem particle;
     Queue<Player.Input> commandBuffer = new Queue<Player.Input>();
 
     private Coroutine checkAttackReInputCor;
@@ -44,17 +44,21 @@ public class Sword : Weapon
     {
         if (ComboCount == 0)
         {
-            ParticleSystem particle = Instantiate(weaponData.Effects[0], playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -160), Player.Instance.transform);
+            particle = GameManager.Resouce.Instantiate(weaponData.Effects[0],
+                playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -160), Player.Instance.transform, true);
             Destroy(particle.gameObject, 0.4f);
         }
         else if (ComboCount == 1)
         {
-            ParticleSystem particle = Instantiate(weaponData.Effects[0], playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 25f, 15), Player.Instance.transform);
+            particle = 
+                GameManager.Resouce.Instantiate(weaponData.Effects[0], 
+                playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 25f, 15), Player.Instance.transform, true);
             Destroy(particle.gameObject, 0.4f);
         }
         else if (ComboCount == 2)
         {
-            ParticleSystem particle = Instantiate(weaponData.Effects[1], playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 60f, 0), Player.Instance.transform);
+            particle = GameManager.Resouce.Instantiate(weaponData.Effects[1], 
+                playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 60f, 0), Player.Instance.transform, true);
             Destroy(particle.gameObject, 0.7f);
         }
 
@@ -77,7 +81,8 @@ public class Sword : Weapon
     IEnumerator syncRightAttackParticle()
     {
         yield return new WaitForSeconds(0.3f);
-        ParticleSystem particle = Instantiate(weaponData.Effects[2], new Vector3(playerHandPos.x, playerHandPos.y - 0.2f, playerHandPos.z), Quaternion.Euler(playerRot), Player.Instance.transform);
+        particle = GameManager.Resouce.Instantiate(weaponData.Effects[2], 
+            new Vector3(playerHandPos.x, playerHandPos.y - 0.2f, playerHandPos.z), Quaternion.Euler(playerRot), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.2f);
     }
 
@@ -91,10 +96,12 @@ public class Sword : Weapon
     IEnumerator syncChargeAttackParticle()
     {
         yield return new WaitForSeconds(0.4f);
-        ParticleSystem particle = Instantiate(weaponData.Effects[4], playerPos + (Player.Instance.transform.forward * 3.5f), Quaternion.Euler(playerRot), Player.Instance.transform);
+        particle = GameManager.Resouce.Instantiate(weaponData.Effects[4], 
+            playerPos + (Player.Instance.transform.forward * 3.5f), Quaternion.Euler(playerRot), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.8f);
         yield return new WaitForSeconds(0.6f);
-        particle = Instantiate(weaponData.Effects[5], new Vector3(playerPos.x, 0, playerPos.z) + Player.Instance.transform.forward * 5f, Quaternion.identity);
+        particle = GameManager.Resouce.Instantiate(weaponData.Effects[5], 
+            new Vector3(playerPos.x, 0, playerPos.z) + Player.Instance.transform.forward * 5f, Quaternion.identity, true);
         Destroy(particle.gameObject, 0.5f);
     }
 
@@ -108,7 +115,8 @@ public class Sword : Weapon
     IEnumerator syncDashttackParticle()
     {
         yield return new WaitForSeconds(0.9f);
-        ParticleSystem particle = Instantiate(weaponData.Effects[0], playerPos, Quaternion.Euler(playerRot.x, playerRot.y, playerRot.z - 90), Player.Instance.transform);
+        particle = GameManager.Resouce.Instantiate(weaponData.Effects[0], 
+            playerPos, Quaternion.Euler(playerRot.x, playerRot.y, playerRot.z - 90), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.3f);
     }
 
@@ -122,7 +130,8 @@ public class Sword : Weapon
     IEnumerator syncSkillParticle()
     {
         yield return new WaitForSeconds(0.3f);
-        ParticleSystem particle = Instantiate(weaponData.Effects[3], playerHandPos, Quaternion.Euler(playerRot), Player.Instance.transform);
+        particle = GameManager.Resouce.Instantiate(weaponData.Effects[3], 
+            playerHandPos, Quaternion.Euler(playerRot), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.8f);
     }
 
@@ -137,16 +146,20 @@ public class Sword : Weapon
     IEnumerator syncUltParticle()
     {
         yield return new WaitForSeconds(0.1f);
-        ParticleSystem particle = Instantiate(weaponData.Effects[0], playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -140), Player.Instance.transform);
+        particle = GameManager.Resouce.Instantiate(weaponData.Effects[0],
+            playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -140), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.5f);
         yield return new WaitForSeconds(0.5f);
-        particle = Instantiate(weaponData.Effects[0], new Vector3(playerHandPos.x - 0.5f, playerHandPos.y, playerHandPos.z), Quaternion.Euler(playerRot.x, playerRot.y, 40), Player.Instance.transform);
+        particle = GameManager.Resouce.Instantiate(weaponData.Effects[0], 
+            new Vector3(playerHandPos.x - 0.5f, playerHandPos.y, playerHandPos.z), Quaternion.Euler(playerRot.x, playerRot.y, 40), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.5f);
         yield return new WaitForSeconds(0.5f);
-        particle = Instantiate(weaponData.Effects[0], playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, 140), Player.Instance.transform);
+        particle = GameManager.Resouce.Instantiate(weaponData.Effects[0], 
+            playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, 140), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.5f);
         yield return new WaitForSeconds(0.5f);
-        particle = Instantiate(weaponData.Effects[2], playerHandPos, Quaternion.Euler(new Vector3(playerRot.x + 25f, playerRot.y, playerRot.z)), Player.Instance.transform);
+        particle = GameManager.Resouce.Instantiate(weaponData.Effects[2], 
+            playerHandPos, Quaternion.Euler(new Vector3(playerRot.x + 25f, playerRot.y, playerRot.z)), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.2f);
     }
 
