@@ -1,21 +1,23 @@
+using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace SpiderState
 {
-    public class TraceState : MonsterBaseState<Spider>
+    public class ReturnState : MonsterBaseState<Spider>
     {
         float moveSpeed = 5f;
         float rotSpeed = 6f;
 
-        public TraceState(Spider owner) : base(owner)
+        public ReturnState(Spider owner) : base(owner)
         {
         }
 
         public override void Enter()
         {
             owner.animator.SetBool("Move", true);
+
         }
 
         public override void Exit()
@@ -25,22 +27,20 @@ namespace SpiderState
 
         public override void Update()
         {
-            Vector3 TargetDir = (Player.Instance.transform.position - owner.transform.position).normalized;
+            if (Vector3.Distance(owner.transform.position, owner.spawnPos) < 0.5f)
+            {
+                if (owner.IsValid())
+                    if (Array.IndexOf(owner.spawnInfo.spiders, owner) >= 0)
+                        owner.transform.rotation = owner.spawnInfo.spawnPoint[Array.IndexOf(owner.spawnInfo.spiders, owner)].transform.rotation;
+                owner.ChangeState(Spider.State.Idle);
+            }
+
+            Vector3 TargetDir = (owner.spawnPos - owner.transform.position).normalized;
 
             owner.transform.Translate(new Vector3(TargetDir.x, 0, TargetDir.z) * moveSpeed * Time.deltaTime, Space.World);
 
             Quaternion targetRot = Quaternion.LookRotation(TargetDir);
             owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, Quaternion.Euler(0, targetRot.eulerAngles.y, 0), rotSpeed * Time.deltaTime);
-
-            if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) > owner.detectRange)
-            {
-                owner.ChangeState(Spider.State.Return);
-            }
-            else if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) < owner.biteAttackRange)
-            {
-                owner.ChangeState(Spider.State.Attack);
-            }
-
         }
     }
 }

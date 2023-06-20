@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IHitable
 {
     public static Player Instance { get { return instance; } }
     private static Player instance;
@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
 
     [NonSerialized] public float MoveSpeed;
     [NonSerialized] public float YSpeed;
-    [NonSerialized] public float CurrentHP;
+    public float CurrentHP;
 
     [SerializeField] public Transform hand;
 
@@ -203,5 +203,10 @@ public class Player : MonoBehaviour
             item.Use();
             RemoveItemFromInventory(item);
         }
+    }
+
+    public void Hit(int damamge)
+    {
+        CurrentHP -= damamge;
     }
 }
