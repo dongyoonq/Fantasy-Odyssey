@@ -5,11 +5,11 @@ using UnityEngine.Rendering;
 
 public class PlayerAnimationEvents : MonoBehaviour
 {
-    AttackState attackState;
+    BaseAttackState attackState;
 
     private void Start()
     {
-        attackState = Player.Instance.stateMachine.GetState(StateName.ATTACK) as AttackState;
+        attackState = Player.Instance.stateMachine.GetState(StateName.ATTACK) as BaseAttackState;
     }
 
     public void OnFinishedAttack()

@@ -12,26 +12,13 @@ public class Sword : Weapon
         Player.Input.LAttack
     };
 
-    AttackState attackState;
     Coroutine bufferTimer;
     ParticleSystem particle;
     Queue<Player.Input> commandBuffer = new Queue<Player.Input>();
 
-    private Coroutine checkAttackReInputCor;
-    public readonly int hashIsRightAttack = Animator.StringToHash("IsRightAttack");
-    public readonly int hashIsDashAttack = Animator.StringToHash("IsDashAttack");
-    public readonly int hashIsChargingAttack = Animator.StringToHash("IsChargingAttack");
-    public readonly int hashIsSkillAtaack = Animator.StringToHash("IsSkillAttack");
-    public readonly int hashIsUltSkillAtaack = Animator.StringToHash("IsUltAttack");
-
     Vector3 playerRot;
     Vector3 playerPos;
     Vector3 playerHandPos;
-
-    private void Start()
-    {
-        attackState = Player.Instance.playerController.attackState;
-    }
 
     private void LateUpdate()
     {
@@ -42,49 +29,51 @@ public class Sword : Weapon
 
     public override void LeftAttack()
     {
-        if (ComboCount == 0)
-        {
-            TotalDamage = Player.Instance.Status.AttackPower;
-            AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
-            particle = GameManager.Resouce.Instantiate(weaponData.Effects[0],
-                playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -160), Player.Instance.transform, true);
-            Destroy(particle.gameObject, 0.4f);
-        }
-        else if (ComboCount == 1)
-        {
-            TotalDamage = Player.Instance.Status.AttackPower;
-            AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
-            particle = 
-                GameManager.Resouce.Instantiate(weaponData.Effects[0], 
-                playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 25f, 15), Player.Instance.transform, true);
-            Destroy(particle.gameObject, 0.4f);
-        }
+        if (ComboCount == 1)
+            FirstAttack();
         else if (ComboCount == 2)
-        {
-            TotalDamage = Player.Instance.Status.AttackPower + 30;
-            AttackCircleJudgement(TotalDamage, 2.5f, 360f, 240f);
-            particle = GameManager.Resouce.Instantiate(weaponData.Effects[1], 
-                playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 60f, 0), Player.Instance.transform, true);
-            Destroy(particle.gameObject, 0.7f);
-        }
-
-        Player.Instance.animator.SetFloat(attackState.hashAttackSpeedAnimation, Player.Instance.Status.AttackSpeed);
-        Player.Instance.animator.SetBool(attackState.hashIsLeftAttackAnimation, true);
-        Player.Instance.animator.SetInteger(attackState.hashAttackAnimation, ++ComboCount);
-        CheckAttackReInput(AttackState.CanReInputTime);
+            SecondAttack();
+        else if (ComboCount == 3)
+            FinishAttack();
 
         if (ComboCount >= weaponData.MaxCombo)
             StopCommandBufferTimer();
     }
 
-    public void RightAttack()
+    void FirstAttack()
+    {
+        TotalDamage = Player.Instance.Status.AttackPower;
+        AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
+        particle = GameManager.Resouce.Instantiate(weaponData.Effects[0],
+            playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -160), Player.Instance.transform, true);
+        Destroy(particle.gameObject, 0.4f);
+    }
+
+    void SecondAttack()
+    {
+        TotalDamage = Player.Instance.Status.AttackPower;
+        AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
+        particle =
+            GameManager.Resouce.Instantiate(weaponData.Effects[0],
+            playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 25f, 15), Player.Instance.transform, true);
+        Destroy(particle.gameObject, 0.4f);
+    }
+
+    void FinishAttack()
+    {
+        TotalDamage = Player.Instance.Status.AttackPower + 30;
+        AttackCircleJudgement(TotalDamage, 2.5f, 360f, 240f);
+        particle = GameManager.Resouce.Instantiate(weaponData.Effects[1],
+            playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 60f, 0), Player.Instance.transform, true);
+        Destroy(particle.gameObject, 0.7f);
+    }
+
+    public override void RightAttack()
     {
         TotalDamage = Player.Instance.Status.AttackPower - 20;
         AttackBoxJudgement(TotalDamage, transform.position + transform.forward * 1f, new Vector3(0.4f, 0.4f, 1.8f), 
             Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles));
         StartCoroutine(syncRightAttackParticle());
-        Player.Instance.animator.SetBool(hashIsRightAttack, true);
-        ComboCount = 0;
     }
 
     IEnumerator syncRightAttackParticle()
@@ -99,8 +88,7 @@ public class Sword : Weapon
     {
         StartCoroutine(ActiveChargeAttackHitBox());
         StartCoroutine(syncChargeAttackParticle());
-        Player.Instance.animator.SetBool(hashIsChargingAttack, true);
-        ComboCount = 0;
+        StopCommandBufferTimer();
     }
 
     IEnumerator syncChargeAttackParticle()
@@ -127,8 +115,7 @@ public class Sword : Weapon
     {
         StartCoroutine(ActiveDashAttackHitBox());
         StartCoroutine(syncDashttackParticle());
-        Player.Instance.animator.SetBool(hashIsDashAttack, true);
-        ComboCount = 0;
+        StopCommandBufferTimer();
     }
 
     IEnumerator syncDashttackParticle()
@@ -151,8 +138,6 @@ public class Sword : Weapon
     {
         StartCoroutine(ActiveSkillAttackHitBox());
         StartCoroutine(syncSkillParticle());
-        Player.Instance.animator.SetBool(hashIsSkillAtaack, true);
-        ComboCount = 0;
     }
 
     IEnumerator syncSkillParticle()
@@ -185,9 +170,7 @@ public class Sword : Weapon
     public override void UltimateSkill()
     {
         StartCoroutine(syncUltParticle());
-        Player.Instance.animator.SetBool(hashIsUltSkillAtaack, true);
-        Player.Instance.playerController.isUltAttack = false;
-        ComboCount = 0;
+        StopCommandBufferTimer();
     }
 
     IEnumerator syncUltParticle()
@@ -216,86 +199,51 @@ public class Sword : Weapon
         Destroy(particle.gameObject, 0.2f);
     }
 
-    public void CheckAttackReInput(float reInputTime)
-    {
-        if (checkAttackReInputCor != null)
-            StopCoroutine(checkAttackReInputCor);
-        checkAttackReInputCor = StartCoroutine(CheckAttackReInputCoroutine(reInputTime));
-    }
-
-    private IEnumerator CheckAttackReInputCoroutine(float reInputTime)
-    {
-        float currentTime = 0f;
-
-        while (true)
-        {
-            currentTime += Time.deltaTime;
-            if (currentTime >= reInputTime)
-                break;
-
-
-            yield return null;
-        }
-
-        ComboCount = 0;
-        Player.Instance.animator.SetInteger(attackState.hashAttackAnimation, 0);
-    }
-
     public override void Use()
     {
         if (Player.Instance.playerController.isCharging)
         {
-            StopCommandBufferTimer();
-            ChargingAttack();
-
+            Player.Instance.stateMachine.ChangeState(StateName.ChargeAttack);
             return;
         }
         else if (Player.Instance.playerController.isUltAttack)
         {
-            StopCommandBufferTimer();
-            UltimateSkill();
-
+            Player.Instance.stateMachine.ChangeState(StateName.UltAttack);
             return;
         }
         else if (Player.Instance.inputBuffer.Count != 0 && Player.Instance.inputBuffer.Peek() == Player.Input.RAttack)
         {
-            commandBuffer.Enqueue(Player.Instance.inputBuffer.Peek());
-            Player.Instance.inputBuffer.Dequeue();
+            commandBuffer.Enqueue(Player.Instance.inputBuffer.Dequeue());
 
             if (commandBuffer.Count >= commandKey.Count)
                 CheckCommandSkill();
 
-            RightAttack();
+            Player.Instance.stateMachine.ChangeState(StateName.RAttack);
             return;
         }
         else if (Player.Instance.inputBuffer.Count != 0 && Player.Instance.inputBuffer.Peek() == Player.Input.Dash)
         {
             Player.Instance.inputBuffer.Clear();
-            Player.Instance.animator.SetBool("Dash", false);
-
-            StopCommandBufferTimer();
-            DashAttack();
-
+            Player.Instance.stateMachine.ChangeState(StateName.DashAttack);
             return;
         }
 
         if (bufferTimer == null)
             bufferTimer = StartCoroutine(CommandTimer());
 
-        commandBuffer.Enqueue(Player.Instance.inputBuffer.Peek());
-        Player.Instance.inputBuffer.Dequeue();
+        commandBuffer.Enqueue(Player.Instance.inputBuffer.Dequeue());
 
         if (commandBuffer.Count >= commandKey.Count)
         {
             if (CheckCommandSkill())
             {
-                Skill();
+                Player.Instance.stateMachine.ChangeState(StateName.SkillAttack);
                 StopCommandBufferTimer();
                 return;
             }
         }
 
-        LeftAttack();
+        Player.Instance.stateMachine.ChangeState(StateName.LAttack);
     }
 
     public override void ApplyStatusModifier()
@@ -313,10 +261,8 @@ public class Sword : Weapon
     private bool CheckCommandSkill()
     {
         for (int i = 0; i < commandKey.Count; i++)
-        {
             if (commandKey[i] != commandBuffer.Dequeue())
                 return false;
-        }
 
         commandBuffer.Clear();
         return true;
@@ -331,7 +277,6 @@ public class Sword : Weapon
             currentTime += Time.deltaTime;
             if (currentTime >= 4f)
                 break;
-
 
             yield return null;
         }

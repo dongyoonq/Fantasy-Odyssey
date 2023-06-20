@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashAttackState : BaseState
+public class UltAttackState : BaseState
 {
-    readonly int hashIsDashAttack = Animator.StringToHash("IsDashAttack");
+    readonly int hashIsUltSkillAtaack = Animator.StringToHash("IsUltAttack");
     Weapon useWeapon;
 
-    public DashAttackState(PlayerController controller) : base(controller) { }
+    public UltAttackState(PlayerController controller) : base(controller) { }
 
     public override void Enter()
     {
         useWeapon = Player.Instance.playerController.GetWeapon();
-        Player.Instance.animator.SetBool("Dash", false);
-        Player.Instance.animator.SetBool(hashIsDashAttack, true);
+        Player.Instance.animator.SetBool(hashIsUltSkillAtaack, true);
+        Player.Instance.playerController.isUltAttack = false;
         useWeapon.ComboCount = 0;
-        useWeapon.DashAttack();
+        useWeapon.UltimateSkill();
     }
 
     public override void Update()

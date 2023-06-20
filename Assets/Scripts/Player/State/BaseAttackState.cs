@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackState : BaseState
+public class BaseAttackState : BaseState
 {
     public bool IsLeftAttack = false;
-    public const float CanReInputTime = 1.2f;
+    public float CanReInputTime = 1.2f;
     public int ComboCount = 0;
 
     public readonly int hashIsLeftAttackAnimation = Animator.StringToHash("IsLeftAttack");
@@ -13,7 +13,7 @@ public class AttackState : BaseState
     public readonly int hashAttackSpeedAnimation = Animator.StringToHash("AttackSpeed");
     private Coroutine checkAttackReInputCor;
 
-    public AttackState(PlayerController controller) : base(controller) { }
+    public BaseAttackState(PlayerController controller) : base(controller) { }
 
     public override void Enter()
     {

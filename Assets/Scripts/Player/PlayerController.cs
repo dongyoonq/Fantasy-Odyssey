@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private int groundLayer;
     private bool isGrounded;
 
-    public AttackState attackState;
+    public BaseAttackState attackState;
 
     private void OnEnable()
     {
@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        attackState = Player.Instance.stateMachine.GetState(StateName.ATTACK) as AttackState;
+        attackState = Player.Instance.stateMachine.GetState(StateName.ATTACK) as BaseAttackState;
         attackState.ComboCount = 0;
         attackState.IsLeftAttack = false;
         player = GetComponent<Player>();

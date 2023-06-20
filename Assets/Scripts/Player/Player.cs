@@ -90,8 +90,13 @@ public class Player : MonoBehaviour
     {
         PlayerController controller = GetComponent<PlayerController>();
         stateMachine = new StateMachine(StateName.MOVE, new MoveState(controller)); // µî·Ï
-        stateMachine.AddState(StateName.ATTACK, new AttackState(controller));
         stateMachine.AddState(StateName.Dash, new DashState(controller));
+        stateMachine.AddState(StateName.ATTACK, new BaseAttackState(controller));
+        stateMachine.AddState(StateName.LAttack, new LeftAttackState(controller));
+        stateMachine.AddState(StateName.RAttack, new RightAttackState(controller));
+        stateMachine.AddState(StateName.ChargeAttack, new ChargeAttackState(controller));
+        stateMachine.AddState(StateName.SkillAttack, new SkillAttackState(controller));
+        stateMachine.AddState(StateName.UltAttack, new UltAttackState(controller));
         stateMachine.AddState(StateName.DashAttack, new DashAttackState(controller));
     }
 

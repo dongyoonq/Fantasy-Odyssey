@@ -4,9 +4,14 @@ using UnityEngine;
 public enum StateName
 {
     MOVE,
-    ATTACK,
     Dash,
+    ATTACK,
+    LAttack,
+    RAttack,
     DashAttack,
+    ChargeAttack,
+    SkillAttack,
+    UltAttack,
 }
 
 public class StateMachine
