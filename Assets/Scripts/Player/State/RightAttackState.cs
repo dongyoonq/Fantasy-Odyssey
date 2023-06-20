@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RightAttackState : BaseState
+public class RightAttackState : PlayerBaseState
 {
     readonly int hashIsRightAttack = Animator.StringToHash("IsRightAttack");
     Weapon useWeapon;

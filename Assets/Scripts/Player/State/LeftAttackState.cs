@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LeftAttackState : BaseState
+public class LeftAttackState : PlayerBaseState
 {
     Coroutine checkAttackReInputCor;
     BaseAttackState attackState;

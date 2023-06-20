@@ -16,18 +16,18 @@ public enum StateName
 
 public class StateMachine
 {
-    public BaseState CurrentState { get; private set; }  // 현재 상태
-    private Dictionary<StateName, BaseState> states =
-                                        new Dictionary<StateName, BaseState>();
+    public PlayerBaseState CurrentState { get; private set; }  // 현재 상태
+    private Dictionary<StateName, PlayerBaseState> states =
+                                        new Dictionary<StateName, PlayerBaseState>();
 
 
-    public StateMachine(StateName stateName, BaseState state)
+    public StateMachine(StateName stateName, PlayerBaseState state)
     {
         AddState(stateName, state);
         CurrentState = GetState(stateName);
     }
 
-    public void AddState(StateName stateName, BaseState state)  // 상태 등록
+    public void AddState(StateName stateName, PlayerBaseState state)  // 상태 등록
     {
         if (!states.ContainsKey(stateName))
         {
@@ -35,9 +35,9 @@ public class StateMachine
         }
     }
 
-    public BaseState GetState(StateName stateName)  // 상태 꺼내오기
+    public PlayerBaseState GetState(StateName stateName)  // 상태 꺼내오기
     {
-        if (states.TryGetValue(stateName, out BaseState state))
+        if (states.TryGetValue(stateName, out PlayerBaseState state))
             return state;
         return null;
     }
@@ -53,7 +53,7 @@ public class StateMachine
     public void ChangeState(StateName nextStateName)    // 상태 전환
     {
         CurrentState?.Exit();   //현재 상태를 종료하는 메소드를 실행하고,
-        if (states.TryGetValue(nextStateName, out BaseState newState)) // 상태 전환
+        if (states.TryGetValue(nextStateName, out PlayerBaseState newState)) // 상태 전환
         {
             CurrentState = newState;
         }

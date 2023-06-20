@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashAttackState : BaseState
+public class DashAttackState : PlayerBaseState
 {
     readonly int hashIsDashAttack = Animator.StringToHash("IsDashAttack");
     Weapon useWeapon;

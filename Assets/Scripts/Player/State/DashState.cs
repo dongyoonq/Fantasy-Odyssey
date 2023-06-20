@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class DashState : BaseState
+public class DashState : PlayerBaseState
 {
     public readonly float dashPower;
     public readonly float dashSpeed;

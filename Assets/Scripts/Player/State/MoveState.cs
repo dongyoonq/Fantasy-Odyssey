@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveState : BaseState
+public class MoveState : PlayerBaseState
 {
     public MoveState(PlayerController controller) : base(controller)
     {

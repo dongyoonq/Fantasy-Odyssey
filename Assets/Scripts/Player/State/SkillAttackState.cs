@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillAttackState : BaseState
+public class SkillAttackState : PlayerBaseState
 {
     Weapon useWeapon;
     readonly int hashIsSkillAtaack = Animator.StringToHash("IsSkillAttack");

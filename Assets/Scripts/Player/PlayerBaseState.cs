@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseState
+public abstract class PlayerBaseState
 {
     protected PlayerController Controller { get; private set; }
 
-    public BaseState(PlayerController controller)
+    public PlayerBaseState(PlayerController controller)
     {
         this.Controller = controller;
     }

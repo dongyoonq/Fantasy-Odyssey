@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseAttackState : BaseState
+public class BaseAttackState : PlayerBaseState
 {
     public bool IsLeftAttack = false;
     public float CanReInputTime = 1.2f;
