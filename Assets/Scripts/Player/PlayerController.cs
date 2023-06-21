@@ -156,6 +156,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public bool isUltAttack = false;
+    Coroutine skillCoolTime;
 
     public void OnUltAttack(InputAction.CallbackContext context)
     {
@@ -163,9 +164,36 @@ public class PlayerController : MonoBehaviour
         {
             if (context.interaction is PressInteraction)
             {
-                isUltAttack = true;
-                player.stateMachine.ChangeState(StateName.ATTACK);
+                if (skillCoolTime == null)
+                {
+                    Debug.Log("ÄðÅ¸ÀÓ ½ÃÀÛ");
+                    skillCoolTime = StartCoroutine(UltCoolTimer());
+                    isUltAttack = true;
+                    player.stateMachine.ChangeState(StateName.ATTACK);
+                }
+
+                Debug.Log("ÄðÅ¸ÀÓ Áß");
             }
+        }
+    }
+
+    private IEnumerator UltCoolTimer()
+    {
+        float currentTime = 0f;
+
+        while (true)
+        {
+            currentTime += Time.deltaTime;
+            if (currentTime >= GetWeapon()?.WeaponData.CoolTimeSkill)
+                break;
+
+            yield return null;
+        }
+
+        if (skillCoolTime != null)
+        {
+            StopCoroutine(skillCoolTime);
+            skillCoolTime = null;
         }
     }
 

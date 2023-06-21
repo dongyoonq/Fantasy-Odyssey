@@ -22,8 +22,10 @@ namespace SpiderState
         public override void Exit()
         {
             owner.animator.SetBool("ProjectileAttack", false);
-            owner.StopCoroutine(owner.projectTileAttackRoutine);
-            owner.StopCoroutine(owner.projectTileMoveRoutine);
+            if (owner.projectTileAttackRoutine != null)
+                owner.StopCoroutine(owner.projectTileAttackRoutine);
+            if (owner.projectTileMoveRoutine != null)
+                owner.StopCoroutine(owner.projectTileMoveRoutine);
             if (particle.IsValid())
                 GameManager.Resouce.Destroy(particle.gameObject);
         }

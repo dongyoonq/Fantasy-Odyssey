@@ -11,11 +11,15 @@ public class BaseMonsterData : ScriptableObject, ISerializationCallbackReceiver
     [SerializeField] List<MeleeMonsterData> _meleeMonsterData = new List<MeleeMonsterData>();
     [SerializeField] List<RangeMonsterData> _rangeMonsterData = new List<RangeMonsterData>();
     [SerializeField] int _maxHp;
+    [SerializeField] int _moveSpeed;
+    [SerializeField] int _rotSpeed;
 
     [NonSerialized] public List<AgressiveMonsterData> AgressiveMonsterData;
     [NonSerialized] public List<MeleeMonsterData> MeleeMonsterData;
     [NonSerialized] public List<RangeMonsterData> RangeMonsterData;
     [NonSerialized] public int MaxHp;
+    [NonSerialized] public float MoveSpeed;
+    [NonSerialized] public float RotSpeed;
 
     public void OnBeforeSerialize()
     {
@@ -28,5 +32,7 @@ public class BaseMonsterData : ScriptableObject, ISerializationCallbackReceiver
         MeleeMonsterData = _meleeMonsterData;
         RangeMonsterData = _rangeMonsterData;
         MaxHp = _maxHp;
+        MoveSpeed = _moveSpeed;
+        RotSpeed = _rotSpeed;
     }
 }

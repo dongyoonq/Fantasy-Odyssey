@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour, IHitable
 {
+    public UnityEvent OnChangedHp;
+
     public static Player Instance { get { return instance; } }
     private static Player instance;
 
@@ -26,10 +28,11 @@ public class Player : MonoBehaviour, IHitable
     [SerializeField] public float walkSpeed;
     [SerializeField] public float runSpeed;
     [SerializeField] public float JumpPower;
+    [SerializeField] float currentHp;
+    public float CurrentHP { get { return currentHp; } set { currentHp = value; OnChangedHp?.Invoke(); } }
 
     [NonSerialized] public float MoveSpeed;
     [NonSerialized] public float YSpeed;
-    public float CurrentHP;
 
     [SerializeField] public Transform hand;
 
@@ -102,7 +105,7 @@ public class Player : MonoBehaviour, IHitable
 
     void SetStatus()
     {
-        CurrentHP = Status.MaxHp;
+        currentHp = Status.MaxHp;
         Status.AttackPower = Status.attackPower;
         Status.AttackSpeed = Status.attackSpeed;
         Status.Deffense = Status.deffense;

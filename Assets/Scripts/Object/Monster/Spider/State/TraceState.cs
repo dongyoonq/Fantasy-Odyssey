@@ -6,9 +6,6 @@ namespace SpiderState
 {
     public class TraceState : MonsterBaseState<Spider>
     {
-        float moveSpeed = 5f;
-        float rotSpeed = 6f;
-
         public TraceState(Spider owner) : base(owner)
         {
         }
@@ -27,10 +24,10 @@ namespace SpiderState
         {
             Vector3 TargetDir = (Player.Instance.transform.position - owner.transform.position).normalized;
 
-            owner.transform.Translate(new Vector3(TargetDir.x, 0, TargetDir.z) * moveSpeed * Time.deltaTime, Space.World);
+            owner.transform.Translate(new Vector3(TargetDir.x, 0, TargetDir.z) * owner.data.MoveSpeed * Time.deltaTime, Space.World);
 
             Quaternion targetRot = Quaternion.LookRotation(TargetDir);
-            owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, Quaternion.Euler(0, targetRot.eulerAngles.y, 0), rotSpeed * Time.deltaTime);
+            owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, Quaternion.Euler(0, targetRot.eulerAngles.y, 0), owner.data.RotSpeed * Time.deltaTime);
 
             if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) < owner.data.MeleeMonsterData[0].DetectRange)
             {
