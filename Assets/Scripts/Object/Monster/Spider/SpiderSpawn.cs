@@ -30,7 +30,8 @@ public class SpiderSpawn : MonoBehaviour
             {
                 if (spawnPoint[i].state == SpiderSpawnPoint.State.Empty)
                 {
-                    currSpider++;
+                    if (currSpider < spiders.Length)
+                        currSpider++;
                     StartCoroutine(SpawnRoutine(i));
                 }
             }
@@ -45,7 +46,10 @@ public class SpiderSpawn : MonoBehaviour
 
     void CreateSpider(int index)
     {
-        spiders[index] = GameManager.Resouce.Instantiate<Spider>("Prefabs/Monster/Spider", spawnPoint[index].transform.position, spawnPoint[index].transform.rotation, transform.parent);
+        if (spiders[index] != null && spiders[index].IsValid())
+            return;
+
+        spiders[index] = GameManager.Resouce.Instantiate<Spider>("Prefabs/Monster/Spider/Spider", spawnPoint[index].transform.position, spawnPoint[index].transform.rotation, transform.parent);
         spawnPoint[index].state = SpiderSpawnPoint.State.Use;
         spiders[index].gameObject.name = "Spider";
         spiders[index].spawnInfo = this;

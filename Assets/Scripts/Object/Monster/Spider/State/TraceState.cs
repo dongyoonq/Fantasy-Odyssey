@@ -32,15 +32,18 @@ namespace SpiderState
             Quaternion targetRot = Quaternion.LookRotation(TargetDir);
             owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, Quaternion.Euler(0, targetRot.eulerAngles.y, 0), rotSpeed * Time.deltaTime);
 
-            if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) > owner.detectRange)
+            if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) < owner.biteAttackRange)
+            {
+                owner.ChangeState(Spider.State.BiteAttack);
+            }
+            else if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) < owner.projectileAttackRange)
+            {
+                owner.ChangeState(Spider.State.ProjecTileAttack);
+            }
+            else if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) > owner.detectRange)
             {
                 owner.ChangeState(Spider.State.Return);
             }
-            else if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) < owner.biteAttackRange)
-            {
-                owner.ChangeState(Spider.State.Attack);
-            }
-
         }
     }
 }

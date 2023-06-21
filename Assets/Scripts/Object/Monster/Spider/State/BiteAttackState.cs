@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace SpiderState
 {
-    public class AttackState : MonsterBaseState<Spider>
+    public class BiteAttackState : MonsterBaseState<Spider>
     {
         float attackDistance = 2.0f;
 
-        public AttackState(Spider owner) : base(owner)
+        public BiteAttackState(Spider owner) : base(owner)
         {
         }
 
         public override void Enter()
         {
-            owner.StartCoroutine(animationRoutine());
+            owner.biteRoutine = owner.StartCoroutine(animationRoutine());
         }
 
         public override void Exit()
         {
-            owner.StopCoroutine(animationRoutine());
+            owner.StopCoroutine(owner.biteRoutine);
             owner.animator.SetBool("Attack", false);
         }
 
@@ -28,7 +28,6 @@ namespace SpiderState
 
             Quaternion targetRot = Quaternion.LookRotation(TargetDir);
             owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, Quaternion.Euler(0, targetRot.eulerAngles.y, 0), 6 * Time.deltaTime);
-
         }
 
         IEnumerator animationRoutine()
@@ -61,7 +60,8 @@ namespace SpiderState
             yield return new WaitForSeconds(0.5f);
             attackJudgement();
             yield return new WaitForSeconds(0.5f);
-            owner.ChangeState(Spider.State.Trace);  
+            owner.ChangeState(Spider.State.Trace);
+            owner.coolTime = 0.1f;
         }
 
         void attackJudgement()
