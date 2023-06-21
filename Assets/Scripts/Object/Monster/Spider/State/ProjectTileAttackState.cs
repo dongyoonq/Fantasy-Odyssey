@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.UI.GridLayoutGroup;
 
 namespace SpiderState
 {
@@ -25,6 +24,8 @@ namespace SpiderState
             owner.animator.SetBool("ProjectileAttack", false);
             owner.StopCoroutine(owner.projectTileAttackRoutine);
             owner.StopCoroutine(owner.projectTileMoveRoutine);
+            if (particle.IsValid())
+                GameManager.Resouce.Destroy(particle.gameObject);
         }
 
         public override void Update()
@@ -47,7 +48,7 @@ namespace SpiderState
         IEnumerator projectileMoveRoutine(ParticleSystem particle)
         {
             Vector3 start = particle.transform.position;
-            Vector3 end = start + (particle.transform.forward * owner.projectileAttackRange);
+            Vector3 end = start + (particle.transform.forward * owner.data.RangeMonsterData[0].AttackDistance);
             float totalTime = Vector3.Distance(start, end) / projectileSpeed;
             owner.ProjecttileTime = totalTime;
 
@@ -65,7 +66,6 @@ namespace SpiderState
                 if (particle.IsValid())
                     GameManager.Resouce.Destroy(particle.gameObject);
                 owner.ChangeState(Spider.State.Trace);
-                owner.coolTime = 0;
             }
         }
     }

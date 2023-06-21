@@ -6,20 +6,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Spider : MonoBehaviour, IHitable
+public class Spider : Monster, IHitable
 {
     public enum State { Idle, Trace, Return, BiteAttack, ProjecTileAttack, TakeDamage, Die, CastAttack, Size }
 
-    [SerializeField] public float detectRange;
-    [SerializeField] public float biteAttackRange;
-    [SerializeField] public float projectileAttackRange;
-    [SerializeField] public int health;
-    [SerializeField] public int biteAttackDamage;
-    [SerializeField] public int projectileAttackDamage;
-
     [NonSerialized] public Vector3 spawnPos;
     [NonSerialized] public Animator animator;
-    [NonSerialized] public float coolTime;
     [NonSerialized] public SpiderSpawn spawnInfo;
 
     [NonSerialized] public float ProjecttileTime;
@@ -48,6 +40,7 @@ public class Spider : MonoBehaviour, IHitable
 
     private void OnEnable()
     {
+        currHp = data.MaxHp;
         spawnPos = transform.position;
     }
 
@@ -85,11 +78,11 @@ public class Spider : MonoBehaviour, IHitable
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectRange);
+        Gizmos.DrawWireSphere(transform.position, data.AgressiveMonsterData[0].DetectRange);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, biteAttackRange);
+        Gizmos.DrawWireSphere(transform.position, data.MeleeMonsterData[0].DetectRange);
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, projectileAttackRange);
+        Gizmos.DrawWireSphere(transform.position, data.RangeMonsterData[0].DetectRange);
     }
 
     public void Hit(int damage)
@@ -111,9 +104,9 @@ public class Spider : MonoBehaviour, IHitable
         else
             ChangeState(State.TakeDamage);
 
-        health -= damage;
+        currHp -= damage;
 
-        if (health <= 0)
+        if (currHp <= 0)
         {
             if (biteRoutine != null && projectTileAttackRoutine != null && takedamageRoutine != null && projectTileMoveRoutine != null)
             {

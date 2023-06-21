@@ -5,8 +5,6 @@ namespace SpiderState
 {
     public class BiteAttackState : MonsterBaseState<Spider>
     {
-        float attackDistance = 2.0f;
-
         public BiteAttackState(Spider owner) : base(owner)
         {
         }
@@ -61,7 +59,6 @@ namespace SpiderState
             attackJudgement();
             yield return new WaitForSeconds(0.5f);
             owner.ChangeState(Spider.State.Trace);
-            owner.coolTime = 0.1f;
         }
 
         void attackJudgement()
@@ -70,9 +67,9 @@ namespace SpiderState
             Vector3 end = Player.Instance.transform.position;
 
             RaycastHit hit;
-            if (Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, attackDistance, LayerMask.GetMask("Player")))
+            if (Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, owner.data.MeleeMonsterData[0].AttackDistance, LayerMask.GetMask("Player")))
             {
-                hit.collider.GetComponent<IHitable>().Hit(owner.biteAttackDamage);
+                hit.collider.GetComponent<IHitable>().Hit(owner.data.MeleeMonsterData[0].AttackDamage);
             }
            
         }
