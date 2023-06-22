@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,6 +6,7 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour, IHitable
 {
     public UnityEvent OnChangedHp;
+    public UnityEvent<Item, int> OnAddItemInventory;
 
     public static Player Instance { get { return instance; } }
     private static Player instance;
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour, IHitable
     public CapsuleCollider capsuleCollider { get; private set; }
     public Inventory inventory { get; private set; }
 
-    public Dictionary<Equipment.EquipmentType, Equipment> wearingEquip { get; private set; }
+    public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }
     public Queue<Input> inputBuffer { get; private set; }
 
     [SerializeField] PlayerStatusData status;
@@ -55,9 +55,8 @@ public class Player : MonoBehaviour, IHitable
         }
 
         instance = this;
-
         inventory = new Inventory();
-        wearingEquip = new Dictionary<Equipment.EquipmentType, Equipment>();
+        wearingEquip = new Dictionary<EquipmentData.EquipType, Equipment>();
         inputBuffer = new Queue<Input>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -66,10 +65,6 @@ public class Player : MonoBehaviour, IHitable
 
         SetStatus();
         DontDestroyOnLoad(gameObject);
-    }
-
-    void Start()
-    {
         InitStateMachine();
     }
 
@@ -112,10 +107,21 @@ public class Player : MonoBehaviour, IHitable
         Status.MaxHp = Status.maxHP;
     }
 
+
     // 인벤토리 추가 메서드
     public void AddItemToInventory(Item item)
     {
-        this.inventory.list.Add(item);
+        if (!inventory.list.Contains(item))
+            inventory.currCount++;
+
+        if (inventory.currCount >= inventory.Capacity)
+        {
+            Debug.Log("가방이 가득찼다");
+            return;
+        }
+
+        inventory.list.Add(item);
+        OnAddItemInventory?.Invoke(item, inventory.list.LastIndexOf(item));
     }
 
     // 인벤토리 아이템 제거 메서드
@@ -132,15 +138,15 @@ public class Player : MonoBehaviour, IHitable
     public bool OnEquip(Equipment equipment)
     {
         // 들어온 아이템이 그 부위에 착용중이면 장비를 벗는다.
-        if (wearingEquip.ContainsKey(equipment.type))
+        if (wearingEquip.ContainsKey(equipment.equipmentData.equipType))
         {
-            UnEquip(wearingEquip[equipment.type]);
+            UnEquip(wearingEquip[equipment.equipmentData.equipType]);
         }
 
         // 인벤토리에 장비를 지우고
         inventory.list.Remove(equipment);
         // 착용한 분위에 이 장비를 착용 시킨다.
-        wearingEquip.Add(equipment.type, equipment);
+        wearingEquip.Add(equipment.equipmentData.equipType, equipment);
         // 그 장비에 대한 스텟 적용
         equipment.ApplyStatusModifier();
         RegisterWeapon(equipment.gameObject);
@@ -159,12 +165,12 @@ public class Player : MonoBehaviour, IHitable
             return false;
 
         // 착용중인 부위에 아이템이 있으면
-        if (wearingEquip.ContainsKey(equipment.type))
+        if (wearingEquip.ContainsKey(equipment.equipmentData.equipType))
         {
             // 인벤토리에 착용중인 장비를 넣어주고
-            inventory.list.Add(wearingEquip[equipment.type]);
+            inventory.list.Add(wearingEquip[equipment.equipmentData.equipType]);
             // 착용중인 장비를 지워준다.
-            wearingEquip.Remove(equipment.type);
+            wearingEquip.Remove(equipment.equipmentData.equipType);
             // 스텟 미적용
             equipment.RemoveStatusModifier();
 
@@ -181,14 +187,14 @@ public class Player : MonoBehaviour, IHitable
     // 무기 등록
     public void RegisterWeapon(GameObject weapon)
     {
-        if (wearingEquip.ContainsKey(Equipment.EquipmentType.Weapon))
+        if (wearingEquip.ContainsKey(EquipmentData.EquipType.Weapon))
         {
             Weapon weaponInfo = weapon.GetComponent<Weapon>();
             weapon.transform.SetParent(hand);
-            weapon.transform.localPosition = weaponInfo.WeaponData.localPosition;
-            weapon.transform.localEulerAngles = weaponInfo.WeaponData.localRotation;
-            weapon.transform.localScale = weaponInfo.WeaponData.localScale;
-            animator.runtimeAnimatorController = weaponInfo.WeaponData.WeaponAnimator;
+            weapon.transform.localPosition = weaponInfo.weaponData.localPosition;
+            weapon.transform.localEulerAngles = weaponInfo.weaponData.localRotation;
+            weapon.transform.localScale = weaponInfo.weaponData.localScale;
+            animator.runtimeAnimatorController = weaponInfo.weaponData.WeaponAnimator;
             weapon.gameObject.SetActive(true);
         }
     }

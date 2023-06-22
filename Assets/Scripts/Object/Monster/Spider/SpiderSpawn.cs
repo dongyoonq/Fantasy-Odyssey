@@ -49,7 +49,7 @@ public class SpiderSpawn : MonoBehaviour
         if (spiders[index] != null && spiders[index].IsValid())
             return;
 
-        spiders[index] = GameManager.Resouce.Instantiate<Spider>("Prefabs/Monster/Spider/Spider", spawnPoint[index].transform.position, spawnPoint[index].transform.rotation, transform.parent);
+        spiders[index] = GameManager.Resource.Instantiate<Spider>("Prefabs/Monster/Spider/Spider", spawnPoint[index].transform.position, spawnPoint[index].transform.rotation, transform.parent);
         spawnPoint[index].state = SpiderSpawnPoint.State.Use;
         spiders[index].gameObject.name = "Spider";
         spiders[index].spawnInfo = this;

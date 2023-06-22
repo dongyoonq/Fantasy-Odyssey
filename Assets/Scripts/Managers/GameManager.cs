@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Resources;
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,10 +8,12 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     private static PoolManager poolManager;
     private static ResourceManager resourceManager;
+    private static UIManager uiManager;
 
     public static GameManager Instance { get { return instance; } }
     public static PoolManager Pool { get { return poolManager; } }
-    public static ResourceManager Resouce { get { return resourceManager; } }
+    public static ResourceManager Resource { get { return resourceManager; } }
+    public static UIManager Ui { get { return uiManager; } }
 
     private void Awake()
     {
@@ -35,14 +36,20 @@ public class GameManager : MonoBehaviour
 
     private void InitManagers()
     {
+        GameObject resourceObj = new GameObject();
+        resourceObj.name = "ResourceManager";
+        resourceObj.transform.parent = transform;
+        resourceManager = resourceObj.AddComponent<ResourceManager>();
+
         GameObject poolObj = new GameObject();
         poolObj.name = "PoolManager";
         poolObj.transform.parent = transform;
         poolManager = poolObj.AddComponent<PoolManager>();
 
-        GameObject resourceObj = new GameObject();
-        resourceObj.name = "ResourceManager";
-        resourceObj.transform.parent = transform;
-        resourceManager = resourceObj.AddComponent<ResourceManager>();
+        
+        GameObject uiObj = new GameObject();
+        uiObj.name = "UIManager";
+        uiObj.transform.parent = transform;
+        uiManager = uiObj.AddComponent<UIManager>();
     }
 }

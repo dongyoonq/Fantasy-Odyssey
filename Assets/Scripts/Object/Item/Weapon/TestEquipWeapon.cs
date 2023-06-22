@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestEquipWeapon : MonoBehaviour
 {
-    [SerializeField] Equipment weapon;
+    [SerializeField] Weapon weapon;
 
     public void Equip()
     {

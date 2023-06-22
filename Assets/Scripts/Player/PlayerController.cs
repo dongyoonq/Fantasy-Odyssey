@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 bool isAvailableAttack = !attackState.IsLeftAttack &&
-                          (GetWeapon()?.ComboCount < GetWeapon()?.WeaponData.MaxCombo);
+                          (GetWeapon()?.ComboCount < GetWeapon()?.weaponData.MaxCombo);
 
                 if (isAvailableAttack)
                 {
@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour
         while (true)
         {
             currentTime += Time.deltaTime;
-            if (currentTime >= GetWeapon()?.WeaponData.CoolTimeSkill)
+            if (currentTime >= GetWeapon()?.weaponData.CoolTimeSkill)
                 break;
 
             yield return null;
@@ -211,9 +211,9 @@ public class PlayerController : MonoBehaviour
 
     public Weapon GetWeapon()
     {
-        if (player.wearingEquip.ContainsKey(Equipment.EquipmentType.Weapon))
+        if (player.wearingEquip.ContainsKey(EquipmentData.EquipType.Weapon))
         {
-            Equipment equipment = player.wearingEquip[Equipment.EquipmentType.Weapon];
+            Equipment equipment = player.wearingEquip[EquipmentData.EquipType.Weapon];
             Weapon weapon = equipment as Weapon;
             return weapon;
         }

@@ -38,7 +38,7 @@ namespace SpiderState
             int index = Array.IndexOf(owner.spawnInfo.spiders, owner);
             owner.spawnInfo.spawnPoint[index].state = SpiderSpawnPoint.State.Empty;
             owner.spawnInfo.spiders[index] = null;
-            GameManager.Resouce.Destroy(owner.gameObject);
+            GameManager.Resource.Destroy(owner.gameObject);
         }
     }
 }

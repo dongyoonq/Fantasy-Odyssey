@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2543cd96daae5774eb24105117bc2f2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 31e4ca2786af72049a41c18868770a5e, type: 3}
   m_Name: Trace Data
   m_EditorClassIdentifier: 
-  _detectRange: 6
+  _detectRange: 7

@@ -29,7 +29,7 @@ public class SpiderProjectile : MonoBehaviour
             coroutine = spider.StartCoroutine(waitTime(calculateTime));
 
             if (gameObject.IsValid())
-                GameManager.Resouce.Destroy(gameObject);
+                GameManager.Resource.Destroy(gameObject);
         }
     }
 

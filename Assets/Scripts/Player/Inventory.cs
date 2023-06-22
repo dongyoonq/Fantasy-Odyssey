@@ -6,7 +6,8 @@ using UnityEngine;
 public class Inventory
 {
     public List<Item> list;
-    public int Capacity;
+    public int Capacity = 32;
+    public int currCount;
 
     public Inventory()
     {

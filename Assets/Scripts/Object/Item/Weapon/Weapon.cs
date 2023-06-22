@@ -1,23 +1,25 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : Equipment
+public class Weapon : Equipment
 {
+    public Weapon(EquipmentData data) : base(data) { }
+
     // 무기의 현재 콤보 카운트
     public int ComboCount { get; set; }
     public int TotalDamage {  get; set; }
     // 이 무기를 쥘 때의 로컬 좌표 정보
-    public WeaponData WeaponData { get { return weaponData; } }
 
-    [SerializeField] protected WeaponData weaponData;
+    public WeaponData weaponData;
 
-    public abstract void LeftAttack();     // 기본 공격
-    public abstract void RightAttack();    
-    public abstract void DashAttack();     // 대시 공격
-    public abstract void ChargingAttack(); // 차지 공격
-    public abstract void Skill();          // 스킬
-    public abstract void UltimateSkill();  // 궁극기
+    public virtual void LeftAttack() { }     // 기본 공격
+    public virtual void RightAttack() { }
+    public virtual void DashAttack() { }      // 대시 공격
+    public virtual void ChargingAttack() { }  // 차지 공격
+    public virtual void Skill() { }           // 스킬
+    public virtual void UltimateSkill() { }   // 궁극기
 
     protected void AttackCircleJudgement(int damage, float range, float forwardAngle, float upAngle)
     {
@@ -46,6 +48,7 @@ public abstract class Weapon : Equipment
         return new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad));
     }
 
+
     private void OnDrawGizmosSelected()
     {
         if (!weaponData.debug)
@@ -66,5 +69,20 @@ public abstract class Weapon : Equipment
         // RightAttackRange
         //Gizmos.color = Color.cyan;
         //Gizmos.DrawWireCube(transform.position + transform.forward * 1f, new Vector3(0.4f,0.4f,1.8f));
+    }
+
+    public override void ApplyStatusModifier()
+    {
+
+    }
+
+    public override void RemoveStatusModifier()
+    {
+
+    }
+
+    public override void Use()
+    {
+
     }
 }

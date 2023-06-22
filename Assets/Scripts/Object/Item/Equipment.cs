@@ -1,20 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public abstract class Equipment : Item
 {
-    public EquipmentType type;
+    public EquipmentData equipmentData;
 
-    public enum EquipmentType
+    public Equipment(EquipmentData data) : base(data)
     {
-        Weapon,
-        Armor,
-        Bottom,
-        Shoes,
-        Glove,
-        Potion,
-        Other
+        equipmentData = data;
     }
 
     public abstract void ApplyStatusModifier();

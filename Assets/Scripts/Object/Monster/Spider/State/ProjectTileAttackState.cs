@@ -27,7 +27,7 @@ namespace SpiderState
             if (owner.projectTileMoveRoutine != null)
                 owner.StopCoroutine(owner.projectTileMoveRoutine);
             if (particle.IsValid())
-                GameManager.Resouce.Destroy(particle.gameObject);
+                GameManager.Resource.Destroy(particle.gameObject);
         }
 
         public override void Update()
@@ -41,7 +41,7 @@ namespace SpiderState
         IEnumerator attackRoutine()
         {
             yield return new WaitForSeconds(0.4f);
-            particle = GameManager.Resouce.Instantiate<ParticleSystem>("Prefabs/Monster/Spider/SpiderProjectileAttack",
+            particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Monster/Spider/SpiderProjectileAttack",
                 owner.transform.position + (owner.transform.forward * 0.8f) + (owner.transform.up * 0.3f), owner.transform.rotation, true);
             particle.GetComponent<SpiderProjectile>().spider = owner;
             owner.projectTileMoveRoutine = owner.StartCoroutine(projectileMoveRoutine(particle));
@@ -66,7 +66,7 @@ namespace SpiderState
                 }
 
                 if (particle.IsValid())
-                    GameManager.Resouce.Destroy(particle.gameObject);
+                    GameManager.Resource.Destroy(particle.gameObject);
                 owner.ChangeState(Spider.State.Trace);
             }
         }

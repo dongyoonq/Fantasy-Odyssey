@@ -4,16 +4,8 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour
 {
-    public enum ItemType
-    {
-        Equipment,
-        Usable,
-        Etc,
-    }
+    public ItemData Data { get; set; }
 
-    protected ItemType Type;
-    protected string itemName;
-    protected int price;
-
+    public Item(ItemData data) => Data = data;
     public abstract void Use();
 }

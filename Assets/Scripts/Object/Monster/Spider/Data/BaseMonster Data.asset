@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4042c38c0e212e146b8c4ee1e35a2bf1, type: 3}
+  m_Script: {fileID: 11500000, guid: a26137cfa41f0354191e2bad0214f9c3, type: 3}
   m_Name: BaseMonster Data
   m_EditorClassIdentifier: 
   _agreesiveMonsterData:
-  - {fileID: 11400000, guid: 20bc40386e8850a4ab344f825e17da2c, type: 2}
+  - {fileID: 11400000, guid: d4a2359680331ed4c9f8797ef082fcbe, type: 2}
   _meleeMonsterData:
-  - {fileID: 11400000, guid: 787ab1af9b7b49248b3f79168d7b55e9, type: 2}
+  - {fileID: 11400000, guid: 35a7bcb1ab20d3f4e80d9e494a15f271, type: 2}
   _rangeMonsterData:
-  - {fileID: 11400000, guid: 18dd90c89446f7e42ae7deffbca0529d, type: 2}
+  - {fileID: 11400000, guid: 9a957971ef9330348a94d70a476b8d11, type: 2}
   _maxHp: 200
+  _moveSpeed: 3
+  _rotSpeed: 6

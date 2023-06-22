@@ -10,8 +10,8 @@ public class DashState : PlayerBaseState
 
     public DashState(PlayerController controller) : base(controller)
     {
-        dashPower = 7f;
-        dashSpeed = 10f;
+        dashPower = 5f;
+        dashSpeed = 8f;
     }
 
     public override void Enter()
