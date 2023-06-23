@@ -9,8 +9,7 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 {
     float clickTime = 0;
 
-    public static GameObject draggingItem;
-    Transform startParent;
+    public static GameObject draggingItem = null;
     Transform target;
 
     void OnMouseDoubleClick()
@@ -28,8 +27,6 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
     {
         if (transform.GetChild(0).IsValid())
         {
-            startParent = transform.GetChild(0).parent;
-
             // 드래그시에 복사본 생성
             target = Instantiate(transform.GetChild(0));
             target.SetParent(GameObject.Find("InventoryUI").transform);
@@ -45,7 +42,6 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         {
             target.position = eventData.position;
             draggingItem = transform.GetChild(0).gameObject;
-            Debug.Log(draggingItem);
         }
     }
 
@@ -64,7 +60,11 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         else
             transform.GetChild(0).gameObject.SetActive(false);
 
+        if (draggingItem == null && transform.GetComponent<Slot>().data == null)
+            transform.GetChild(0).gameObject.SetActive(false);
+
         SlotDrop.swapItemIsActiveObj = true;
+        draggingItem = null;
     }
 
     public void OnPointerClick(PointerEventData eventData)

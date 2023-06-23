@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -29,6 +31,7 @@ public class InventoryUI : PopUpUI
             inventoryPanel.SetActive(activeInventory);
 
         inventoryPanel.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenInventory(); });
+        inventory.onChangeInvntory.AddListener(() => InventoryChange());
     }
 
     private void SlotChange(int val)
@@ -42,6 +45,13 @@ public class InventoryUI : PopUpUI
                 slots[i].GetComponent<Button>().interactable = false;
         }
     }
+
+    private void InventoryChange()
+    {
+        int cnt = inventory.list.Count(x => x != null);
+        inventoryPanel.transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#F8913F>{cnt}</color> / 30".ToString();
+    }
+
 
     public void OpenInventory()
     {

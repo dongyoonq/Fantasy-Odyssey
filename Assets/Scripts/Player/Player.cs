@@ -162,6 +162,7 @@ public class Player : MonoBehaviour, IHitable
 
         OnRemoveItemInventory?.Invoke(item, index);
         this.inventory.list[index] = null;
+        inventory.onChangeInvntory?.Invoke();
     }
 
     /// <summary>

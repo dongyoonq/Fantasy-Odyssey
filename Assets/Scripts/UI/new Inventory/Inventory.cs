@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     public UnityEvent<int> onSlotCountChange;
+    public UnityEvent onChangeInvntory;
 
     private int slotCnt;
 
@@ -37,6 +38,7 @@ public class Inventory : MonoBehaviour
         Player.Instance.inventoryUI.slots[index].transform.GetChild(0).gameObject.SetActive(true);
         Player.Instance.inventoryUI.slots[index].transform.GetChild(0).GetComponent<Image>().sprite = itemData.sprite;
         Player.Instance.inventoryUI.slots[index].data = itemData;
+        onChangeInvntory?.Invoke();
     }
 
     void RemoveInventory(ItemData itemData, int index)
@@ -45,5 +47,6 @@ public class Inventory : MonoBehaviour
         Player.Instance.inventoryUI.slots[index].transform.GetChild(0).GetComponent<Image>().sprite = null;
         Player.Instance.inventoryUI.slots[index].transform.GetChild(0).gameObject.SetActive(false);
         Player.Instance.inventoryUI.slots[index].data = null;
+        onChangeInvntory?.Invoke();
     }
 }

@@ -63,5 +63,8 @@ public class SlotDrop : MonoBehaviour, IDropHandler
             start.parent.GetComponent<Slot>().data = target.parent.GetComponent<Slot>().data;
             target.parent.GetComponent<Slot>().data = tmpData;
         }
+
+        SlotDrag.draggingItem = null;
+
     }
 }
