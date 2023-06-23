@@ -69,8 +69,8 @@ public class Spider : Monster, IHitable
     {
         if (other.gameObject.name == "SpiderArea")
         {
-            StopCoroutine(projectTileAttackRoutine);
-            StopCoroutine(biteRoutine);
+            if (projectTileAttackRoutine != null) StopCoroutine(projectTileAttackRoutine);
+            if (biteRoutine != null) StopCoroutine(biteRoutine);
             ChangeState(State.Return);
         }
     }

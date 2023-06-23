@@ -1466,7 +1466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe56fa3546cd824ab8f8ae023ce36e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 3.75
+  mouseSensitivity: 2.6
   FrCam: {fileID: 975646412}
 --- !u!114 &148433586
 MonoBehaviour:
@@ -1508,6 +1508,7 @@ MonoBehaviour:
   JumpPower: 9
   currentHp: 0
   hand: {fileID: 651124307}
+  foot: {fileID: 1440255772}
 --- !u!136 &148433588
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1567,6 +1568,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onSlotCountChange:
+    m_PersistentCalls:
+      m_Calls: []
+  onChangeInvntory:
     m_PersistentCalls:
       m_Calls: []
   list: []
@@ -3919,7 +3923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -4415,7 +4419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -5960,7 +5964,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &1222636814
 RectTransform:
@@ -5997,6 +6001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryPanel: {fileID: 1868053706}
+  activeInventory: 0
   slots: []
   slotHolder: {fileID: 1624323376}
 --- !u!114 &1222636816
@@ -6423,7 +6428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -7692,8 +7697,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 480, y: 21}
-  m_SizeDelta: {x: -1230, y: -190}
+  m_AnchoredPosition: {x: 472.32983, y: 21}
+  m_SizeDelta: {x: -1245.3402, y: -190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1868053708
 MonoBehaviour:
@@ -8217,7 +8222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}

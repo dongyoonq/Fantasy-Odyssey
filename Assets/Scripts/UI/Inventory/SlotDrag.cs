@@ -49,9 +49,6 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
             target.position = eventData.position;
             draggingItem = transform.GetChild(0).gameObject;
         }
-
-        Debug.Log(target.localPosition);
-        Debug.Log(draggingItem.transform.localPosition);
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -63,8 +60,11 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
             || target.localPosition.y < baseRect.yMin
             || target.localPosition.y > baseRect.yMax)
             {
-                Instantiate(GetComponent<Slot>().data.prefab, Player.Instance.foot.position, Quaternion.identity);
+                Item fieldItem = Instantiate(GetComponent<Slot>().data.prefab, Player.Instance.foot.position, Quaternion.Euler(-30f,-45f,0));
+                ItemData tempData = GetComponent<Slot>().data;
                 Player.Instance.RemoveItemFromInventory(GetComponent<Slot>().data, GetComponent<Slot>().slotIndex);
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
                 Destroy(target.gameObject);
                 return;
             }

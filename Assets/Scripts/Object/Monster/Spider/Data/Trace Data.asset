@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e4ca2786af72049a41c18868770a5e, type: 3}
   m_Name: Trace Data
   m_EditorClassIdentifier: 
-  _detectRange: 7
+  _detectRange: 10
