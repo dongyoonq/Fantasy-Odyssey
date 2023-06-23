@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour, IHitable
 {
@@ -39,6 +38,7 @@ public class Player : MonoBehaviour, IHitable
     [NonSerialized] public float YSpeed;
 
     [SerializeField] public Transform hand;
+    [SerializeField] public Transform foot;
 
     public enum Input
     {

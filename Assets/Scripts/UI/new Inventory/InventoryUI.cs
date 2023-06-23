@@ -12,7 +12,7 @@ public class InventoryUI : PopUpUI
     Inventory inventory;
 
     public GameObject inventoryPanel;
-    bool activeInventory = false;
+    public bool activeInventory = false;
 
     public Slot[] slots;
     public Transform slotHolder;
@@ -55,12 +55,9 @@ public class InventoryUI : PopUpUI
 
     public void OpenInventory()
     {
-        if (!activeInventory)
-            GameManager.Ui.popUpUIStack.Push(this);
-        else
-            GameManager.Ui.popUpUIStack.Pop();
 
         activeInventory = !activeInventory;
+        GameManager.Ui.activePopupUI = activeInventory;
         inventoryPanel.SetActive(activeInventory);
     }
 

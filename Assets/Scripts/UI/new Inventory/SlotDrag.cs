@@ -11,6 +11,12 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     public static GameObject draggingItem = null;
     Transform target;
+    Rect baseRect;
+
+    void Start()
+    {
+        baseRect = transform.parent.parent.GetComponent<RectTransform>().rect;
+    }
 
     void OnMouseDoubleClick()
     {
@@ -43,10 +49,27 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
             target.position = eventData.position;
             draggingItem = transform.GetChild(0).gameObject;
         }
+
+        Debug.Log(target.localPosition);
+        Debug.Log(draggingItem.transform.localPosition);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (draggingItem != null && GetComponent<Slot>().data != null)
+        {
+            if (target.localPosition.x < baseRect.xMin
+            || target.localPosition.x > baseRect.xMax
+            || target.localPosition.y < baseRect.yMin
+            || target.localPosition.y > baseRect.yMax)
+            {
+                Instantiate(GetComponent<Slot>().data.prefab, Player.Instance.foot.position, Quaternion.identity);
+                Player.Instance.RemoveItemFromInventory(GetComponent<Slot>().data, GetComponent<Slot>().slotIndex);
+                Destroy(target.gameObject);
+                return;
+            }
+        }
+
         if (target.IsValid())
         {
             Destroy(target.gameObject);
@@ -55,7 +78,7 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
             target.GetComponent<Image>().raycastTarget = true;
         }
 
-        if(SlotDrop.swapItemIsActiveObj)
+        if (SlotDrop.swapItemIsActiveObj)
             transform.GetChild(0).gameObject.SetActive(true);
         else
             transform.GetChild(0).gameObject.SetActive(false);
