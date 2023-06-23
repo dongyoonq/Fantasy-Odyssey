@@ -13,7 +13,6 @@ public class WeaponData : EquipmentData
 
     // 이 무기를 사용할 때의 애니메이터
     public RuntimeAnimatorController WeaponAnimator { get { return weaponAnimator; } }
-    public string Name { get { return _name; } }
     public int AttackPower { get { return attackPower; } }
     public float AttackSpeed { get { return attackSpeed; } }
     //public float AttackRange { get { return attackRange; } }
@@ -23,7 +22,6 @@ public class WeaponData : EquipmentData
 
     [Header("무기 정보")]
     [SerializeField] RuntimeAnimatorController weaponAnimator;
-    [SerializeField] string _name;
     [SerializeField] int attackPower;
     [SerializeField] float attackSpeed;
     [SerializeField] float attackRange;

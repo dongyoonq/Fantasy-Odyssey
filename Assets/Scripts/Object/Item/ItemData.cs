@@ -14,7 +14,7 @@ public abstract class ItemData : ScriptableObject
 
     public Sprite sprite;
     protected ItemType Type;
-    protected string itemName;
+    public string itemName;
     protected int price;
 
     public string Tooltip => _tooltip;

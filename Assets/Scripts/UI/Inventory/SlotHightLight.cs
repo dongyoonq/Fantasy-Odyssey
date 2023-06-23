@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,20 +9,43 @@ public class SlotHightLight : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     [SerializeField] Sprite highLightImg;
     Sprite orgImg;
+    RectTransform detail;
 
     void Start()
     {
         orgImg = GetComponent<Image>().sprite;
+        detail = GameObject.Find("InventoryUI").transform.GetChild(4).GetComponent<RectTransform>();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         GetComponent<Image>().sprite = highLightImg;
+
+        if (GetComponent<Slot>().data != null)
+        {
+            detail.gameObject.SetActive(true);
+            GameObject itemInfo = detail.GetChild(0).GetChild(0).gameObject;
+            itemInfo.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = GetComponent<Slot>().data.sprite;
+            itemInfo.transform.GetChild(1).GetComponent<TMP_Text>().text = GetComponent<Slot>().data.itemName;
+            itemInfo.transform.GetChild(2).GetComponent<TMP_Text>().text = GetComponent<Slot>().data.Tooltip;
+
+            Rect deatilRect = detail.GetComponent<RectTransform>().rect;
+            if (eventData.position.y > Screen.height / 2 && eventData.position.x > Screen.width / 2)
+                detail.position = new Vector2(eventData.position.x - deatilRect.xMax - 15, eventData.position.y - deatilRect.yMax - 15);
+            else if (eventData.position.y < Screen.height / 2 && eventData.position.x > Screen.width / 2)
+                detail.position = new Vector2(eventData.position.x - deatilRect.xMax - 15, eventData.position.y + deatilRect.yMax + 15);
+            else if (eventData.position.y > Screen.height / 2 && eventData.position.x < Screen.width / 2)
+                detail.position = new Vector2(eventData.position.x + deatilRect.xMax + 15, eventData.position.y - deatilRect.yMax - 15);
+            else if (eventData.position.y < Screen.height / 2 && eventData.position.x < Screen.width / 2)
+                detail.position = new Vector2(eventData.position.x + deatilRect.xMax + 15, eventData.position.y + deatilRect.yMax + 15);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         GetComponent<Image>().sprite = orgImg;
+
+        detail.gameObject.SetActive(false);
     }
 
     public void OnPointerDown(PointerEventData eventData)

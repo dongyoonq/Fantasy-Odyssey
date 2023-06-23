@@ -65,11 +65,6 @@ public class InventoryUI : PopUpUI
     {
         if (context.performed)
         {
-            if (!activeInventory)
-                GameManager.Ui.popUpUIStack.Push(this);
-            else
-                GameManager.Ui.popUpUIStack.Pop();
-
             activeInventory = !activeInventory;
             inventoryPanel.SetActive(activeInventory);
         }

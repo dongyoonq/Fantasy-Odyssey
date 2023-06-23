@@ -53,7 +53,7 @@ namespace SpiderState
             owner.animator.SetBool("Move", false);
             owner.animator.SetBool("Attack", true);
 
-            // 공격 코드를 추가합니다.
+            // ???? ??? ???????.
             // animation Timing
             yield return new WaitForSeconds(0.5f);
             attackJudgement();
@@ -71,7 +71,7 @@ namespace SpiderState
             {
                 hit.collider.GetComponent<IHitable>().Hit(owner.data.MeleeMonsterData[0].AttackDamage);
             }
-           
+
         }
     }
 }
