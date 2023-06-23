@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Weapon : Equipment
 {
-    public Weapon(EquipmentData data) : base(data) 
+    public Weapon(EquipmentData data) : base(data)
     {
     }
 
     // 무기의 현재 콤보 카운트
     public int ComboCount { get; set; }
-    public int TotalDamage {  get; set; }
+    public int TotalDamage { get; set; }
     // 이 무기를 쥘 때의 로컬 좌표 정보
 
     public WeaponData weaponData;

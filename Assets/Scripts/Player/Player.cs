@@ -7,6 +7,7 @@ public class Player : MonoBehaviour, IHitable
 {
     public UnityEvent OnChangedHp;
     public UnityEvent<Item, int> OnAddItemInventory;
+    public UnityEvent<Item, int> OnRemoveItemInventory;
 
     public static Player Instance { get { return instance; } }
     private static Player instance;
@@ -129,6 +130,7 @@ public class Player : MonoBehaviour, IHitable
     // 인벤토리 아이템 제거 메서드
     public void RemoveItemFromInventory(Item item)
     {
+        OnRemoveItemInventory?.Invoke(item, inventory.list.LastIndexOf(item));
         this.inventory.list.Remove(item);
     }
 
@@ -146,7 +148,8 @@ public class Player : MonoBehaviour, IHitable
         }
 
         // 인벤토리에 장비를 지우고
-        inventory.list.Remove(equipment);
+        
+        //RemoveItemFromInventory(equipment);
         // 착용한 분위에 이 장비를 착용 시킨다.
         wearingEquip.Add(equipment.equipmentData.equipType, equipment);
         // 그 장비에 대한 스텟 적용

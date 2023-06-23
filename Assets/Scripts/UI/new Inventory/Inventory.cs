@@ -25,6 +25,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         Player.Instance.OnAddItemInventory.AddListener(AddInventory);
+        Player.Instance.OnRemoveItemInventory.AddListener(RemoveInventory);
         SlotCnt = 30;
         list = new List<Item>(SlotCnt);
     }
@@ -33,5 +34,14 @@ public class Inventory : MonoBehaviour
     {
         Player.Instance.inventoryUI.slots[index].transform.GetChild(0).gameObject.SetActive(true);
         Player.Instance.inventoryUI.slots[index].transform.GetChild(0).GetComponent<Image>().sprite = item.Data.sprite;
+        Player.Instance.inventoryUI.slots[index].data = item.Data;
+    }
+
+    void RemoveInventory(Item item, int index)
+    {
+        Debug.Log(index);
+        Player.Instance.inventoryUI.slots[index].transform.GetChild(0).GetComponent<Image>().sprite = null;
+        Player.Instance.inventoryUI.slots[index].transform.GetChild(0).gameObject.SetActive(false);
+        Player.Instance.inventoryUI.slots[index].data = null;
     }
 }

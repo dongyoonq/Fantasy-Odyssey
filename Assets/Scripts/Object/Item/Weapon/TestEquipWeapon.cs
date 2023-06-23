@@ -9,8 +9,8 @@ public class TestEquipWeapon : MonoBehaviour
 
     public void Equip()
     {
+        //weapon.Data = weapon.weaponData;
         Player.Instance.AddItemToInventory(weapon);
-
         //Equipment equip = Instantiate(weapon);
         //Player.Instance.OnEquip(equip);
     }
