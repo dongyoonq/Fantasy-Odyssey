@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e07e71dd17c53f649a4e32abdaf6af6f, type: 3}
   m_Name: ProjectileAttack Data
   m_EditorClassIdentifier: 
-  _detectRange: 5.5
+  _detectRange: 4.55
   _attackDistance: 5.5
   _angle: 0
   _attackDamage: 15

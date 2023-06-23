@@ -6,8 +6,8 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour, IHitable
 {
     public UnityEvent OnChangedHp;
-    public UnityEvent<Item, int> OnAddItemInventory;
-    public UnityEvent<Item, int> OnRemoveItemInventory;
+    public UnityEvent<ItemData, int> OnAddItemInventory;
+    public UnityEvent<ItemData, int> OnRemoveItemInventory;
 
     public static Player Instance { get { return instance; } }
     private static Player instance;
@@ -115,7 +115,7 @@ public class Player : MonoBehaviour, IHitable
 
 
     // 인벤토리 추가 메서드
-    public void AddItemToInventory(Item item)
+    public void AddItemToInventory(ItemData item)
     {
         if (inventory.list.Count >= inventory.list.Capacity)
         {
@@ -128,7 +128,7 @@ public class Player : MonoBehaviour, IHitable
     }
 
     // 인벤토리 아이템 제거 메서드
-    public void RemoveItemFromInventory(Item item)
+    public void RemoveItemFromInventory(ItemData item)
     {
         OnRemoveItemInventory?.Invoke(item, inventory.list.LastIndexOf(item));
         this.inventory.list.Remove(item);
@@ -149,7 +149,7 @@ public class Player : MonoBehaviour, IHitable
 
         // 인벤토리에 장비를 지우고
         
-        //RemoveItemFromInventory(equipment);
+        RemoveItemFromInventory(equipment.Data);
         // 착용한 분위에 이 장비를 착용 시킨다.
         wearingEquip.Add(equipment.equipmentData.equipType, equipment);
         // 그 장비에 대한 스텟 적용
@@ -173,7 +173,7 @@ public class Player : MonoBehaviour, IHitable
         if (wearingEquip.ContainsKey(equipment.equipmentData.equipType))
         {
             // 인벤토리에 착용중인 장비를 넣어주고
-            inventory.list.Add(wearingEquip[equipment.equipmentData.equipType]);
+            inventory.list.Add(wearingEquip[equipment.equipmentData.equipType].Data);
             // 착용중인 장비를 지워준다.
             wearingEquip.Remove(equipment.equipmentData.equipType);
             // 스텟 미적용
@@ -210,11 +210,11 @@ public class Player : MonoBehaviour, IHitable
         weapon.gameObject.SetActive(false);
     }
 
-    public void useItem(Item item)
+    public void useItem(ItemData item)
     {
         if (inventory.list.Contains(item))
         {
-            item.Use();
+            //item.Use();
             RemoveItemFromInventory(item);
         }
     }

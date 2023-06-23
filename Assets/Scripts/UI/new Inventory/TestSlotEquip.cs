@@ -10,10 +10,8 @@ public class TestSlotEquip : MonoBehaviour, IPointerClickHandler
 
     void OnMouseDoubleClick()
     {
-        //Equipment equip = Instantiate(transform.GetComponent<Slot>().data.prefab) as Equipment;
-        //equip.name = "Sword";
-        //transform.GetComponent<Slot>().data = equip.Data;
         Equipment equip = Instantiate(transform.GetComponent<Slot>().data.prefab) as Equipment;
+        equip.Data = transform.GetComponent<Slot>().data;
         Player.Instance.OnEquip(equip);
     }
 

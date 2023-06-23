@@ -20,24 +20,24 @@ public class Inventory : MonoBehaviour
 
     /////////////////////////////////////////////////////
 
-    public List<Item> list;
+    public List<ItemData> list;
 
     private void Start()
     {
         Player.Instance.OnAddItemInventory.AddListener(AddInventory);
         Player.Instance.OnRemoveItemInventory.AddListener(RemoveInventory);
         SlotCnt = 30;
-        list = new List<Item>(SlotCnt);
+        list = new List<ItemData>(SlotCnt);
     }
 
-    void AddInventory(Item item, int index)
+    void AddInventory(ItemData itemData, int index)
     {
         Player.Instance.inventoryUI.slots[index].transform.GetChild(0).gameObject.SetActive(true);
-        Player.Instance.inventoryUI.slots[index].transform.GetChild(0).GetComponent<Image>().sprite = item.Data.sprite;
-        Player.Instance.inventoryUI.slots[index].data = item.Data;
+        Player.Instance.inventoryUI.slots[index].transform.GetChild(0).GetComponent<Image>().sprite = itemData.sprite;
+        Player.Instance.inventoryUI.slots[index].data = itemData;
     }
 
-    void RemoveInventory(Item item, int index)
+    void RemoveInventory(ItemData itemData, int index)
     {
         Debug.Log(index);
         Player.Instance.inventoryUI.slots[index].transform.GetChild(0).GetComponent<Image>().sprite = null;
