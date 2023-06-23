@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LeftAttackState : PlayerBaseState
 {
-    Coroutine checkAttackReInputCor;
+    public Coroutine checkAttackReInputCor;
     BaseAttackState attackState;
     Weapon useWeapon;
 
@@ -39,6 +39,9 @@ public class LeftAttackState : PlayerBaseState
 
     public void CheckAttackReInput(float reInputTime)
     {
+        if (!useWeapon.IsValid())
+            return;
+
         if (checkAttackReInputCor != null)
             useWeapon.StopCoroutine(checkAttackReInputCor);
         checkAttackReInputCor = useWeapon.StartCoroutine(CheckAttackReInputCoroutine(reInputTime));

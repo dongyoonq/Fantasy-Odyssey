@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour, IHitable
 {
@@ -117,21 +119,49 @@ public class Player : MonoBehaviour, IHitable
     // 인벤토리 추가 메서드
     public void AddItemToInventory(ItemData item)
     {
-        if (inventory.list.Count >= inventory.list.Capacity)
+        if (inventory.list.Count(x => x == null) == 0)
         {
             Debug.Log("가방이 가득찼다");
             return;
         }
 
-        inventory.list.Add(item);
-        OnAddItemInventory?.Invoke(item, inventory.list.LastIndexOf(item));
+        int index = -1;
+        for (int i = 0; i < inventory.list.Count; i++)
+        {
+            if (inventory.list[i] == null)
+            {
+                inventory.list[i] = item;
+                inventoryUI.slots[i].slotIndex = i;
+                index = i;
+                break;
+            }
+        }
+
+        OnAddItemInventory?.Invoke(item, index);
+    }
+
+    public void AddItemToInventory(ItemData item, int index = 0)
+    {
+        OnAddItemInventory?.Invoke(item, index);
     }
 
     // 인벤토리 아이템 제거 메서드
-    public void RemoveItemFromInventory(ItemData item)
+    public void RemoveItemFromInventory(ItemData item, int index = -1)
     {
-        OnRemoveItemInventory?.Invoke(item, inventory.list.LastIndexOf(item));
-        this.inventory.list.Remove(item);
+        if (index == -1)
+        {
+            for (int i = 0; i < inventory.list.Count; i++)
+            {
+                if (inventory.list[i] == item)
+                {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        OnRemoveItemInventory?.Invoke(item, index);
+        this.inventory.list[index] = null;
     }
 
     /// <summary>
@@ -139,17 +169,21 @@ public class Player : MonoBehaviour, IHitable
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="equipment"></param>
-    public bool OnEquip(Equipment equipment)
+    public bool OnEquip(Equipment equipment, int index = -1)
     {
         // 들어온 아이템이 그 부위에 착용중이면 장비를 벗는다.
         if (wearingEquip.ContainsKey(equipment.equipmentData.equipType))
         {
-            UnEquip(wearingEquip[equipment.equipmentData.equipType]);
+            UnEquip(equipment, index);
+            // 그 장비에 대한 스텟 적용
+            equipment.ApplyStatusModifier();
+            RegisterWeapon(equipment.gameObject);
+            return true;    
         }
 
         // 인벤토리에 장비를 지우고
-        
-        RemoveItemFromInventory(equipment.Data);
+        RemoveItemFromInventory(equipment.Data, index);
+
         // 착용한 분위에 이 장비를 착용 시킨다.
         wearingEquip.Add(equipment.equipmentData.equipType, equipment);
         // 그 장비에 대한 스텟 적용
@@ -163,7 +197,7 @@ public class Player : MonoBehaviour, IHitable
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="equipment"></param>
-    public bool UnEquip(Equipment equipment)
+    public bool UnEquip(Equipment equipment, int index = -1)
     {
         // 들어온 아이템이없으면 빠져나온다.
         if (equipment == null)
@@ -172,10 +206,20 @@ public class Player : MonoBehaviour, IHitable
         // 착용중인 부위에 아이템이 있으면
         if (wearingEquip.ContainsKey(equipment.equipmentData.equipType))
         {
-            // 인벤토리에 착용중인 장비를 넣어주고
-            inventory.list.Add(wearingEquip[equipment.equipmentData.equipType].Data);
             // 착용중인 장비를 지워준다.
+            Destroy(wearingEquip[equipment.equipmentData.equipType].gameObject);
             wearingEquip.Remove(equipment.equipmentData.equipType);
+
+            // 착용한 분위에 이 장비를 착용 시킨다.
+            wearingEquip.Add(equipment.equipmentData.equipType, equipment);
+
+            // 인벤토리에 장비를 지우고
+            RemoveItemFromInventory(inventory.list[index], index);
+
+            // 인벤토리에 착용 중인 장비를 넣어주고
+            inventory.list[index] = equipment.Data;
+            AddItemToInventory(equipment.Data, index);
+
             // 스텟 미적용
             equipment.RemoveStatusModifier();
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c61af874ecb90fb4c97390ad913c8a85, type: 3}
   m_Name: BiteAttack Data
   m_EditorClassIdentifier: 
-  _detectRange: 4
+  _detectRange: 3.5
   _attackDistance: 3
   _angle: 0
   _attackDamage: 20

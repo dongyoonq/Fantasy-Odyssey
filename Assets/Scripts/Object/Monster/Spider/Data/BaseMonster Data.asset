@@ -20,4 +20,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9a957971ef9330348a94d70a476b8d11, type: 2}
   _maxHp: 200
   _moveSpeed: 3
-  _rotSpeed: 6
+  _rotSpeed: 5

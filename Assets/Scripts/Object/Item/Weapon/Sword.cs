@@ -239,7 +239,7 @@ public class Sword : Weapon
             return;
         }
 
-        if (bufferTimer == null)
+        if (bufferTimer == null && gameObject.IsValid())
             bufferTimer = StartCoroutine(CommandTimer());
 
         commandBuffer.Enqueue(Player.Instance.inputBuffer.Dequeue());

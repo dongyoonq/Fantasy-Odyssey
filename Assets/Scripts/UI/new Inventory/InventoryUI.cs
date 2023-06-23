@@ -21,6 +21,10 @@ public class InventoryUI : PopUpUI
         Player.Instance.inventoryUI = this;
         inventory.onSlotCountChange.AddListener(SlotChange);
         slots = GetComponentsInChildren<Slot>();
+
+        for (int i = 0; i < slots.Length; i++)
+            slots[i].slotIndex = i;
+
         if (inventoryPanel.IsValid())
             inventoryPanel.SetActive(activeInventory);
 

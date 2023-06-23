@@ -28,6 +28,8 @@ public class Inventory : MonoBehaviour
         Player.Instance.OnRemoveItemInventory.AddListener(RemoveInventory);
         SlotCnt = 30;
         list = new List<ItemData>(SlotCnt);
+        for (int i = 0; i < SlotCnt; i++)
+            list.Add(null);
     }
 
     void AddInventory(ItemData itemData, int index)
