@@ -21,7 +21,15 @@ public class SlotDrop : MonoBehaviour, IDropHandler
 
         if (!transform.GetChild(0).IsValid())
             swapItemIsActiveObj = false;
-        
+
+        if (GetComponent<Slot>().data == SlotDrag.draggingItem.transform.parent.GetComponent<Slot>().data)
+        {
+            SlotDrag.draggingItem.SetActive(true); 
+            swapItemIsActiveObj = true;
+            SlotDrag.draggingItem = null;
+            return;
+        }
+
         Transform start = transform.GetChild(0);
         Transform target = SlotDrag.draggingItem.transform;
         

@@ -71,12 +71,7 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         }
 
         if (target.IsValid())
-        {
             Destroy(target.gameObject);
-            target.localPosition = Vector3.zero;
-
-            target.GetComponent<Image>().raycastTarget = true;
-        }
 
         if (SlotDrop.swapItemIsActiveObj)
             transform.GetChild(0).gameObject.SetActive(true);
