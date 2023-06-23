@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TestEquipWeapon : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class TestEquipWeapon : MonoBehaviour
     public void Equip()
     {
         Player.Instance.AddItemToInventory(weapon);
-        Equipment equip = Instantiate(weapon);
-        Player.Instance.OnEquip(equip);
+
+        //Equipment equip = Instantiate(weapon);
+        //Player.Instance.OnEquip(equip);
     }
 }

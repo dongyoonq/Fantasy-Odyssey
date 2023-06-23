@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class Weapon : Equipment
 {
-    public Weapon(EquipmentData data) : base(data) { }
+    public Weapon(EquipmentData data) : base(data) 
+    {
+    }
 
     // 무기의 현재 콤보 카운트
     public int ComboCount { get; set; }

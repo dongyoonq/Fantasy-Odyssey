@@ -17,6 +17,7 @@ public class Player : MonoBehaviour, IHitable
     public Animator animator { get; private set; }
     public CapsuleCollider capsuleCollider { get; private set; }
     public Inventory inventory { get; private set; }
+    public InventoryUI inventoryUI { get; set; }
 
     public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }
     public Queue<Input> inputBuffer { get; private set; }
@@ -55,7 +56,6 @@ public class Player : MonoBehaviour, IHitable
         }
 
         instance = this;
-        inventory = new Inventory();
         wearingEquip = new Dictionary<EquipmentData.EquipType, Equipment>();
         inputBuffer = new Queue<Input>();
         controller = GetComponent<CharacterController>();
@@ -66,6 +66,11 @@ public class Player : MonoBehaviour, IHitable
         SetStatus();
         DontDestroyOnLoad(gameObject);
         InitStateMachine();
+    }
+
+    private void Start()
+    {
+        inventory = GetComponent<Inventory>();
     }
 
     void Update()
@@ -111,10 +116,7 @@ public class Player : MonoBehaviour, IHitable
     // 인벤토리 추가 메서드
     public void AddItemToInventory(Item item)
     {
-        if (!inventory.list.Contains(item))
-            inventory.currCount++;
-
-        if (inventory.currCount >= inventory.Capacity)
+        if (inventory.list.Count >= inventory.list.Capacity)
         {
             Debug.Log("가방이 가득찼다");
             return;

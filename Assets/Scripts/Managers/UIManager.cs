@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class UIManager : MonoBehaviour
 {
     private EventSystem eventSystem;
-    private Stack<PopUpUI> popUpUIStack;
+    public Stack<PopUpUI> popUpUIStack;
     private Canvas popUpCanvas;
     private Canvas windowCanvas;
     private Canvas inGameCanvas;
