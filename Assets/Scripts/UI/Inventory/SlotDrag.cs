@@ -64,7 +64,14 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
                 Player.Instance.RemoveItemFromInventory(GetComponent<Slot>().data, GetComponent<Slot>().slotIndex);
                 fieldItem.AddComponent<FieldItem>();
                 fieldItem.GetComponent<FieldItem>().itemData = tempData;
+
+                if (draggingItem.transform.parent.GetComponent<Slot>().data is CountableItemData)
+                    if (draggingItem.transform.parent.GetComponent<Slot>().amount != 0)
+                        transform.GetChild(0).gameObject.SetActive(true);
+
                 Destroy(target.gameObject);
+                SlotDrop.swapItemIsActiveObj = true;
+                draggingItem = null;
                 return;
             }
         }

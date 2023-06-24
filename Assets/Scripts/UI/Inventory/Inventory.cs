@@ -37,9 +37,7 @@ public class Inventory : MonoBehaviour
     void AddInventory(ItemData itemData, int index, int amount)
     {
         if (itemData is CountableItemData)
-        {
             Player.Instance.inventoryUI.slots[index].amount++;
-        }
         else
             Player.Instance.inventoryUI.slots[index].amount = 1;
 
@@ -58,10 +56,6 @@ public class Inventory : MonoBehaviour
     {
         if (itemData is CountableItemData)
         {
-            index = Player.Instance.inventory.list.FindIndex(x => x == itemData);
-
-            index = (index == -1) ? 0 : index;
-
             Player.Instance.inventoryUI.slots[index].amount--;
 
             if (Player.Instance.inventoryUI.slots[index].amount == 0)
