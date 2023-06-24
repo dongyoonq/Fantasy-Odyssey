@@ -31,7 +31,7 @@ public class InventoryUI : PopUpUI
             inventoryPanel.SetActive(activeInventory);
 
         inventoryPanel.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenInventory(); });
-        inventory.onChangeInvntory.AddListener(() => InventoryChange());
+        inventory.onChangeInventory.AddListener(() => InventoryChange());
     }
 
     private void SlotChange(int val)

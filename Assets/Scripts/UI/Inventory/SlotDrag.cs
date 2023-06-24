@@ -23,10 +23,7 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         if (transform.GetComponent<Slot>().data == null)
             return;
 
-        Equipment equip = Instantiate(transform.GetComponent<Slot>().data.prefab) as Equipment;
-
-        equip.Data = transform.GetComponent<Slot>().data;
-        Player.Instance.OnEquip(equip, transform.GetComponent<Slot>().slotIndex);
+        SlotUse();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -36,6 +33,8 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
             // 드래그시에 복사본 생성
             target = Instantiate(transform.GetChild(0));
             target.SetParent(GameObject.Find("InventoryUI").transform);
+
+            //if (GetComponent<Slot>().data is not CountableItemData)
             transform.GetChild(0).gameObject.SetActive(false);
 
             target.GetComponent<Image>().raycastTarget = false;
@@ -94,5 +93,21 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         }
         else
             clickTime = Time.time;
+    }
+
+    void SlotUse()
+    {
+        ItemData data = GetComponent<Slot>().data;
+
+        if (data is EquipmentData)
+        {
+            Equipment equip = Instantiate(data.prefab) as Equipment;
+            equip.Data = transform.GetComponent<Slot>().data;
+            Player.Instance.OnEquip(equip, transform.GetComponent<Slot>().slotIndex);
+        }
+        else if (data is CountableItemData)
+        {
+            Player.Instance.useItem(data, GetComponent<Slot>().slotIndex);
+        }
     }
 }

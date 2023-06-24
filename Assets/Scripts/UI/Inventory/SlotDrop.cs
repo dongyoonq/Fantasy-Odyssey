@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -40,10 +41,14 @@ public class SlotDrop : MonoBehaviour, IDropHandler
         target.SetParent(tempParent);
         target.localPosition = Vector2.zero;
 
+        start.SetAsFirstSibling();
+        target.SetAsFirstSibling();
+
         // ¹Ù²î°í ³­µÚ
 
         // dataSwap
         ItemData tmpData = start.parent.GetComponent<Slot>().data;
+        int tmpAmount = start.parent.GetComponent<Slot>().amount;
         int indexA = Player.Instance.inventoryUI.slots.ToList().FindIndex(x => x == start.parent.GetComponent<Slot>());
         int indexB = Player.Instance.inventoryUI.slots.ToList().FindIndex(x => x == target.parent.GetComponent<Slot>());
 
@@ -71,6 +76,12 @@ public class SlotDrop : MonoBehaviour, IDropHandler
             start.parent.GetComponent<Slot>().data = target.parent.GetComponent<Slot>().data;
             target.parent.GetComponent<Slot>().data = tmpData;
         }
+
+        start.parent.GetComponent<Slot>().amount = target.parent.GetComponent<Slot>().amount;
+        target.parent.GetComponent<Slot>().amount = tmpAmount;
+
+        start.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{start.parent.GetComponent<Slot>().amount}</color>";
+        target.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{target.parent.GetComponent<Slot>().amount}</color>";
 
         SlotDrag.draggingItem = null;
 

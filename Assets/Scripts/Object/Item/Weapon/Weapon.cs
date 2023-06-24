@@ -16,6 +16,7 @@ public class Weapon : Equipment
 
     public WeaponData weaponData;
 
+    public virtual void Attack() { }
     public virtual void LeftAttack() { }     // 기본 공격
     public virtual void RightAttack() { }
     public virtual void DashAttack() { }      // 대시 공격
@@ -79,11 +80,6 @@ public class Weapon : Equipment
     }
 
     public override void RemoveStatusModifier()
-    {
-
-    }
-
-    public override void Use()
     {
 
     }

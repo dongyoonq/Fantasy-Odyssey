@@ -6,6 +6,7 @@ public class Slot : MonoBehaviour
 {
     public ItemData data;
     public int slotIndex;
+    public int amount = 0;
 
     // Start is called before the first frame update
     void Start()

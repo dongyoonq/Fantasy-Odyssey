@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Player : MonoBehaviour, IHitable
 {
     public UnityEvent OnChangedHp;
-    public UnityEvent<ItemData, int> OnAddItemInventory;
-    public UnityEvent<ItemData, int> OnRemoveItemInventory;
+    public UnityEvent<ItemData, int, int> OnAddItemInventory;
+    public UnityEvent<ItemData, int, int> OnRemoveItemInventory;
 
     public static Player Instance { get { return instance; } }
     private static Player instance;
@@ -126,6 +127,28 @@ public class Player : MonoBehaviour, IHitable
         }
 
         int index = -1;
+        if (item is CountableItemData)
+        {
+            index = inventory.list.FindIndex(x => x == item);
+
+            if (index == -1)
+            {
+                for (int i = 0; i < inventory.list.Count; i++)
+                {
+                    if (inventory.list[i] == null)
+                    {
+                        inventory.list[i] = item;
+                        inventoryUI.slots[i].slotIndex = i;
+                        index = i;
+                        break;
+                    }
+                }
+            }
+
+            OnAddItemInventory?.Invoke(item, index, 1);
+            return;
+        }
+
         for (int i = 0; i < inventory.list.Count; i++)
         {
             if (inventory.list[i] == null)
@@ -137,12 +160,12 @@ public class Player : MonoBehaviour, IHitable
             }
         }
 
-        OnAddItemInventory?.Invoke(item, index);
+        OnAddItemInventory?.Invoke(item, index, 1);
     }
 
     public void AddItemToInventory(ItemData item, int index = 0)
     {
-        OnAddItemInventory?.Invoke(item, index);
+        OnAddItemInventory?.Invoke(item, index, 1);
     }
 
     // 인벤토리 아이템 제거 메서드
@@ -160,9 +183,19 @@ public class Player : MonoBehaviour, IHitable
             }
         }
 
-        OnRemoveItemInventory?.Invoke(item, index);
-        this.inventory.list[index] = null;
-        inventory.onChangeInvntory?.Invoke();
+        OnRemoveItemInventory?.Invoke(item, index, 1);
+
+        if (item is not CountableItemData)
+        {
+            inventory.list[index] = null;
+        }
+        else if (item is CountableItemData)
+        {
+            if (inventoryUI.slots[index].amount == 0)
+                inventory.list[index] = null;
+        }
+
+        inventory.onChangeInventory?.Invoke();
     }
 
     /// <summary>
@@ -189,6 +222,7 @@ public class Player : MonoBehaviour, IHitable
         wearingEquip.Add(equipment.equipmentData.equipType, equipment);
         // 그 장비에 대한 스텟 적용
         equipment.ApplyStatusModifier();
+
         RegisterWeapon(equipment.gameObject);
         return true;
     }
@@ -255,12 +289,15 @@ public class Player : MonoBehaviour, IHitable
         weapon.gameObject.SetActive(false);
     }
 
-    public void useItem(ItemData item)
+    public void useItem(ItemData itemData, int index = -1)
     {
-        if (inventory.list.Contains(item))
+        if (inventory.list.Contains(itemData))
         {
-            //item.Use();
-            RemoveItemFromInventory(item);
+            Item instanceItem = Instantiate(itemData.prefab);
+            IUsable usableItem = instanceItem as IUsable;
+            usableItem.Use();
+            RemoveItemFromInventory(itemData, index);
+            Destroy(instanceItem.gameObject);
         }
     }
 

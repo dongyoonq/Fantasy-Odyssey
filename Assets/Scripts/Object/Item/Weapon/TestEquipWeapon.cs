@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class TestEquipWeapon : MonoBehaviour
 {
-    [SerializeField] WeaponData WeaponData;
+    //[SerializeField] WeaponData WeaponData;
+    [SerializeField] ItemData itemData;
 
     public void Equip()
     {
-        Player.Instance.AddItemToInventory(WeaponData);
+        Player.Instance.AddItemToInventory(itemData);
     }
 }

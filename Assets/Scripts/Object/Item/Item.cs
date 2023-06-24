@@ -7,5 +7,4 @@ public abstract class Item : MonoBehaviour
     public ItemData Data { get; set; }
 
     public Item(ItemData data) => Data = data;
-    public abstract void Use();
 }

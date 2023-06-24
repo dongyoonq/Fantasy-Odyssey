@@ -19,7 +19,7 @@ public class BaseAttackState : PlayerBaseState
     {
         IsLeftAttack = true;
         if (Controller.GetWeapon())
-            Controller.GetWeapon()?.Use();
+            Controller.GetWeapon()?.Attack();
         else
             Attack();
     }

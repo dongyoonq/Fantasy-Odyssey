@@ -210,7 +210,7 @@ public class Sword : Weapon
         Destroy(particle.gameObject, 0.2f);
     }
 
-    public override void Use()
+    public override void Attack()
     {
         if (Player.Instance.playerController.isCharging)
         {

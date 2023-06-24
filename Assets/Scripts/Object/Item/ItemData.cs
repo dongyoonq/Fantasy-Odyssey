@@ -21,8 +21,5 @@ public abstract class ItemData : ScriptableObject
 
     [SerializeField] private string _tooltip; // 아이템 설명
 
-    public Item prefab; 
-
-    /// <summary> 타입에 맞는 새로운 아이템 생성 </summary>
-    public abstract Item CreateItem();
+    public Item prefab;
 }

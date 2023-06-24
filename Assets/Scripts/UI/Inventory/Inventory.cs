@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     public UnityEvent<int> onSlotCountChange;
-    public UnityEvent onChangeInvntory;
+    public UnityEvent onChangeInventory;
 
     private int slotCnt;
 
@@ -33,20 +34,56 @@ public class Inventory : MonoBehaviour
             list.Add(null);
     }
 
-    void AddInventory(ItemData itemData, int index)
+    void AddInventory(ItemData itemData, int index, int amount)
     {
+        if (itemData is CountableItemData)
+        {
+            Player.Instance.inventoryUI.slots[index].amount++;
+        }
+        else
+            Player.Instance.inventoryUI.slots[index].amount = 1;
+
         Player.Instance.inventoryUI.slots[index].transform.GetChild(0).gameObject.SetActive(true);
         Player.Instance.inventoryUI.slots[index].transform.GetChild(0).GetComponent<Image>().sprite = itemData.sprite;
         Player.Instance.inventoryUI.slots[index].data = itemData;
-        onChangeInvntory?.Invoke();
+
+        //<color=#D76A2E>0</color>
+        Player.Instance.inventoryUI.slots[index].transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{Player.Instance.inventoryUI.slots[index].amount}</color>";
+
+
+        onChangeInventory?.Invoke();
     }
 
-    void RemoveInventory(ItemData itemData, int index)
+    void RemoveInventory(ItemData itemData, int index, int amount)
     {
-        Debug.Log(index);
-        Player.Instance.inventoryUI.slots[index].transform.GetChild(0).GetComponent<Image>().sprite = null;
-        Player.Instance.inventoryUI.slots[index].transform.GetChild(0).gameObject.SetActive(false);
-        Player.Instance.inventoryUI.slots[index].data = null;
-        onChangeInvntory?.Invoke();
+        if (itemData is CountableItemData)
+        {
+            index = Player.Instance.inventory.list.FindIndex(x => x == itemData);
+
+            index = (index == -1) ? 0 : index;
+
+            Player.Instance.inventoryUI.slots[index].amount--;
+
+            if (Player.Instance.inventoryUI.slots[index].amount == 0)
+            {
+                Player.Instance.inventoryUI.slots[index].transform.GetChild(0).GetComponent<Image>().sprite = null;
+                Player.Instance.inventoryUI.slots[index].transform.GetChild(0).gameObject.SetActive(false);
+
+                Player.Instance.inventoryUI.slots[index].data = null;
+            }
+        }
+        else
+        {
+            Player.Instance.inventoryUI.slots[index].amount = 0;
+
+            Player.Instance.inventoryUI.slots[index].transform.GetChild(0).GetComponent<Image>().sprite = null;
+            Player.Instance.inventoryUI.slots[index].transform.GetChild(0).gameObject.SetActive(false);
+
+            Player.Instance.inventoryUI.slots[index].data = null;
+        }
+
+        Player.Instance.inventoryUI.slots[index].transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{Player.Instance.inventoryUI.slots[index].amount}</color>";
+
+        onChangeInventory?.Invoke();
     }
 }

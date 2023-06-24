@@ -29,9 +29,4 @@ public class WeaponData : EquipmentData
     [SerializeField] float coolTimeSkill;
 
     [SerializeField] List<ParticleSystem> effects = new List<ParticleSystem>();
-
-    public override Item CreateItem()
-    {
-        return new Weapon(this);
-    }
 }
