@@ -161,7 +161,7 @@ public class Sword : Weapon
 
     IEnumerator ActiveSkillAttackHitBox()
     {
-        GameObject hitObj = GameManager.Resource.Instantiate<GameObject>("Prefabs/Sword/SkillAttackHitBox", true);
+        GameObject hitObj = GameManager.Resource.Instantiate<GameObject>("Prefabs/Item/Weapon/Sword/SkillAttackHitBox", true);
 
         float rate = 0;
         Vector3 start = Player.Instance.transform.position;

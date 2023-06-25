@@ -150,5 +150,20 @@ public class Spider : Monster, IHitable
                 fieldItem.GetComponent<FieldItem>().itemData = tempData;
             }
         }
+
+        random = UnityEngine.Random.Range(1, 101);
+
+        // 장비(Sword) 드랍확률 5%
+        int spiderSwordDropPercent = (int)(percent.Length * 0.05f);
+        for (int i = 0; i < spiderSwordDropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.DropTable[1].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.DropTable[1];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
     }
 }
