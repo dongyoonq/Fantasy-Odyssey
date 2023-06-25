@@ -10,6 +10,7 @@ public class Player : MonoBehaviour, IHitable
     public UnityEvent OnChangedHp;
     public UnityEvent<ItemData, int, int> OnAddItemInventory;
     public UnityEvent<ItemData, int, int> OnRemoveItemInventory;
+    public UnityEvent OnLevelUp;
 
     public static Player Instance { get { return instance; } }
     private static Player instance;
@@ -33,7 +34,14 @@ public class Player : MonoBehaviour, IHitable
     [SerializeField] public float runSpeed;
     [SerializeField] public float JumpPower;
     [SerializeField] float currentHp;
+    [SerializeField] int level;
+    int exp;
+    int nextLevelExp;
+
     public float CurrentHP { get { return currentHp; } set { currentHp = value; OnChangedHp?.Invoke(); } }
+    public int Level { get { return level; } set { level = value; } }
+    public int Exp { get { return exp; } set { exp = value; } }
+    public int NextLevelExp { get { return nextLevelExp; } }
 
     [NonSerialized] public float MoveSpeed;
     [NonSerialized] public float YSpeed;
@@ -80,6 +88,13 @@ public class Player : MonoBehaviour, IHitable
     void Update()
     {
         stateMachine?.UpdateState();
+
+        if (exp >= nextLevelExp)
+        {
+            LevelUp();
+            OnLevelUp?.Invoke();
+        }
+
     }
 
     void FixedUpdate()
@@ -110,12 +125,14 @@ public class Player : MonoBehaviour, IHitable
     void SetStatus()
     {
         currentHp = Status.MaxHp;
+        level = 1;
+        exp = 0;
+        nextLevelExp = 1000;
         Status.AttackPower = Status.attackPower;
         Status.AttackSpeed = Status.attackSpeed;
         Status.Deffense = Status.deffense;
         Status.MaxHp = Status.maxHP;
     }
-
 
     // 인벤토리 추가 메서드
     public void AddItemToInventory(ItemData item)
@@ -304,5 +321,61 @@ public class Player : MonoBehaviour, IHitable
     public void Hit(int damamge)
     {
         CurrentHP -= damamge;
+    }
+
+    void LevelUp()
+    {
+        level++;
+
+        exp -= nextLevelExp;
+
+        switch (level)
+        {
+            case 1:
+                nextLevelExp = 1000;
+                break;
+            case 2:
+                nextLevelExp = 1500;
+                break;
+            case 3:
+                nextLevelExp = 2200;
+                break;
+            case 4:
+                nextLevelExp = 3000;
+                break;
+            case 5:
+                nextLevelExp = 4200;
+                break;
+            case 6:
+                nextLevelExp = 5800;
+                break;
+            case 7:
+                nextLevelExp = 7000;
+                break;
+            case 8:
+                nextLevelExp = 9000;
+                break;
+            case 9:
+                nextLevelExp = 11500;
+                break;
+            case 10:
+                nextLevelExp = 14500;
+                break;
+            case 11:
+                nextLevelExp = 19000;
+                break;
+            case 12:
+                nextLevelExp = 25000;
+                break;
+            case 13:
+                nextLevelExp = 32000;
+                break;
+            case 14:
+                nextLevelExp = 43000;
+                break;
+            case 15:
+                nextLevelExp = 60000;
+                break;
+        }
     }
 }

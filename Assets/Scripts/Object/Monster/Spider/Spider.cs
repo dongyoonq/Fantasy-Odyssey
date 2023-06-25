@@ -134,8 +134,10 @@ public class Spider : Monster, IHitable
     int[] percent = Enumerable.Range(1, 100).ToArray();
 
     // 0 - SpiderBooty
-    public override void DropItem()
+    public override void DropItemAndUpdateExp()
     {
+        Player.Instance.Exp += data.DropExp;
+
         int random = UnityEngine.Random.Range(1, 101);
 
         // 전리품(Spider Booty) 드랍확률 70%

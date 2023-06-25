@@ -11,6 +11,7 @@ public class BaseMonsterData : ScriptableObject, ISerializationCallbackReceiver
     [SerializeField] List<MeleeMonsterData> _meleeMonsterData = new List<MeleeMonsterData>();
     [SerializeField] List<RangeMonsterData> _rangeMonsterData = new List<RangeMonsterData>();
     [SerializeField] List<ItemData> _dropTable = new List<ItemData>();
+    [SerializeField] int _dropExp;
     [SerializeField] int _maxHp;
     [SerializeField] int _moveSpeed;
     [SerializeField] int _rotSpeed;
@@ -19,6 +20,7 @@ public class BaseMonsterData : ScriptableObject, ISerializationCallbackReceiver
     [NonSerialized] public List<MeleeMonsterData> MeleeMonsterData;
     [NonSerialized] public List<RangeMonsterData> RangeMonsterData;
     [NonSerialized] public List<ItemData> DropTable;
+    [NonSerialized] public int DropExp;
     [NonSerialized] public int MaxHp;
     [NonSerialized] public float MoveSpeed;
     [NonSerialized] public float RotSpeed;
@@ -34,6 +36,7 @@ public class BaseMonsterData : ScriptableObject, ISerializationCallbackReceiver
         MeleeMonsterData = _meleeMonsterData;
         RangeMonsterData = _rangeMonsterData;
         DropTable = _dropTable;
+        DropExp = _dropExp;
         MaxHp = _maxHp;
         MoveSpeed = _moveSpeed;
         RotSpeed = _rotSpeed;
