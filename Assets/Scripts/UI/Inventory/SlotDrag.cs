@@ -114,7 +114,8 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         }
         else if (data is CountableItemData)
         {
-            Player.Instance.useItem(data, GetComponent<Slot>().slotIndex);
+            if (data.prefab is IUsable)
+                Player.Instance.useItem(data, GetComponent<Slot>().slotIndex);
         }
     }
 }

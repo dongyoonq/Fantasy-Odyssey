@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Item Data", menuName = "Scriptable Object/Item Data", order = 100000000)]
 public abstract class ItemData : ScriptableObject
 {
     public enum ItemType

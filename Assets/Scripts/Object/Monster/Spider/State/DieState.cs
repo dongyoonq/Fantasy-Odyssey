@@ -15,6 +15,7 @@ namespace SpiderState
         public override void Enter()
         {
             owner.animator.SetBool("Die", true);
+            owner.DropItem();
             owner.StartCoroutine(disaapearRoutine());
         }
 

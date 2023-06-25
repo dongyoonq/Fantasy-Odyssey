@@ -3,6 +3,7 @@ using System;
 using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -128,5 +129,26 @@ public class Spider : Monster, IHitable
         states[(int)currState]?.Exit();
         yield return new WaitForSeconds(0.1f);
         states[(int)currState]?.Enter();
+    }
+
+    int[] percent = Enumerable.Range(1, 100).ToArray();
+
+    // 0 - SpiderBooty
+    public override void DropItem()
+    {
+        int random = UnityEngine.Random.Range(1, 101);
+
+        // 전리품(Spider Booty) 드랍확률 70%
+        int spiderBootyDropPercent = (int)(percent.Length * 0.7f);
+        for (int i = 0; i < spiderBootyDropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.DropTable[0].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.DropTable[0];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
     }
 }

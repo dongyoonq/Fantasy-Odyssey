@@ -28,7 +28,7 @@ public class FieldItem : MonoBehaviour
 
     IEnumerator ActiveColliderTimer()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         GetComponent<Collider>().enabled = true;
     }
 
