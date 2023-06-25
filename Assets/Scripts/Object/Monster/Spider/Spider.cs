@@ -136,7 +136,7 @@ public class Spider : Monster, IHitable
     // 0 - SpiderBooty
     public override void DropItemAndUpdateExp()
     {
-        Player.Instance.Exp += data.DropExp;
+        StartCoroutine(ExpDropRoutine());
 
         int random = UnityEngine.Random.Range(1, 101);
 
@@ -165,6 +165,15 @@ public class Spider : Monster, IHitable
                 ItemData tempData = data.DropTable[1];
                 fieldItem.AddComponent<FieldItem>();
                 fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        IEnumerator ExpDropRoutine()
+        {
+            for (int i = 0; i < data.DropExp / 5; i++)
+            {
+                Player.Instance.Exp += 5;
+                yield return new WaitForSeconds(0.00001f);
             }
         }
     }
