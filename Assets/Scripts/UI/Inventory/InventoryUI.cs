@@ -55,7 +55,6 @@ public class InventoryUI : PopUpUI
 
     public void OpenInventory()
     {
-
         activeInventory = !activeInventory;
         GameManager.Ui.activePopupUI = activeInventory;
         inventoryPanel.SetActive(activeInventory);
@@ -66,6 +65,7 @@ public class InventoryUI : PopUpUI
         if (context.performed)
         {
             activeInventory = !activeInventory;
+            GameManager.Ui.activePopupUI = activeInventory;
             inventoryPanel.SetActive(activeInventory);
         }
     }

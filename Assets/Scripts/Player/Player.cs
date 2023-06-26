@@ -4,9 +4,12 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IHitable
 {
+    public UnityEvent OnChangeKillQuestUpdate;
+    public UnityEvent<ItemData> OnChangeGatheringQuestUpdate;
     public UnityEvent OnChangedHp;
     public UnityEvent<ItemData, int, int> OnAddItemInventory;
     public UnityEvent<ItemData, int, int> OnRemoveItemInventory;
@@ -22,6 +25,7 @@ public class Player : MonoBehaviour, IHitable
     public CapsuleCollider capsuleCollider { get; private set; }
     public Inventory inventory { get; private set; }
     public InventoryUI inventoryUI { get; set; }
+    public List<Quest> questList { get; private set; }
 
     public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }
     public Queue<Input> inputBuffer { get; private set; }
@@ -69,6 +73,7 @@ public class Player : MonoBehaviour, IHitable
 
         instance = this;
         wearingEquip = new Dictionary<EquipmentData.EquipType, Equipment>();
+        questList = new List<Quest>();
         inputBuffer = new Queue<Input>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -95,6 +100,7 @@ public class Player : MonoBehaviour, IHitable
             OnLevelUp?.Invoke();
         }
 
+        ScanNpc();
     }
 
     void FixedUpdate()
@@ -162,6 +168,7 @@ public class Player : MonoBehaviour, IHitable
                 }
             }
 
+            OnChangeGatheringQuestUpdate?.Invoke(item);
             OnAddItemInventory?.Invoke(item, index, 1);
             return;
         }
@@ -177,6 +184,7 @@ public class Player : MonoBehaviour, IHitable
             }
         }
 
+        OnChangeGatheringQuestUpdate?.Invoke(item);
         OnAddItemInventory?.Invoke(item, index, 1);
     }
 
@@ -321,6 +329,47 @@ public class Player : MonoBehaviour, IHitable
     public void Hit(int damamge)
     {
         CurrentHP -= damamge;
+    }
+
+    public bool isAddedQuestListener = false;
+    QuestGiver prevGiver;
+
+    public void ScanNpc()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, LayerMask.GetMask("NPC")))
+        {
+            QuestGiver giver = hit.collider.GetComponent<QuestGiver>();
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F))
+            {
+                giver.OpenQuestfromNPC();
+
+                if (!isAddedQuestListener)
+                {
+                    if (!giver.quest.goal.IsReached())
+                        giver.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => giver.AcceptQuest());
+                    else
+                        giver.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => giver.CompleteQuest());
+                    isAddedQuestListener = true;
+                }
+
+                prevGiver = giver;
+            }
+        }
+        else
+        {
+            if (prevGiver != null)
+            {
+                if (GameObject.Find("Quest_Accept").IsValid())
+                    GameObject.Find("Quest_Accept").SetActive(false);
+                prevGiver.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+            }
+
+            isAddedQuestListener = false;
+            prevGiver = null;
+        }
+
     }
 
     void LevelUp()

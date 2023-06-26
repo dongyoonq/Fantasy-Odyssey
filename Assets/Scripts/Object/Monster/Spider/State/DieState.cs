@@ -15,6 +15,7 @@ namespace SpiderState
         public override void Enter()
         {
             owner.animator.SetBool("Die", true);
+            Player.Instance.OnChangeKillQuestUpdate?.Invoke();
             owner.DropItemAndUpdateExp();
             owner.StartCoroutine(disaapearRoutine());
         }

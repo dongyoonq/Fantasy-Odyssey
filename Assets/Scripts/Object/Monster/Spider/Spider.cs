@@ -170,9 +170,9 @@ public class Spider : Monster, IHitable
 
         IEnumerator ExpDropRoutine()
         {
-            for (int i = 0; i < data.DropExp / 5; i++)
+            for (int i = 0; i < data.DropExp / 10; i++)
             {
-                Player.Instance.Exp += 5;
+                Player.Instance.Exp += 10;
                 yield return new WaitForSeconds(0.00001f);
             }
         }
