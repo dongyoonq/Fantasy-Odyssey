@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour, IHitable
@@ -29,6 +32,7 @@ public class Player : MonoBehaviour, IHitable
     public InventoryUI inventoryUI { get; set; }
     public QuestUI questUI { get; set; }
     public EquipmentUI equipUI { get; set; }
+    public MonsterInfoUI monsterUI { get; set; }
     public List<QuestData> questList { get; private set; }
 
     public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }
@@ -117,6 +121,7 @@ public class Player : MonoBehaviour, IHitable
         }
 
         ScanNpc();
+        ScanMonster();
     }
 
     void FixedUpdate()
@@ -415,7 +420,41 @@ public class Player : MonoBehaviour, IHitable
 
             prevNpc = null;
         }
+    }
 
+    public void ScanMonster()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 3f, LayerMask.GetMask("Monster"));
+        if (colliders.Length > 0)
+        {
+            foreach (Collider collider in colliders)
+            {
+                Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
+
+                Monster monster = collider.GetComponent<Monster>();
+
+                if (Vector3.Dot(transform.forward, dirTarget) >= Mathf.Cos(150 * 0.5f * Mathf.Deg2Rad) && monster.currHp > 0)
+                {
+                    monsterUI.animator.SetBool("Active", true);
+                    monsterUI.animator.SetBool("UnActive", false);
+
+                    monsterUI.hpBar.maxValue = monster.data.MaxHp;
+                    monsterUI.hpBar.value = monster.currHp;
+                    monsterUI.hpBar.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{monster.currHp}/{monster.data.MaxHp}";
+                    monsterUI.monsterName.text = monster.name;
+                }
+                else
+                {
+                    monsterUI.animator.SetBool("Active", false);
+                    monsterUI.animator.SetBool("UnActive", true);
+                }
+            }
+        }
+        else
+        {
+            monsterUI.animator.SetBool("Active", false);
+            monsterUI.animator.SetBool("UnActive", false);
+        }
     }
 
     void LevelUp()

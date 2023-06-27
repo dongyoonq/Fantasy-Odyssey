@@ -48,7 +48,7 @@ public class MoveState : PlayerBaseState
         Quaternion lookRotation = Quaternion.LookRotation(forwardVec * Controller.moveDir.z + rightVec * Controller.moveDir.x);
 
         if (!Player.Instance.animator.GetBool("IsDashAttack"))
-            Player.Instance.transform.rotation = Quaternion.Lerp(Player.Instance.transform.rotation, lookRotation, 0.05f);
+            Player.Instance.transform.rotation = Quaternion.Lerp(Player.Instance.transform.rotation, lookRotation, 0.08f);
 
         float percent = ((Controller.OnRunKey) ? 1 : 0.5f) * Controller.moveDir.magnitude;
         Player.Instance.animator.SetFloat("Speed", percent, 0.1f, Time.deltaTime);
