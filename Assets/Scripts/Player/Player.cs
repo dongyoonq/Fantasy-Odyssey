@@ -26,6 +26,7 @@ public class Player : MonoBehaviour, IHitable
     public Inventory inventory { get; private set; }
     public InventoryUI inventoryUI { get; set; }
     public QuestUI questUI { get; set; }
+    public EquipmentUI equipUI { get; set; }
     public List<Quest> questList { get; private set; }
 
     public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }

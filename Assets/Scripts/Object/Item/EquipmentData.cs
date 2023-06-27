@@ -10,12 +10,13 @@ public abstract class EquipmentData : ItemData
     public enum EquipType
     {
         Weapon,
+        Shield,
+        Head,
         Armor,
-        Bottom,
-        Shoes,
-        Glove,
-        Potion,
-        Other
+        Pants,
+        Boots,
+        Gloves,
+        Cloak,
     }
 
     [SerializeField] int requireLevel;

@@ -21,13 +21,13 @@ public class SlotHightLight : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         GetComponent<Image>().sprite = highLightImg;
 
-        if (GetComponent<Slot>().data != null)
+        if (GetComponent<InventorySlot>().data != null)
         {
             detail.gameObject.SetActive(true);
             GameObject itemInfo = detail.GetChild(0).GetChild(0).gameObject;
-            itemInfo.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = GetComponent<Slot>().data.sprite;
-            itemInfo.transform.GetChild(1).GetComponent<TMP_Text>().text = GetComponent<Slot>().data.itemName;
-            itemInfo.transform.GetChild(2).GetComponent<TMP_Text>().text = GetComponent<Slot>().data.Tooltip;
+            itemInfo.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = GetComponent<InventorySlot>().data.sprite;
+            itemInfo.transform.GetChild(1).GetComponent<TMP_Text>().text = GetComponent<InventorySlot>().data.itemName;
+            itemInfo.transform.GetChild(2).GetComponent<TMP_Text>().text = GetComponent<InventorySlot>().data.Tooltip;
 
             Rect deatilRect = detail.GetComponent<RectTransform>().rect;
             if (eventData.position.y > Screen.height / 2 && eventData.position.x > Screen.width / 2)
@@ -50,14 +50,14 @@ public class SlotHightLight : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (GetComponent<Slot>().data == null) return;
+        if (GetComponent<InventorySlot>().data == null) return;
 
         transform.GetChild(0).GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1.5f);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (GetComponent<Slot>().data == null) return;
+        if (GetComponent<InventorySlot>().data == null) return;
 
         transform.GetChild(0).GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
     }

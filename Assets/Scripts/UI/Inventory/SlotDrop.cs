@@ -23,7 +23,7 @@ public class SlotDrop : MonoBehaviour, IDropHandler
         if (!transform.GetChild(0).IsValid())
             swapItemIsActiveObj = false;
 
-        if (GetComponent<Slot>().data == SlotDrag.draggingItem.transform.parent.GetComponent<Slot>().data)
+        if (GetComponent<InventorySlot>().data == SlotDrag.draggingItem.transform.parent.GetComponent<InventorySlot>().data)
         {
             SlotDrag.draggingItem.SetActive(true); 
             swapItemIsActiveObj = true;
@@ -47,22 +47,22 @@ public class SlotDrop : MonoBehaviour, IDropHandler
         // ¹Ù²î°í ³­µÚ
 
         // dataSwap
-        ItemData tmpData = start.parent.GetComponent<Slot>().data;
-        int tmpAmount = start.parent.GetComponent<Slot>().amount;
-        int indexA = Player.Instance.inventoryUI.slots.ToList().FindIndex(x => x == start.parent.GetComponent<Slot>());
-        int indexB = Player.Instance.inventoryUI.slots.ToList().FindIndex(x => x == target.parent.GetComponent<Slot>());
+        ItemData tmpData = start.parent.GetComponent<InventorySlot>().data;
+        int tmpAmount = start.parent.GetComponent<InventorySlot>().amount;
+        int indexA = Player.Instance.inventoryUI.slots.ToList().FindIndex(x => x == start.parent.GetComponent<InventorySlot>());
+        int indexB = Player.Instance.inventoryUI.slots.ToList().FindIndex(x => x == target.parent.GetComponent<InventorySlot>());
 
         if (!swapItemIsActiveObj)
         {
             start.gameObject.SetActive(false);
             target.gameObject.SetActive(true);
 
-            //int index = Player.Instance.inventory.list.FindIndex(x => x == start.parent.GetComponent<Slot>().data);
+            //int index = Player.Instance.inventory.list.FindIndex(x => x == start.parent.GetComponent<InventorySlot>().data);
             Player.Instance.inventory.list[indexA] = null;
             Player.Instance.inventory.list[indexB] = tmpData;
 
-            start.parent.GetComponent<Slot>().data = null;
-            target.parent.GetComponent<Slot>().data = tmpData;
+            start.parent.GetComponent<InventorySlot>().data = null;
+            target.parent.GetComponent<InventorySlot>().data = tmpData;
 
         }
         else
@@ -73,15 +73,15 @@ public class SlotDrop : MonoBehaviour, IDropHandler
             Player.Instance.inventory.list[indexA] = Player.Instance.inventory.list[indexB];
             Player.Instance.inventory.list[indexB] = tmpData;
 
-            start.parent.GetComponent<Slot>().data = target.parent.GetComponent<Slot>().data;
-            target.parent.GetComponent<Slot>().data = tmpData;
+            start.parent.GetComponent<InventorySlot>().data = target.parent.GetComponent<InventorySlot>().data;
+            target.parent.GetComponent<InventorySlot>().data = tmpData;
         }
 
-        start.parent.GetComponent<Slot>().amount = target.parent.GetComponent<Slot>().amount;
-        target.parent.GetComponent<Slot>().amount = tmpAmount;
+        start.parent.GetComponent<InventorySlot>().amount = target.parent.GetComponent<InventorySlot>().amount;
+        target.parent.GetComponent<InventorySlot>().amount = tmpAmount;
 
-        start.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{start.parent.GetComponent<Slot>().amount}</color>";
-        target.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{target.parent.GetComponent<Slot>().amount}</color>";
+        start.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{start.parent.GetComponent<InventorySlot>().amount}</color>";
+        target.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{target.parent.GetComponent<InventorySlot>().amount}</color>";
 
         SlotDrag.draggingItem = null;
 

@@ -20,7 +20,7 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     void OnMouseDoubleClick()
     {
-        if (transform.GetComponent<Slot>().data == null)
+        if (transform.GetComponent<InventorySlot>().data == null)
             return;
 
         SlotUse();
@@ -34,7 +34,7 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
             target = Instantiate(transform.GetChild(0));
             target.SetParent(GameObject.Find("InventoryUI").transform);
 
-            //if (GetComponent<Slot>().data is not CountableItemData)
+            //if (GetComponent<InventorySlot>().data is not CountableItemData)
             transform.GetChild(0).gameObject.SetActive(false);
 
             target.GetComponent<Image>().raycastTarget = false;
@@ -52,21 +52,21 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (draggingItem != null && GetComponent<Slot>().data != null)
+        if (draggingItem != null && GetComponent<InventorySlot>().data != null)
         {
             if (target.localPosition.x < baseRect.xMin
             || target.localPosition.x > baseRect.xMax
             || target.localPosition.y < baseRect.yMin
             || target.localPosition.y > baseRect.yMax)
             {
-                Item fieldItem = Instantiate(GetComponent<Slot>().data.prefab, Player.Instance.foot.position, Quaternion.Euler(-30f,-45f,0));
-                ItemData tempData = GetComponent<Slot>().data;
-                Player.Instance.RemoveItemFromInventory(GetComponent<Slot>().data, GetComponent<Slot>().slotIndex);
+                Item fieldItem = Instantiate(GetComponent<InventorySlot>().data.prefab, Player.Instance.foot.position, Quaternion.Euler(-30f,-45f,0));
+                ItemData tempData = GetComponent<InventorySlot>().data;
+                Player.Instance.RemoveItemFromInventory(GetComponent<InventorySlot>().data, GetComponent<InventorySlot>().slotIndex);
                 fieldItem.AddComponent<FieldItem>();
                 fieldItem.GetComponent<FieldItem>().itemData = tempData;
 
-                if (draggingItem.transform.parent.GetComponent<Slot>().data is CountableItemData)
-                    if (draggingItem.transform.parent.GetComponent<Slot>().amount != 0)
+                if (draggingItem.transform.parent.GetComponent<InventorySlot>().data is CountableItemData)
+                    if (draggingItem.transform.parent.GetComponent<InventorySlot>().amount != 0)
                         transform.GetChild(0).gameObject.SetActive(true);
 
                 Destroy(target.gameObject);
@@ -84,7 +84,7 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         else
             transform.GetChild(0).gameObject.SetActive(false);
 
-        if (draggingItem == null && transform.GetComponent<Slot>().data == null)
+        if (draggingItem == null && transform.GetComponent<InventorySlot>().data == null)
             transform.GetChild(0).gameObject.SetActive(false);
 
         SlotDrop.swapItemIsActiveObj = true;
@@ -104,18 +104,18 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
 
     void SlotUse()
     {
-        ItemData data = GetComponent<Slot>().data;
+        ItemData data = GetComponent<InventorySlot>().data;
 
         if (data is EquipmentData)
         {
             Equipment equip = Instantiate(data.prefab) as Equipment;
-            equip.Data = transform.GetComponent<Slot>().data;
-            Player.Instance.OnEquip(equip, transform.GetComponent<Slot>().slotIndex);
+            equip.Data = transform.GetComponent<InventorySlot>().data;
+            Player.Instance.OnEquip(equip, transform.GetComponent<InventorySlot>().slotIndex);
         }
         else if (data is CountableItemData)
         {
             if (data.prefab is IUsable)
-                Player.Instance.useItem(data, GetComponent<Slot>().slotIndex);
+                Player.Instance.useItem(data, GetComponent<InventorySlot>().slotIndex);
         }
     }
 }

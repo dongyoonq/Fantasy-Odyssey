@@ -14,14 +14,14 @@ public class InventoryUI : PopUpUI
     public GameObject inventoryPanel;
     public bool activeInventory = false;
 
-    public Slot[] slots;
+    public InventorySlot[] slots;
 
     private void Start()
     {
         inventory = Player.Instance.inventory;
         Player.Instance.inventoryUI = this;
         inventory.onSlotCountChange.AddListener(SlotChange);
-        slots = inventoryPanel.transform.GetChild(0).GetComponentsInChildren<Slot>();
+        slots = inventoryPanel.transform.GetChild(0).GetComponentsInChildren<InventorySlot>();
 
         for (int i = 0; i < slots.Length; i++)
             slots[i].slotIndex = i;
