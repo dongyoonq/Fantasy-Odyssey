@@ -8,7 +8,7 @@ public class SettingSceneUI : SceneUI
     {
         base.Awake();
 
-        buttons["QuestButton"].onClick.AddListener(() => { GameManager.Quest.questListUI.SetActive(true); });
+        buttons["QuestButton"].onClick.AddListener(() => { Player.Instance.questUI.OpenQuest(); });
         buttons["InventoryButton"].onClick.AddListener(() => { Player.Instance.inventoryUI.OpenInventory();  });
         buttons["SettingButton"].onClick.AddListener(() => { GameManager.Ui.ShowPopUpUI<SettingPopupUI>("UI/Setting"); });
     }

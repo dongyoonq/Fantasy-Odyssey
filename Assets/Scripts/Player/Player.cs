@@ -25,6 +25,7 @@ public class Player : MonoBehaviour, IHitable
     public CapsuleCollider capsuleCollider { get; private set; }
     public Inventory inventory { get; private set; }
     public InventoryUI inventoryUI { get; set; }
+    public QuestUI questUI { get; set; }
     public List<Quest> questList { get; private set; }
 
     public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }
@@ -331,43 +332,31 @@ public class Player : MonoBehaviour, IHitable
         CurrentHP -= damamge;
     }
 
-    public bool isAddedQuestListener = false;
-    QuestGiver prevGiver;
+    NPC prevNpc;
 
     public void ScanNpc()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, LayerMask.GetMask("NPC")))
         {
-            QuestGiver giver = hit.collider.GetComponent<QuestGiver>();
+            NPC npc = hit.collider.GetComponent<NPC>();
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.F))
             {
-                giver.OpenQuestfromNPC();
+                npc.OpenTalk();
 
-                if (!isAddedQuestListener)
-                {
-                    if (!giver.quest.goal.IsReached())
-                        giver.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => giver.AcceptQuest());
-                    else
-                        giver.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => giver.CompleteQuest());
-                    isAddedQuestListener = true;
-                }
-
-                prevGiver = giver;
+                prevNpc = npc;
             }
         }
         else
         {
-            if (prevGiver != null)
+            if (prevNpc != null)
             {
-                if (GameObject.Find("Quest_Accept").IsValid())
-                    GameObject.Find("Quest_Accept").SetActive(false);
-                prevGiver.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+                if (GameObject.Find("TalkUI Panel").IsValid())
+                    GameObject.Find("TalkUI Panel").SetActive(false);
             }
 
-            isAddedQuestListener = false;
-            prevGiver = null;
+            prevNpc = null;
         }
 
     }

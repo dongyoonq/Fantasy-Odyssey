@@ -14,7 +14,7 @@ public class SlotHightLight : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     void Start()
     {
         orgImg = GetComponent<Image>().sprite;
-        detail = GameObject.Find("InventoryUI").transform.GetChild(4).GetComponent<RectTransform>();
+        detail = GameObject.Find("InventoryUI").transform.GetChild(0).GetChild(4).GetComponent<RectTransform>();
     }
 
     public void OnPointerEnter(PointerEventData eventData)

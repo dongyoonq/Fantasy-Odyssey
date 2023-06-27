@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class QuestManager : MonoBehaviour
 {
     GameObject contentArea;
-    public GameObject questListUI;
+    GameObject questListUI;
 
     private void Start()
     {
-        questListUI = GameObject.Find("Quest_list").gameObject;
+        questListUI = GameObject.Find("QuestUI").transform.GetChild(0).gameObject;
         contentArea = questListUI.transform.GetChild(1).GetChild(0).GetChild(0).gameObject;
         Player.Instance.OnChangeKillQuestUpdate.AddListener(UpdateKillQuest);
         Player.Instance.OnChangeGatheringQuestUpdate.AddListener(UpdateGatheringQuest);
