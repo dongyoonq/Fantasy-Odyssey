@@ -26,6 +26,11 @@ public class MovableHeaderUI : MonoBehaviour, IPointerDownHandler, IDragHandler
     // 드래그 : 마우스 커서 위치로 이동
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
+        Vector2 targetPos = _beginPoint + (eventData.position - _moveBegin);
+
+        if (eventData.position.x > Screen.width - 20 || eventData.position.y > Screen.height || eventData.position.x < 20 || eventData.position.y < 20)
+            return;
+
         _targetTr.position = _beginPoint + (eventData.position - _moveBegin);
     }
 }

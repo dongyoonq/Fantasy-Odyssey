@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class QuestGiver : MonoBehaviour
 {
-    public Quest quest;
+    QuestData quest;
 
     [NonSerialized] public GameObject questDescriptionPanel;
     GameObject questPanel;
@@ -32,28 +32,33 @@ public class QuestGiver : MonoBehaviour
         contentPrefab = GameManager.Resource.Load<GameObject>("UI/QuestSlot");
     }
 
+    private void OnEnable()
+    {
+        quest = GetComponent<NPC>().data.quest;
+    }
+
     public void OpenQuestfromNPC()
     {
         questDescriptionPanel.SetActive(true);
-        titleText.text = quest.title;
-        rewardText.text = $"\nReward : Exp {quest.expReward}";
+        titleText.text = quest.Title;
+        rewardText.text = $"\nReward : Exp {quest.ExpReward}";
 
         if (!quest.isActive)
         {
-            descriptionText.text = quest.description;
+            descriptionText.text = quest.Description;
             acceptButton.transform.GetChild(0).GetComponent<TMP_Text>().text = "Accept";
             acceptButton.gameObject.SetActive(true);
         }
         else
         {
-            if (!quest.goal.IsReached())
+            if (!quest.Goal.IsReached())
             {
-                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#FF0000>Quest is Not finished yet</color>\n<color=#04E2FD>{quest.target} : {quest.goal.currentAmount}/{quest.goal.requiredAmount}</color>";
+                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.Description}\n<color=#FF0000>Quest is Not finished yet</color>\n<color=#04E2FD>{quest.Target} : {quest.Goal.currentAmount}/{quest.Goal.requiredAmount}</color>";
                 acceptButton.gameObject.SetActive(false);
             }
             else
             {
-                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#00FF00>Quest completed. Click OK to complete</color>";
+                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.Description}\n<color=#00FF00>Quest completed. Click OK to complete</color>";
                 acceptButton.gameObject.SetActive(true);
                 acceptButton.transform.GetChild(0).GetComponent<TMP_Text>().text = "Ok";
             }
@@ -64,22 +69,22 @@ public class QuestGiver : MonoBehaviour
     {
         questDescriptionPanel.SetActive(true);
         acceptButton.gameObject.SetActive(false);
-        titleText.text = quest.title;
-        rewardText.text = $"\nReward : Exp {quest.expReward}";
+        titleText.text = quest.Title;
+        rewardText.text = $"\nReward : Exp {quest.ExpReward}";
 
         if (!quest.isActive)
         {
-            descriptionText.text = quest.description;
+            descriptionText.text = quest.Description;
         }
         else
         {
-            if (!quest.goal.IsReached())
+            if (!quest.Goal.IsReached())
             {
-                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#FF0000>Quest is Not finished yet</color>\n<color=#04E2FD>{quest.target} : {quest.goal.currentAmount}/{quest.goal.requiredAmount}</color>";
+                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.Description}\n<color=#FF0000>Quest is Not finished yet</color>\n<color=#04E2FD>{quest.Target} : {quest.Goal.currentAmount}/{quest.Goal.requiredAmount}</color>";
             }
             else
             {
-                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#00FF00>Quest completed. Return to that NPC</color>";
+                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.Description}\n<color=#00FF00>Quest completed. Return to that NPC</color>";
             }
         }
     }
@@ -93,7 +98,7 @@ public class QuestGiver : MonoBehaviour
             Player.Instance.questList.Add(quest);
 
             instanceContent = Instantiate(contentPrefab, questContent.transform);
-            instanceContent.transform.GetChild(0).GetComponent<Text>().text = quest.title;
+            instanceContent.transform.GetChild(0).GetComponent<Text>().text = quest.Title;
             instanceContent.GetComponent<Button>().onClick.AddListener(OpenQuest);
             instanceContent.transform.GetChild(1).gameObject.SetActive(true); // Progress Active
 
@@ -103,13 +108,13 @@ public class QuestGiver : MonoBehaviour
 
     public void CompleteQuest()
     {
-        if (quest.goal.IsReached())
+        if (quest.Goal.IsReached())
         {
-            Player.Instance.Exp += quest.expReward;
+            Player.Instance.Exp += quest.ExpReward;
             questDescriptionPanel.SetActive(false);
             quest.isActive = false;
             Player.Instance.questList.Remove(quest);
-            quest.goal.currentAmount = 0;
+            quest.Goal.currentAmount = 0;
             Destroy(instanceContent);
             acceptButton.GetComponent<Button>().onClick.RemoveAllListeners();
         }

@@ -25,6 +25,7 @@ public class EquipmentSlotDrag : MonoBehaviour, IPointerClickHandler
 
         Equipment equip = Instantiate(GetComponent<EquipmentSlot>().data.prefab) as Equipment;
         equip.Data = transform.GetComponent<EquipmentSlot>().data;
+        transform.GetComponent<EquipmentSlot>().data = null; 
         Player.Instance.UnEquip(equip);
     }
 }

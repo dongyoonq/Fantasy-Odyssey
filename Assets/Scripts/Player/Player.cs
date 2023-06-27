@@ -29,7 +29,7 @@ public class Player : MonoBehaviour, IHitable
     public InventoryUI inventoryUI { get; set; }
     public QuestUI questUI { get; set; }
     public EquipmentUI equipUI { get; set; }
-    public List<Quest> questList { get; private set; }
+    public List<QuestData> questList { get; private set; }
 
     public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }
     public Queue<Input> inputBuffer { get; private set; }
@@ -51,8 +51,6 @@ public class Player : MonoBehaviour, IHitable
         get { return currentHp; } 
         set 
         {
-            Debug.Log(value - currentHp);
-
             if (value - currentHp < 0) 
                 OnChangedHp?.Invoke();
 
@@ -90,7 +88,7 @@ public class Player : MonoBehaviour, IHitable
 
         instance = this;
         wearingEquip = new Dictionary<EquipmentData.EquipType, Equipment>();
-        questList = new List<Quest>();
+        questList = new List<QuestData>();
         inputBuffer = new Queue<Input>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -244,8 +242,8 @@ public class Player : MonoBehaviour, IHitable
     /// <summary>
     /// 장비 착용 이벤트 핸들러
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="equipment"></param>
+    /// <param QuestName="sender"></param>
+    /// <param QuestName="equipment"></param>
     public bool OnEquip(Equipment equipment, int index = -1)
     {
         // 들어온 아이템이 그 부위에 착용중이면 장비를 벗는다.
@@ -275,8 +273,8 @@ public class Player : MonoBehaviour, IHitable
     /// <summary>
     /// 장비 착용해제 이벤트 핸들러
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="equipment"></param>
+    /// <param QuestName="sender"></param>
+    /// <param QuestName="equipment"></param>
     public bool UnEquip(Equipment equipment, int index = -1)
     {
         // 들어온 아이템이없으면 빠져나온다.
@@ -370,7 +368,7 @@ public class Player : MonoBehaviour, IHitable
     // 무기 삭제
     public void UnRegisterWeapon(GameObject weapon)
     {
-        animator.runtimeAnimatorController = defaultAnimator;
+        animator.runtimeAnimatorController = defaultAnimator;    
         weapon.gameObject.SetActive(false);
     }
 

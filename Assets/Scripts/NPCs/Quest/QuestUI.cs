@@ -8,6 +8,8 @@ public class QuestUI : PopUpUI
 
     public bool activeQuest = false;
 
+    Vector2 orgPosition;
+
     private void Start()
     {
         Player.Instance.questUI = this;
@@ -16,12 +18,14 @@ public class QuestUI : PopUpUI
             questPanel.SetActive(activeQuest);
 
         questPanel.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => { OpenQuest(); });
+        orgPosition = questPanel.transform.position;
     }
 
     public void OpenQuest(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
+            questPanel.transform.position = orgPosition;
             activeQuest = !activeQuest;
             GameManager.Ui.activePopupUI = activeQuest;
             questPanel.SetActive(activeQuest);
@@ -30,6 +34,7 @@ public class QuestUI : PopUpUI
 
     public void OpenQuest()
     {
+        questPanel.transform.position = orgPosition;
         activeQuest = !activeQuest;
         GameManager.Ui.activePopupUI = activeQuest;
         questPanel.SetActive(activeQuest);
