@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventorySlot : MonoBehaviour
+public class ShortSlot : MonoBehaviour
 {
-    public ItemData data;
-    public int slotIndex;
+    public ItemData usableItem;
     public int amount = 0;
 }

@@ -239,4 +239,44 @@ public class PlayerController : MonoBehaviour
         return Physics.CheckBox(groundCheck.position, boxSize, Quaternion.identity,
                groundLayer);
     }
+
+    public void OnShortKey_1(InputAction.CallbackContext context)
+    {
+        if (context.performed && player.shortUI.slots[0].usableItem != null && player.shortUI.slots[0].amount > 0)
+        {
+            player.useItem(player.shortUI.slots[0].usableItem);
+        }
+    }
+
+    public void OnShortKey_2(InputAction.CallbackContext context)
+    {
+        if (context.performed && player.shortUI.slots[1].usableItem != null && player.shortUI.slots[1].amount > 0)
+        {
+            player.useItem(player.shortUI.slots[1].usableItem);
+        }
+    }
+
+    public void OnShortKey_3(InputAction.CallbackContext context)
+    {
+        if (context.performed && player.shortUI.slots[2].usableItem != null && player.shortUI.slots[2].amount > 0)
+        {
+            player.useItem(player.shortUI.slots[2].usableItem);
+        }
+    }
+
+    public void OnShortKey_4(InputAction.CallbackContext context)
+    {
+        if (context.performed && player.shortUI.slots[3].usableItem != null && player.shortUI.slots[3].amount > 0)
+        {
+            player.useItem(player.shortUI.slots[3].usableItem);
+        }
+    }
+
+    public void OnShortKey_5(InputAction.CallbackContext context)
+    {
+        if (context.performed && player.shortUI.slots[4].usableItem != null && player.shortUI.slots[4].amount > 0)
+        {
+            player.useItem(player.shortUI.slots[4].usableItem);
+        }
+    }
 }

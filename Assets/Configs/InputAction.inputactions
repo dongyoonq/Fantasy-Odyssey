@@ -103,6 +103,51 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Short 01",
+                    "type": "Button",
+                    "id": "5d275571-ffcb-42eb-9e4c-7d0079198e31",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Short 02",
+                    "type": "Button",
+                    "id": "03cf40b3-4e13-479d-9142-a1cc9439075f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Short 03",
+                    "type": "Button",
+                    "id": "d03d2f43-acbe-4b6f-9948-060a9992f603",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Short 04",
+                    "type": "Button",
+                    "id": "7d274ea7-f305-4c78-8a9f-1021dbdb190a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Short 05",
+                    "type": "Button",
+                    "id": "8de3b5d6-a5ed-4f88-b302-2413c1eeb195",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -345,6 +390,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "OpenEquip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dea945dd-6db4-45b3-89d8-e7ddaa4a5cb5",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Short 01",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c3281958-16ec-4b2a-953f-f85065e03968",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Short 02",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "af65ba0f-9c34-4ac7-a30a-e6760e48b055",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Short 03",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41ad372d-30e9-444c-9c93-7809144f1f3e",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Short 04",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4361401d-f71d-4b01-8bd9-a2d50ec1b053",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Short 05",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

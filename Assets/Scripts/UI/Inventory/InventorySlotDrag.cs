@@ -12,10 +12,14 @@ public class InventorySlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDrag
     public static GameObject draggingItem = null;
     Transform target;
     Rect baseRect;
+    Rect shortSlotRect;
+
+    [SerializeField] GameObject shortSlotPanel;
 
     void Start()
     {
         baseRect = transform.parent.parent.GetComponent<RectTransform>().rect;
+        shortSlotRect = shortSlotPanel.GetComponent<RectTransform>().rect;
     }
 
     void OnMouseDoubleClick()
@@ -54,10 +58,24 @@ public class InventorySlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDrag
     {
         if (draggingItem != null && GetComponent<InventorySlot>().data != null)
         {
+            if (target.localPosition.x > shortSlotRect.xMin
+                || target.localPosition.x < shortSlotRect.xMax
+                || target.localPosition.y > shortSlotRect.yMin
+                || target.localPosition.y < shortSlotRect.yMax)
+            {
+                transform.GetChild(0).gameObject.SetActive(true);
+                Destroy(target.gameObject);
+                draggingItem = null;
+                return;
+            }
+        }
+
+        if (draggingItem != null && GetComponent<InventorySlot>().data != null)
+        {
             if (target.localPosition.x < baseRect.xMin
-            || target.localPosition.x > baseRect.xMax
-            || target.localPosition.y < baseRect.yMin
-            || target.localPosition.y > baseRect.yMax)
+                || target.localPosition.x > baseRect.xMax
+                || target.localPosition.y < baseRect.yMin
+                || target.localPosition.y > baseRect.yMax)
             {
                 Item fieldItem = Instantiate(GetComponent<InventorySlot>().data.prefab, Player.Instance.foot.position, Quaternion.Euler(-30f,-45f,0));
                 ItemData tempData = GetComponent<InventorySlot>().data;

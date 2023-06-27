@@ -8,10 +8,10 @@ using UnityEngine.Events;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour, IHitable
 {
+    public UnityEvent<ItemData> OnChangeShortSlot;
     public UnityEvent OnChangeKillQuestUpdate;
     public UnityEvent<ItemData> OnChangeGatheringQuestUpdate;
     public UnityEvent OnChangedHp;
@@ -33,6 +33,7 @@ public class Player : MonoBehaviour, IHitable
     public QuestUI questUI { get; set; }
     public EquipmentUI equipUI { get; set; }
     public MonsterInfoUI monsterUI { get; set; }
+    public ShortSlotUI shortUI { get; set; }
     public List<QuestData> questList { get; private set; }
 
     public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }
@@ -190,6 +191,7 @@ public class Player : MonoBehaviour, IHitable
             }
 
             OnChangeGatheringQuestUpdate?.Invoke(item);
+            OnChangeShortSlot?.Invoke(item);
             OnAddItemInventory?.Invoke(item, index, 1);
             return;
         }
@@ -206,6 +208,7 @@ public class Player : MonoBehaviour, IHitable
         }
 
         OnChangeGatheringQuestUpdate?.Invoke(item);
+        OnChangeShortSlot?.Invoke(item);
         OnAddItemInventory?.Invoke(item, index, 1);
     }
 
@@ -241,6 +244,7 @@ public class Player : MonoBehaviour, IHitable
                 inventory.list[index] = null;
         }
 
+        OnChangeShortSlot?.Invoke(item);
         inventory.onChangeInventory?.Invoke();
     }
 
