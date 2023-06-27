@@ -10,9 +10,12 @@ public class HpPortion : Portion
     {
         base.Use();
 
-        Player.Instance.CurrentHP += portionData.Value;
-
         if (Player.Instance.CurrentHP >= Player.Instance.Status.MaxHp)
-            Player.Instance.CurrentHP = Player.Instance.Status.MaxHp;
+            return;
+
+        if (!(Player.Instance.CurrentHP + portionData.Value > Player.Instance.Status.MaxHp))
+            Player.Instance.CurrentHP += portionData.Value;
+        else
+            Player.Instance.CurrentHP += Player.Instance.Status.MaxHp - Player.Instance.CurrentHP;
     }
 }

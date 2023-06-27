@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour, IHitable
 {
@@ -14,6 +15,7 @@ public class Player : MonoBehaviour, IHitable
     public UnityEvent<ItemData, int, int> OnAddItemInventory;
     public UnityEvent<ItemData, int, int> OnRemoveItemInventory;
     public UnityEvent OnLevelUp;
+    public UnityEvent OnChangeEquipment;
 
     public static Player Instance { get { return instance; } }
     private static Player instance;
@@ -43,8 +45,21 @@ public class Player : MonoBehaviour, IHitable
     [SerializeField] int level;
     int exp;
     int nextLevelExp;
+    RuntimeAnimatorController defaultAnimator;
 
-    public float CurrentHP { get { return currentHp; } set { currentHp = value; OnChangedHp?.Invoke(); } }
+    public float CurrentHP { 
+        get { return currentHp; } 
+        set 
+        {
+            Debug.Log(value - currentHp);
+
+            if (value - currentHp < 0) 
+                OnChangedHp?.Invoke();
+
+            currentHp = value;
+        } 
+    }
+
     public int Level { get { return level; } set { level = value; } }
     public int Exp { get { return exp; } set { exp = value; } }
     public int NextLevelExp { get { return nextLevelExp; } }
@@ -79,6 +94,7 @@ public class Player : MonoBehaviour, IHitable
         inputBuffer = new Queue<Input>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        defaultAnimator = GetComponent<Animator>().runtimeAnimatorController;
         playerController = GetComponent<PlayerController>();
         capsuleCollider = GetComponent<CapsuleCollider>();
 
@@ -239,6 +255,7 @@ public class Player : MonoBehaviour, IHitable
             // 그 장비에 대한 스텟 적용
             equipment.ApplyStatusModifier();
             RegisterWeapon(equipment.gameObject);
+            OnChangeEquipment?.Invoke();
             return true;    
         }
 
@@ -251,6 +268,7 @@ public class Player : MonoBehaviour, IHitable
         equipment.ApplyStatusModifier();
 
         RegisterWeapon(equipment.gameObject);
+        OnChangeEquipment?.Invoke();
         return true;
     }
 
@@ -286,13 +304,52 @@ public class Player : MonoBehaviour, IHitable
             equipment.RemoveStatusModifier();
 
             UnRegisterWeapon(equipment.gameObject);
-            //Destroy(equipment);
+
+            OnChangeEquipment?.Invoke();
             return true;
         }
         else
         {
             return false;
         }
+    }
+
+    public bool UnEquip(Equipment equipment)
+    {
+        if (equipment == null)
+            return false;
+
+        if (inventory.list.Count(x => x == null) == 0)
+        {
+            Debug.Log("가방이 가득찼다");
+            return false;
+        }
+
+        int index = -1;
+
+        for (int i = 0; i < inventory.list.Count; i++)
+        {
+            if (inventory.list[i] == null)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        // 착용중인 장비를 지워준다.
+        Destroy(wearingEquip[equipment.equipmentData.equipType].gameObject);
+        wearingEquip.Remove(equipment.equipmentData.equipType);
+
+        // 인벤토리에 착용 중인 장비를 넣어주고
+        inventory.list[index] = equipment.Data;
+        AddItemToInventory(equipment.Data, index);
+
+        // 스텟 미적용
+        equipment.RemoveStatusModifier();
+        UnRegisterWeapon(equipment.gameObject);
+
+        OnChangeEquipment?.Invoke();
+        return true;
     }
 
     // 무기 등록
@@ -313,6 +370,7 @@ public class Player : MonoBehaviour, IHitable
     // 무기 삭제
     public void UnRegisterWeapon(GameObject weapon)
     {
+        animator.runtimeAnimatorController = defaultAnimator;
         weapon.gameObject.SetActive(false);
     }
 

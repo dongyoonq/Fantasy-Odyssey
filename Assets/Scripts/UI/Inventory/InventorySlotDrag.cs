@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class InventorySlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     float clickTime = 0;
 
@@ -70,7 +70,7 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
                         transform.GetChild(0).gameObject.SetActive(true);
 
                 Destroy(target.gameObject);
-                SlotDrop.swapItemIsActiveObj = true;
+                InventorySlotDrop.swapItemIsActiveObj = true;
                 draggingItem = null;
                 return;
             }
@@ -79,7 +79,7 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         if (target.IsValid())
             Destroy(target.gameObject);
 
-        if (SlotDrop.swapItemIsActiveObj)
+        if (InventorySlotDrop.swapItemIsActiveObj)
             transform.GetChild(0).gameObject.SetActive(true);
         else
             transform.GetChild(0).gameObject.SetActive(false);
@@ -87,7 +87,7 @@ public class SlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
         if (draggingItem == null && transform.GetComponent<InventorySlot>().data == null)
             transform.GetChild(0).gameObject.SetActive(false);
 
-        SlotDrop.swapItemIsActiveObj = true;
+        InventorySlotDrop.swapItemIsActiveObj = true;
         draggingItem = null;
     }
 

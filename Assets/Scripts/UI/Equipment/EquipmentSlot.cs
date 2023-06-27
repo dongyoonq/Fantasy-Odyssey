@@ -5,4 +5,5 @@ using UnityEngine;
 public class EquipmentSlot : MonoBehaviour
 {
     public EquipmentData data;
+    public EquipmentData.EquipType equipType;
 }

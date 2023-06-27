@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SlotDrop : MonoBehaviour, IDropHandler
+public class InventorySlotDrop : MonoBehaviour, IDropHandler
 {
     public static bool swapItemIsActiveObj = true;
 
@@ -17,22 +17,22 @@ public class SlotDrop : MonoBehaviour, IDropHandler
 
     void Swap()
     {
-        if (SlotDrag.draggingItem == null)
+        if (InventorySlotDrag.draggingItem == null)
             return;
 
         if (!transform.GetChild(0).IsValid())
             swapItemIsActiveObj = false;
 
-        if (GetComponent<InventorySlot>().data == SlotDrag.draggingItem.transform.parent.GetComponent<InventorySlot>().data)
+        if (GetComponent<InventorySlot>().data == InventorySlotDrag.draggingItem.transform.parent.GetComponent<InventorySlot>().data)
         {
-            SlotDrag.draggingItem.SetActive(true); 
+            InventorySlotDrag.draggingItem.SetActive(true); 
             swapItemIsActiveObj = true;
-            SlotDrag.draggingItem = null;
+            InventorySlotDrag.draggingItem = null;
             return;
         }
 
         Transform start = transform.GetChild(0);
-        Transform target = SlotDrag.draggingItem.transform;
+        Transform target = InventorySlotDrag.draggingItem.transform;
         
         Transform tempParent = start.parent;
 
@@ -83,7 +83,7 @@ public class SlotDrop : MonoBehaviour, IDropHandler
         start.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{start.parent.GetComponent<InventorySlot>().amount}</color>";
         target.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{target.parent.GetComponent<InventorySlot>().amount}</color>";
 
-        SlotDrag.draggingItem = null;
+        InventorySlotDrag.draggingItem = null;
 
     }
 }
