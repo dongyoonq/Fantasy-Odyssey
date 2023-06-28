@@ -22,12 +22,12 @@ public class QuestManager : MonoBehaviour
         for (int i = 0; i < Player.Instance.questList.Count; i++)
         {
             // Spider Kill QuestData
-            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].QuestName == "SpiderKill" &&
-                Player.Instance.questList[i].Goal.goalType == GoalType.Kill)
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "SpiderKill" &&
+                Player.Instance.questList[i].goal.goalType == GoalType.Kill)
             {
-                Player.Instance.questList[i].Goal.EnemyKilled();
+                Player.Instance.questList[i].goal.EnemyKilled();
 
-                if (Player.Instance.questList[i].Goal.IsReached())
+                if (Player.Instance.questList[i].goal.IsReached())
                 {
                     contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
                     contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
@@ -43,12 +43,12 @@ public class QuestManager : MonoBehaviour
         for (int i = 0; i < Player.Instance.questList.Count; i++)
         {
             // Spider Gathering QuestData
-            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].QuestName == "SpiderGathering" &&
-                Player.Instance.questList[i].Goal.goalType == GoalType.Gathering && item.itemName == "SpiderBooty")
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "SpiderGathering" &&
+                Player.Instance.questList[i].goal.goalType == GoalType.Gathering && item.itemName == "SpiderBooty")
             {
-                Player.Instance.questList[i].Goal.ItemCollected();
+                Player.Instance.questList[i].goal.ItemCollected();
 
-                if (Player.Instance.questList[i].Goal.IsReached())
+                if (Player.Instance.questList[i].goal.IsReached())
                 {
                     contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
                     contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete

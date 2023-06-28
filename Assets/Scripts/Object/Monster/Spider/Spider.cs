@@ -41,7 +41,7 @@ public class Spider : Monster, IHitable
 
     private void OnEnable()
     {
-        currHp = data.MaxHp;
+        currHp = data.maxHp;
         spawnPos = transform.position;
     }
 
@@ -79,11 +79,11 @@ public class Spider : Monster, IHitable
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, data.AgressiveMonsterData[0].DetectRange);
+        Gizmos.DrawWireSphere(transform.position, data.agressiveMonsterData[0].detectRange);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, data.MeleeMonsterData[0].DetectRange);
+        Gizmos.DrawWireSphere(transform.position, data.meleeMonsterData[0].detectRange);
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, data.RangeMonsterData[0].DetectRange);
+        Gizmos.DrawWireSphere(transform.position, data.rangeMonsterData[0].detectRange);
     }
 
     public void Hit(int damage)
@@ -146,8 +146,8 @@ public class Spider : Monster, IHitable
         {
             if (percent[i] == random)
             {
-                Item fieldItem = Instantiate(data.DropTable[0].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
-                ItemData tempData = data.DropTable[0];
+                Item fieldItem = Instantiate(data.dropTable[0].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[0];
                 fieldItem.AddComponent<FieldItem>();
                 fieldItem.GetComponent<FieldItem>().itemData = tempData;
             }
@@ -161,8 +161,8 @@ public class Spider : Monster, IHitable
         {
             if (percent[i] == random)
             {
-                Item fieldItem = Instantiate(data.DropTable[1].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
-                ItemData tempData = data.DropTable[1];
+                Item fieldItem = Instantiate(data.dropTable[1].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[1];
                 fieldItem.AddComponent<FieldItem>();
                 fieldItem.GetComponent<FieldItem>().itemData = tempData;
             }
@@ -170,9 +170,9 @@ public class Spider : Monster, IHitable
 
         IEnumerator ExpDropRoutine()
         {
-            for (int i = 0; i < data.DropExp / 10; i++)
+            for (int i = 0; i < data.dropExp / 5; i++)
             {
-                Player.Instance.Exp += 10;
+                Player.Instance.Exp += 5;
                 yield return new WaitForSeconds(0.00001f);
             }
         }

@@ -67,9 +67,9 @@ namespace SpiderState
             Vector3 end = Player.Instance.transform.position;
 
             RaycastHit hit;
-            if (Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, owner.data.MeleeMonsterData[0].AttackDistance, LayerMask.GetMask("Player")))
+            if (Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, owner.data.meleeMonsterData[0].attackDistance, LayerMask.GetMask("Player")))
             {
-                hit.collider.GetComponent<IHitable>().Hit(owner.data.MeleeMonsterData[0].AttackDamage);
+                hit.collider.GetComponent<IHitable>().Hit(owner.data.meleeMonsterData[0].attackDamage);
             }
 
         }

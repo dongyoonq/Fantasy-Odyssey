@@ -24,7 +24,7 @@ public class SpiderProjectile : MonoBehaviour
         {
             // moveRoutine중 도중에 끊킨 시간에 대해 체크를 하여 그시간 만큼 Wait하기 위해 계산
             float calculateTime = spider.ProjecttileTime - elapseTime;
-            other.GetComponent<IHitable>().Hit(spider.data.RangeMonsterData[0].AttackDamage);
+            other.GetComponent<IHitable>().Hit(spider.data.rangeMonsterData[0].attackDamage);
 
             coroutine = spider.StartCoroutine(waitTime(calculateTime));
 

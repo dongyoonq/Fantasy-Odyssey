@@ -21,7 +21,7 @@ namespace SpiderState
 
         public override void Update()
         {
-            if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) < owner.data.AgressiveMonsterData[0].DetectRange)
+            if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) < owner.data.agressiveMonsterData[0].detectRange)
             {
                 owner.ChangeState(Spider.State.Trace);
             }

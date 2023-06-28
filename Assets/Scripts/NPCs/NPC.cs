@@ -27,7 +27,7 @@ public class NPC : MonoBehaviour
         if (data.isQuestNPC)
         {
             data.questNpc = transform.AddComponent<QuestGiver>();
-            data.quest.Goal.currentAmount = 0;
+            data.quest.goal.currentAmount = 0;
             data.quest.isActive = false;
         }
 
@@ -48,14 +48,14 @@ public class NPC : MonoBehaviour
             {
                 if (data.isCompleteQuest)
                 {
-                    npcContentText.text = data.talkData.TalkContents[0];
+                    npcContentText.text = data.talkData.talkContents[0];
                     okButton.onClick.AddListener(() => {
                         npcNameText.transform.parent.gameObject.SetActive(false);
                     });
                     return;
                 }
 
-                npcContentText.text = data.talkData.TalkContents[1];
+                npcContentText.text = data.talkData.talkContents[1];
 
                 okButton.onClick.AddListener(() => {
                     data.questNpc.OpenQuestfromNPC();
@@ -66,10 +66,10 @@ public class NPC : MonoBehaviour
             }
             else
             {
-                if (data.quest.Goal.IsReached())
+                if (data.quest.goal.IsReached())
                 {
                     data.isCompleteQuest = true;
-                    npcContentText.text = data.talkData.TalkContents[3];
+                    npcContentText.text = data.talkData.talkContents[3];
                     data.questNpc.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => data.questNpc.CompleteQuest());
                     okButton.onClick.AddListener(() => {
                         data.questNpc.OpenQuestfromNPC();
@@ -78,7 +78,7 @@ public class NPC : MonoBehaviour
                     return;
                 }
 
-                npcContentText.text = data.talkData.TalkContents[2];
+                npcContentText.text = data.talkData.talkContents[2];
 
                 okButton.onClick.AddListener(() => {
                     npcNameText.transform.parent.gameObject.SetActive(false);
@@ -87,7 +87,7 @@ public class NPC : MonoBehaviour
         }
         else
         {
-            npcContentText.text = data.talkData.TalkContents[0];
+            npcContentText.text = data.talkData.talkContents[0];
             okButton.onClick.AddListener(() => {
                 npcNameText.transform.parent.gameObject.SetActive(false);
             });

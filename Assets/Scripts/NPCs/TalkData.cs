@@ -7,9 +7,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Talk Data", menuName = "Scriptable Object/Talk Data", order = 100000)]
 public class TalkData : ScriptableObject, ISerializationCallbackReceiver
 {
-    [NonSerialized] public List<string> TalkContents;
+    [NonSerialized] public string id;
 
-    [SerializeField, TextArea] List<string> _talkContents;
+    [SerializeField, TextArea] public List<string> talkContents;
 
 
     public void OnBeforeSerialize()
@@ -19,6 +19,5 @@ public class TalkData : ScriptableObject, ISerializationCallbackReceiver
 
     public void OnAfterDeserialize()
     {
-        TalkContents = _talkContents;
     }
 }

@@ -24,20 +24,20 @@ namespace SpiderState
         {
             Vector3 TargetDir = (Player.Instance.transform.position - owner.transform.position).normalized;
 
-            owner.transform.Translate(new Vector3(TargetDir.x, 0, TargetDir.z) * owner.data.MoveSpeed * Time.deltaTime, Space.World);
+            owner.transform.Translate(new Vector3(TargetDir.x, 0, TargetDir.z) * owner.data.moveSpeed * Time.deltaTime, Space.World);
 
             Quaternion targetRot = Quaternion.LookRotation(TargetDir);
-            owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, Quaternion.Euler(0, targetRot.eulerAngles.y, 0), owner.data.RotSpeed * Time.deltaTime);
+            owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, Quaternion.Euler(0, targetRot.eulerAngles.y, 0), owner.data.rotSpeed * Time.deltaTime);
 
-            if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) < owner.data.MeleeMonsterData[0].DetectRange)
+            if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) < owner.data.meleeMonsterData[0].detectRange)
             {
                 owner.ChangeState(Spider.State.BiteAttack);
             }
-            else if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) < owner.data.RangeMonsterData[0].DetectRange)
+            else if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) < owner.data.rangeMonsterData[0].detectRange)
             {
                 owner.ChangeState(Spider.State.ProjecTileAttack);
             }
-            else if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) > owner.data.AgressiveMonsterData[0].DetectRange)
+            else if (Vector3.Distance(Player.Instance.transform.position, owner.transform.position) > owner.data.agressiveMonsterData[0].detectRange)
             {
                 owner.ChangeState(Spider.State.Return);
             }

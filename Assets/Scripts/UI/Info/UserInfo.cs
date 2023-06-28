@@ -17,6 +17,6 @@ public class UserInfo : MonoBehaviour
     private void Update()
     {
         playerLevel.text = Player.Instance.Level.ToString();
-        playerName.text = Player.Instance.playerName;
+        playerName.text = Player.Instance.PlayerName;
     }
 }

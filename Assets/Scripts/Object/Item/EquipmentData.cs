@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class EquipmentData : ItemData
 {
-    public int ReqLvl { get { return requireLevel; } }
-    public string ReqJob { get { return requireJob; } }
+    public int ReqLvl { get { return requireLevel; } set { requireLevel = value; } }
+    public string ReqJob { get { return requireJob; } set { requireJob = value; } }
 
     public enum EquipType
     {

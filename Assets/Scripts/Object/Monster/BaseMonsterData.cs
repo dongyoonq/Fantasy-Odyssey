@@ -4,41 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BaseMonster Data", menuName = "Scriptable Object/BaseMonster Data", order = 1)]
-public class BaseMonsterData : ScriptableObject, ISerializationCallbackReceiver
+public class BaseMonsterData : ScriptableObject
 {
     [Header("몬스터 정보")]
-    [SerializeField] List<AgressiveMonsterData> _agreesiveMonsterData = new List<AgressiveMonsterData>();
-    [SerializeField] List<MeleeMonsterData> _meleeMonsterData = new List<MeleeMonsterData>();
-    [SerializeField] List<RangeMonsterData> _rangeMonsterData = new List<RangeMonsterData>();
-    [SerializeField] List<ItemData> _dropTable = new List<ItemData>();
-    [SerializeField] int _dropExp;
-    [SerializeField] int _maxHp;
-    [SerializeField] int _moveSpeed;
-    [SerializeField] int _rotSpeed;
-
-    [NonSerialized] public List<AgressiveMonsterData> AgressiveMonsterData;
-    [NonSerialized] public List<MeleeMonsterData> MeleeMonsterData;
-    [NonSerialized] public List<RangeMonsterData> RangeMonsterData;
-    [NonSerialized] public List<ItemData> DropTable;
-    [NonSerialized] public int DropExp;
-    [NonSerialized] public int MaxHp;
-    [NonSerialized] public float MoveSpeed;
-    [NonSerialized] public float RotSpeed;
-
-    public void OnBeforeSerialize()
-    {
-
-    }
-
-    public void OnAfterDeserialize()
-    {
-        AgressiveMonsterData = _agreesiveMonsterData;
-        MeleeMonsterData = _meleeMonsterData;
-        RangeMonsterData = _rangeMonsterData;
-        DropTable = _dropTable;
-        DropExp = _dropExp;
-        MaxHp = _maxHp;
-        MoveSpeed = _moveSpeed;
-        RotSpeed = _rotSpeed;
-    }
+    [NonSerialized] public string id;
+    [SerializeField] public List<AgressiveMonsterData> agressiveMonsterData;
+    [SerializeField] public List<MeleeMonsterData> meleeMonsterData;
+    [SerializeField] public List<RangeMonsterData> rangeMonsterData;
+    [SerializeField] public List<ItemData> dropTable;
+    [SerializeField] public int dropExp;
+    [SerializeField] public int maxHp;
+    [SerializeField] public float moveSpeed;
+    [SerializeField] public float rotSpeed;
+    [SerializeField] public TextAsset dropTableCSV;
 }

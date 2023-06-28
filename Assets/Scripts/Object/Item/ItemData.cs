@@ -16,7 +16,7 @@ public abstract class ItemData : ScriptableObject
     public string itemName;
     protected int price;
 
-    public string Tooltip => _tooltip;
+    public string Tooltip { get { return _tooltip; } set { _tooltip = value; } }
 
     [SerializeField] private string _tooltip; // 아이템 설명
 

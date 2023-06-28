@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary> 수량 아이템 - 포션 아이템 </summary>
-public class Portion : CountableItem, IUsable
+public class Potion : CountableItem, IUsable
 {
-    [SerializeField] protected PortionData portionData;
+    [SerializeField] protected PotionData portionData;
 
-    public Portion(PortionData data) : base(data) { }
+    public Potion(PotionData data) : base(data) { }
 
     public virtual void Use() {  }
 }

@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -341,6 +345,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2351,6 +2359,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc6f634b4fc56f4cba59dcb6da31297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnChangeShortSlot:
+    m_PersistentCalls:
+      m_Calls: []
   OnChangeKillQuestUpdate:
     m_PersistentCalls:
       m_Calls: []
@@ -2384,13 +2395,10 @@ MonoBehaviour:
   OnChangeEquipment:
     m_PersistentCalls:
       m_Calls: []
-  status: {fileID: 11400000, guid: c732f10dbf23a9c49be35c8fdb11040d, type: 2}
-  playerName: Dongyoon
-  walkSpeed: 6
-  runSpeed: 9
-  JumpPower: 9
+  status: {fileID: 11400000, guid: 61266ba987e8d1346b59aca57e3f3b0f, type: 2}
   currentHp: 0
   level: 0
+  playerName: Dongyoon
   hand: {fileID: 651124307}
   foot: {fileID: 1440255772}
 --- !u!136 &148433588
@@ -3349,6 +3357,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3477,6 +3489,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5032,6 +5048,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5193,6 +5213,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5533,6 +5557,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6376,6 +6404,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -7779,6 +7811,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -8410,6 +8446,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -8799,6 +8839,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -9226,7 +9270,7 @@ RectTransform:
   m_Children:
   - {fileID: 586566115}
   m_Father: {fileID: 1222636814}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -9644,6 +9688,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -11007,6 +11055,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -12525,7 +12577,7 @@ RectTransform:
   m_Children:
   - {fileID: 1456537983}
   m_Father: {fileID: 1222636814}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -12544,7 +12596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef0ced984402e6544a66eb3c710a2781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: 3bfe99c25311a2b4896e67e26df24829, type: 2}
+  itemData: {fileID: 11400000, guid: 9bb6b680d039bd845a3401978c2b65b3, type: 2}
 --- !u!114 &998639027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12959,6 +13011,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -13056,6 +13112,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -13651,6 +13711,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -13972,6 +14036,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -14873,11 +14941,11 @@ RectTransform:
   - {fileID: 646205291}
   - {fileID: 15669423}
   - {fileID: 318656090}
-  - {fileID: 1461379506}
   - {fileID: 1569412715}
   - {fileID: 735872379}
   - {fileID: 998639025}
   - {fileID: 1584935196}
+  - {fileID: 1461379506}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15006,6 +15074,86 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 604fcc08-b7ec-41e5-875f-b424d24a46ed
     m_ActionName: Player/OpenEquip[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 148433591}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnShortKey_1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5d275571-ffcb-42eb-9e4c-7d0079198e31
+    m_ActionName: Player/Short 01[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 148433591}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnShortKey_2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 03cf40b3-4e13-479d-9142-a1cc9439075f
+    m_ActionName: Player/Short 02[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 148433591}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnShortKey_3
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d03d2f43-acbe-4b6f-9948-060a9992f603
+    m_ActionName: Player/Short 03[/Keyboard/3]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 148433591}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnShortKey_4
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7d274ea7-f305-4c78-8a9f-1021dbdb190a
+    m_ActionName: Player/Short 04[/Keyboard/4]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 148433591}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnShortKey_5
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8de3b5d6-a5ed-4f88-b302-2413c1eeb195
+    m_ActionName: Player/Short 05[/Keyboard/5]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -15723,6 +15871,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -16620,6 +16772,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -17710,6 +17866,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -18075,14 +18235,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461379505}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1868053707}
   m_Father: {fileID: 1222636814}
-  m_RootOrder: 5
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -18786,7 +18946,7 @@ RectTransform:
   - {fileID: 500852683}
   - {fileID: 565154715}
   m_Father: {fileID: 1222636814}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -19042,7 +19202,7 @@ RectTransform:
   m_Children:
   - {fileID: 1184529401}
   m_Father: {fileID: 1222636814}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -19759,6 +19919,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -19995,6 +20159,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -20092,6 +20260,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -20327,6 +20499,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -20488,6 +20664,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -20833,6 +21013,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -22042,6 +22226,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -22652,6 +22840,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -22749,6 +22941,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -23387,6 +23583,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1624323376}
     m_Modifications:
+    - target: {fileID: 820962458567776764, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
+      propertyPath: shortSlotPanel
+      value: 
+      objectReference: {fileID: 1184529400}
     - target: {fileID: 1196061395294562461, guid: c39d939b3baa5d747b35aafd1434adb8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

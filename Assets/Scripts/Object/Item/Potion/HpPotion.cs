@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class HpPortion : Portion
+public class HpPotion : Potion
 {
-    public HpPortion(PortionData data) : base(data)
+    public HpPotion(PotionData data) : base(data)
     {
     }
 

@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         player.animator.SetTrigger("Jump");
-        player.YSpeed = player.JumpPower;
+        player.YSpeed = player.Status.JumpPower;
     }
 
     void Fall()
@@ -86,12 +86,12 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            player.MoveSpeed = player.runSpeed;
+            player.MoveSpeed = player.Status.RunSpeed;
             OnRunKey = true;
         }
         else
         {
-            player.MoveSpeed = player.walkSpeed;
+            player.MoveSpeed = player.Status.WalkSpeed;
             OnRunKey = false;
         }
     }

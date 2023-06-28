@@ -50,7 +50,7 @@ namespace SpiderState
         IEnumerator projectileMoveRoutine(ParticleSystem particle)
         {
             Vector3 start = particle.transform.position;
-            Vector3 end = start + (particle.transform.forward * owner.data.RangeMonsterData[0].AttackDistance);
+            Vector3 end = start + (particle.transform.forward * owner.data.rangeMonsterData[0].attackDistance);
             float totalTime = Vector3.Distance(start, end) / projectileSpeed;
             owner.ProjecttileTime = totalTime;
 

@@ -41,15 +41,15 @@ public class Player : MonoBehaviour, IHitable
 
     [SerializeField] PlayerStatusData status;
     public PlayerStatusData Status { get { return status; } }
+    public string PlayerName { get { return playerName; } }
 
-    [SerializeField] public string playerName;
-    [SerializeField] public float walkSpeed;
-    [SerializeField] public float runSpeed;
-    [SerializeField] public float JumpPower;
     [SerializeField] float currentHp;
     [SerializeField] int level;
+    [SerializeField] string playerName;
+
     int exp;
     int nextLevelExp;
+
     RuntimeAnimatorController defaultAnimator;
 
     public float CurrentHP { 
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour, IHitable
 
     void Awake()
     {
-        MoveSpeed = walkSpeed;
+        MoveSpeed = status.WalkSpeed;
 
         if (instance != null)
         {
@@ -160,6 +160,9 @@ public class Player : MonoBehaviour, IHitable
         Status.AttackSpeed = Status.attackSpeed;
         Status.Deffense = Status.deffense;
         Status.MaxHp = Status.maxHP;
+        Status.WalkSpeed = Status.walkSpeed;
+        Status.RunSpeed = Status.runSpeed;
+        Status.JumpPower = Status.jumpPower;
     }
 
     // 인벤토리 추가 메서드
@@ -251,8 +254,8 @@ public class Player : MonoBehaviour, IHitable
     /// <summary>
     /// 장비 착용 이벤트 핸들러
     /// </summary>
-    /// <param QuestName="sender"></param>
-    /// <param QuestName="equipment"></param>
+    /// <param questName="sender"></param>
+    /// <param questName="equipment"></param>
     public bool OnEquip(Equipment equipment, int index = -1)
     {
         // 들어온 아이템이 그 부위에 착용중이면 장비를 벗는다.
@@ -282,8 +285,8 @@ public class Player : MonoBehaviour, IHitable
     /// <summary>
     /// 장비 착용해제 이벤트 핸들러
     /// </summary>
-    /// <param QuestName="sender"></param>
-    /// <param QuestName="equipment"></param>
+    /// <param questName="sender"></param>
+    /// <param questName="equipment"></param>
     public bool UnEquip(Equipment equipment, int index = -1)
     {
         // 들어온 아이템이없으면 빠져나온다.
@@ -442,9 +445,9 @@ public class Player : MonoBehaviour, IHitable
                     monsterUI.animator.SetBool("Active", true);
                     monsterUI.animator.SetBool("UnActive", false);
 
-                    monsterUI.hpBar.maxValue = monster.data.MaxHp;
+                    monsterUI.hpBar.maxValue = monster.data.maxHp;
                     monsterUI.hpBar.value = monster.currHp;
-                    monsterUI.hpBar.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{monster.currHp}/{monster.data.MaxHp}";
+                    monsterUI.hpBar.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{monster.currHp}/{monster.data.maxHp}";
                     monsterUI.monsterName.text = monster.name;
                 }
                 else

@@ -59,10 +59,10 @@ public class TestBezier : MonoBehaviour
     /// <summary>
     /// 3차 베지어 곡선.
     /// </summary>
-    /// <param QuestName="a">시작 위치</param>
-    /// <param QuestName="b">시작 위치에서 얼마나 꺾일 지 정하는 위치</param>
-    /// <param QuestName="c">도착 위치에서 얼마나 꺾일 지 정하는 위치</param>
-    /// <param QuestName="d">도착 위치</param>
+    /// <param questName="a">시작 위치</param>
+    /// <param questName="b">시작 위치에서 얼마나 꺾일 지 정하는 위치</param>
+    /// <param questName="c">도착 위치에서 얼마나 꺾일 지 정하는 위치</param>
+    /// <param questName="d">도착 위치</param>
     /// <returns></returns>
     private float CubicBezierCurve(float a, float b, float c, float d)
     {
