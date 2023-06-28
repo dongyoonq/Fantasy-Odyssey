@@ -402,6 +402,7 @@ public class Player : MonoBehaviour, IHitable
     }
 
     NPC prevNpc;
+    Vector3 lookrot;
 
     public void ScanNpc()
     {
@@ -412,6 +413,10 @@ public class Player : MonoBehaviour, IHitable
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.F))
             {
+                lookrot = npc.transform.rotation.eulerAngles;
+                animator.SetBool("Talk", true);
+                npc.transform.LookAt(transform.position);
+
                 npc.OpenTalk();
 
                 prevNpc = npc;
@@ -423,8 +428,11 @@ public class Player : MonoBehaviour, IHitable
             {
                 if (GameObject.Find("TalkUI Panel").IsValid())
                     GameObject.Find("TalkUI Panel").SetActive(false);
+                prevNpc.transform.rotation = Quaternion.Euler(lookrot);
+                prevNpc.animator.SetBool("Talk", false);
             }
 
+            animator.SetBool("Talk", false);
             prevNpc = null;
         }
     }

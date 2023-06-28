@@ -39,7 +39,6 @@ public class QuestManager : MonoBehaviour
 
     void UpdateGatheringQuest(ItemData item)
     {
-        Debug.Log(item.itemName);
         for (int i = 0; i < Player.Instance.questList.Count; i++)
         {
             // Spider Gathering QuestData

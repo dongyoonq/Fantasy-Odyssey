@@ -16,5 +16,4 @@ public class BaseMonsterData : ScriptableObject
     [SerializeField] public int maxHp;
     [SerializeField] public float moveSpeed;
     [SerializeField] public float rotSpeed;
-    [SerializeField] public TextAsset dropTableCSV;
 }

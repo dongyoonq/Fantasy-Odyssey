@@ -66,4 +66,9 @@ public class PlayerAnimationEvents : MonoBehaviour
     {
 
     }
+
+    public void FinishTalk()
+    {
+        Player.Instance.animator.SetBool("Talk", false);
+    }
 }

@@ -37,6 +37,8 @@ public class Spider : Monster, IHitable
             new SpiderState.TakeDamageState(this),
             new SpiderState.DieState(this),
         };
+
+        data = Resources.Load<BaseMonsterData>("Data/MonsterData/Spider/Spider");
     }
 
     private void OnEnable()

@@ -24,6 +24,9 @@ public class LoadManager
 
         foreach (string s in allLines)
         {
+            if (s == allLines[0])
+                continue;
+
             string[] splitData = s.Split(',');
 
             if (splitData.Length > 8)
@@ -55,6 +58,9 @@ public class LoadManager
 
         foreach (string s in talkDataLines)
         {
+            if (s == talkDataLines[0])
+                continue;
+
             npcTalkData = ScriptableObject.CreateInstance<TalkData>();
             string[] splitData = s.Split(',');
             npcTalkData.talkContents = new List<string>();
@@ -75,6 +81,9 @@ public class LoadManager
 
         foreach (string s in questDataLines)
         {
+            if (s == questDataLines[0])
+                continue;
+
             npcQuestData = ScriptableObject.CreateInstance<QuestData>();
             string[] splitData = s.Split(',');
 
@@ -129,6 +138,9 @@ public class LoadManager
 
         foreach (string s in agrDataLines)
         {
+            if (s == agrDataLines[0])
+                continue;
+
             AgressiveMonsterData agrData = ScriptableObject.CreateInstance<AgressiveMonsterData>();
             string[] splitData = s.Split(',');
 
@@ -146,6 +158,9 @@ public class LoadManager
 
         foreach (string s in melDataLines)
         {
+            if (s == melDataLines[0])
+                continue;
+
             MeleeMonsterData melData = ScriptableObject.CreateInstance<MeleeMonsterData>();
             string[] splitData = s.Split(',');
 
@@ -166,6 +181,9 @@ public class LoadManager
 
         foreach (string s in ranDataLines)
         {
+            if (s == ranDataLines[0])
+                continue;
+
             RangeMonsterData ranData = ScriptableObject.CreateInstance<RangeMonsterData>();
             string[] splitData = s.Split(',');
 
@@ -182,47 +200,44 @@ public class LoadManager
 
         AssetDatabase.SaveAssets();
 
-        if (agrDataList.Count == meleeDataList.Count && meleeDataList.Count == rangeDataList.Count)
+        string[] monsterDataLines = File.ReadAllLines(Application.dataPath + monsterCSVPath);
+
+        foreach (string s in monsterDataLines)
         {
-            string[] monsterDataLines = File.ReadAllLines(Application.dataPath + monsterCSVPath);
+            if (s == monsterDataLines[0])
+                continue;
 
-            int i = 0;
-            foreach (string s in monsterDataLines)
-            {
-                BaseMonsterData monsterData = ScriptableObject.CreateInstance<BaseMonsterData>();
-                monsterData.agressiveMonsterData = new List<AgressiveMonsterData>();
-                monsterData.meleeMonsterData = new List<MeleeMonsterData>();
-                monsterData.rangeMonsterData = new List<RangeMonsterData>();
+            BaseMonsterData monsterData = ScriptableObject.CreateInstance<BaseMonsterData>();
+            monsterData.agressiveMonsterData = new List<AgressiveMonsterData>();
+            monsterData.meleeMonsterData = new List<MeleeMonsterData>();
+            monsterData.rangeMonsterData = new List<RangeMonsterData>();
+            monsterData.dropTable = new List<ItemData>();
 
-                string[] splitData = s.Split(',');
+            string[] splitData = s.Split(',');
 
-                monsterData.id = splitData[0];
+            monsterData.id = splitData[0];
 
-                for (int j = 0; j < agrDataList.Count; j++)
-                    if (monsterData.id == agrDataList[j].id)
-                        monsterData.agressiveMonsterData.Add(agrDataList[j]);
+            for (int j = 0; j < agrDataList.Count; j++)
+                if (monsterData.id == agrDataList[j].id)
+                    monsterData.agressiveMonsterData.Add(agrDataList[j]);
 
-                for (int j = 0; j < meleeDataList.Count; j++)
-                    if (monsterData.id == meleeDataList[j].id)
-                        monsterData.meleeMonsterData.Add(meleeDataList[j]);
+            for (int j = 0; j < meleeDataList.Count; j++)
+                if (monsterData.id == meleeDataList[j].id)
+                    monsterData.meleeMonsterData.Add(meleeDataList[j]);
 
-                for (int j = 0; j < rangeDataList.Count; j++)
-                    if (monsterData.id == rangeDataList[j].id)
-                        monsterData.rangeMonsterData.Add(rangeDataList[j]);
+            for (int j = 0; j < rangeDataList.Count; j++)
+                if (monsterData.id == rangeDataList[j].id)
+                    monsterData.rangeMonsterData.Add(rangeDataList[j]);
 
-                monsterData.dropExp = int.Parse(splitData[1]);
-                monsterData.maxHp = int.Parse(splitData[2]);
-                monsterData.moveSpeed = float.Parse(splitData[3]);
-                monsterData.rotSpeed = float.Parse(splitData[4]);
+            monsterData.dropExp = int.Parse(splitData[1]);
+            monsterData.maxHp = int.Parse(splitData[2]);
+            monsterData.moveSpeed = float.Parse(splitData[3]);
+            monsterData.rotSpeed = float.Parse(splitData[4]);
 
-                AssetDatabase.CreateAsset(monsterData, $"Assets/Imports/Resources/Data/MonsterData/{splitData[0]}/{monsterData.id}.asset");
+            for (int j = 5; j < splitData.Length; j++)
+                monsterData.dropTable.Add(Resources.Load<ItemData>(splitData[j]));
 
-                i++;
-            }
-        }
-        else
-        {
-            Debug.Log("CSV 데이터 오류 - 항목 불일치");
+            AssetDatabase.CreateAsset(monsterData, $"Assets/Imports/Resources/Data/MonsterData/{splitData[0]}/{monsterData.id}.asset");
         }
 
         AssetDatabase.SaveAssets();
@@ -237,9 +252,12 @@ public class LoadManager
 
         foreach (string s in allLines)
         {
+            if (s == allLines[0])
+                continue;
+
             string[] splitData = s.Split(',');
 
-            if (splitData.Length > 2)
+            if (splitData.Length > 5)
                 Debug.Log("Data Is not Valid");
 
             EtcItemData etcData = ScriptableObject.CreateInstance<EtcItemData>();
@@ -247,6 +265,8 @@ public class LoadManager
             etcData.itemName = splitData[0];
             etcData.Tooltip = splitData[1];
             etcData.MaxAmount = int.Parse(splitData[2]);
+            etcData.sprite = Resources.Load<Sprite>(splitData[3]);
+            etcData.prefab = Resources.Load<Item>(splitData[4]);
 
             AssetDatabase.CreateAsset(etcData, $"Assets/Imports/Resources/Data/ItemData/EtcData/{etcData.itemName}.asset");
         }
@@ -263,9 +283,12 @@ public class LoadManager
 
         foreach (string s in allLines)
         {
+            if (s == allLines[0])
+                continue;
+
             string[] splitData = s.Split(',');
 
-            if (splitData.Length > 4)
+            if (splitData.Length > 6)
                 Debug.Log("Data Is not Valid");
 
             PotionData potionData = ScriptableObject.CreateInstance<PotionData>();
@@ -274,6 +297,8 @@ public class LoadManager
             potionData.Tooltip = splitData[1];
             potionData.MaxAmount = int.Parse(splitData[2]);
             potionData.Value = int.Parse(splitData[3]);
+            potionData.sprite = Resources.Load<Sprite>(splitData[4]);
+            potionData.prefab = Resources.Load<Item>(splitData[5]);
 
             AssetDatabase.CreateAsset(potionData, $"Assets/Imports/Resources/Data/ItemData/PotionData/{potionData.itemName}.asset");
         }
@@ -291,12 +316,13 @@ public class LoadManager
 
         foreach (string s in allLines)
         {
+            if (s == allLines[0])
+                continue;
+
             string[] splitData = s.Split(',');
 
-            if (splitData.Length > 17)
-                Debug.Log("Data Is not Valid");
-
             WeaponData weaponData = ScriptableObject.CreateInstance<WeaponData>();
+            weaponData.Effects = new List<ParticleSystem>();
 
             weaponData.itemName = splitData[0];
             weaponData.Tooltip = splitData[1];
@@ -310,6 +336,13 @@ public class LoadManager
             weaponData.AttackSpeed = float.Parse(splitData[15]);
             weaponData.MaxCombo = int.Parse(splitData[16]);
             weaponData.CoolTimeSkill = int.Parse(splitData[17]);
+            weaponData.sprite = Resources.Load<Sprite>(splitData[18]);
+            weaponData.prefab = Resources.Load<Item>(splitData[19]);
+
+            for (int i = 20; i < splitData.Length - 1; i++)
+                weaponData.Effects.Add(Resources.Load<ParticleSystem>(splitData[i]));
+
+            weaponData.WeaponAnimator = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(splitData[splitData.Length - 1]);
 
             AssetDatabase.CreateAsset(weaponData, $"Assets/Imports/Resources/Data/ItemData/WeaponData/{weaponData.itemName}.asset");
         }

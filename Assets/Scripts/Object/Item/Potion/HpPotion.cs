@@ -6,6 +6,11 @@ public class HpPotion : Potion
     {
     }
 
+    private void OnEnable()
+    {
+        potionData = Resources.Load<PotionData>("Data/ItemData/PotionData/Hp Potion");
+    }
+
     public override void Use()
     {
         base.Use();
@@ -13,8 +18,8 @@ public class HpPotion : Potion
         if (Player.Instance.CurrentHP >= Player.Instance.Status.MaxHp)
             return;
 
-        if (!(Player.Instance.CurrentHP + portionData.Value > Player.Instance.Status.MaxHp))
-            Player.Instance.CurrentHP += portionData.Value;
+        if (!(Player.Instance.CurrentHP + potionData.Value > Player.Instance.Status.MaxHp))
+            Player.Instance.CurrentHP += potionData.Value;
         else
             Player.Instance.CurrentHP += Player.Instance.Status.MaxHp - Player.Instance.CurrentHP;
     }

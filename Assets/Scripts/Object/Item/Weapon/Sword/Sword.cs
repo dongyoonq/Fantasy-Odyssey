@@ -17,6 +17,8 @@ public class Sword : Weapon
 
     private void OnEnable()
     {
+        equipmentData = Resources.Load<EquipmentData>("Data/ItemData/WeaponData/NormalSword");
+        weaponData = Resources.Load<WeaponData>("Data/ItemData/WeaponData/NormalSword");
         commandBuffer = new Queue<Player.Input>();
         commandKey = new List<Player.Input>()
         {
@@ -29,6 +31,12 @@ public class Sword : Weapon
 
     public Sword(WeaponData data) : base(data)
     {
+    }
+
+    private void Start()
+    {
+        Debug.Log(equipmentData);
+        Debug.Log(weaponData);
     }
 
     private void LateUpdate()

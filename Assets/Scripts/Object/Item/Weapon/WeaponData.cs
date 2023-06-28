@@ -12,13 +12,13 @@ public class WeaponData : EquipmentData
     public Vector3 localScale;
 
     // 이 무기를 사용할 때의 애니메이터
-    public RuntimeAnimatorController WeaponAnimator { get { return weaponAnimator; } }
+    public RuntimeAnimatorController WeaponAnimator { get { return weaponAnimator; } set { weaponAnimator = value; } }
     public int AttackPower { get { return attackPower; } set { attackPower = value; } }
     public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
     //public float AttackRange { get { return attackRange; } }
     public int MaxCombo { get { return maxCombo; } set { maxCombo = value; } }
     public float CoolTimeSkill { get { return coolTimeSkill; } set { coolTimeSkill = value; } }
-    public List<ParticleSystem> Effects { get { return effects; } }
+    public List<ParticleSystem> Effects { get { return effects; } set { effects = value; } }
 
     [Header("무기 정보")]
     [SerializeField] RuntimeAnimatorController weaponAnimator;

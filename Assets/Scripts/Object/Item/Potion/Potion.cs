@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary> 수량 아이템 - 포션 아이템 </summary>
 public class Potion : CountableItem, IUsable
 {
-    [SerializeField] protected PotionData portionData;
+    [SerializeField] protected PotionData potionData;
 
     public Potion(PotionData data) : base(data) { }
 

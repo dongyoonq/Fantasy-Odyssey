@@ -11,18 +11,22 @@ public class NPC : MonoBehaviour
 
     TMP_Text npcNameText;
     TMP_Text npcContentText;
+    TMP_Text npcInGameName;
     Button okButton;
+
+    public Animator animator;
 
     [SerializeField] public NpcData data;
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         talkPanel = GameObject.Find("TalkUI").transform.GetChild(0).gameObject;
         npcNameText = talkPanel.transform.GetChild(0).GetComponent<TMP_Text>();
         npcContentText = talkPanel.transform.GetChild(1).GetComponent<TMP_Text>();
         okButton = talkPanel.transform.GetChild(2).GetComponent<Button>();
-
-        Debug.Log(data);
+        npcInGameName = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        npcInGameName.text = name;
 
         if (data.isQuestNPC)
         {
@@ -36,6 +40,7 @@ public class NPC : MonoBehaviour
 
     public void OpenTalk()
     {
+        animator.SetBool("Talk", true);
         talkPanel.SetActive(true);
         okButton.onClick.RemoveAllListeners();
         npcNameText.text = name;
@@ -92,5 +97,10 @@ public class NPC : MonoBehaviour
                 npcNameText.transform.parent.gameObject.SetActive(false);
             });
         }
+    }
+
+    public void FinishTalkNpc()
+    {
+        animator.SetBool("Talk", false);
     }
 }
