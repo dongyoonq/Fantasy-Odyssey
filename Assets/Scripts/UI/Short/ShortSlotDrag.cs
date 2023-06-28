@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class ShortSlotDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    GameObject draggingitem;
+    public static GameObject draggingItem;
     Transform target;
     Rect baseRect;
 
@@ -36,36 +36,43 @@ public class ShortSlotDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (target.IsValid())
         {
             target.position = eventData.position;
-            draggingitem = transform.GetChild(0).GetChild(0).gameObject;
+            draggingItem = transform.GetChild(0).GetChild(0).gameObject;
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (draggingitem == null)
+        if (draggingItem == null)
             return;
 
-        if (draggingitem != null && GetComponent<ShortSlot>().usableItem != null)
+        if (draggingItem != null && GetComponent<ShortSlot>().usableItem != null)
         {
             if (target.localPosition.x < baseRect.xMin
                 || target.localPosition.x > baseRect.xMax
                 || target.localPosition.y < baseRect.yMin
                 || target.localPosition.y > baseRect.yMax)
             {
-                draggingitem.transform.parent.parent.GetComponent<ShortSlot>().usableItem = null;
-                draggingitem.transform.parent.parent.GetComponent<ShortSlot>().amount = 0;
-                draggingitem.SetActive(false);
-                draggingitem.GetComponent<Image>().sprite = null;
-                draggingitem.transform.parent.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = "0";
+                draggingItem.transform.parent.parent.GetComponent<ShortSlot>().usableItem = null;
+                draggingItem.transform.parent.parent.GetComponent<ShortSlot>().amount = 0;
+                draggingItem.SetActive(false);
+                draggingItem.GetComponent<Image>().sprite = null;
+                draggingItem.transform.parent.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = "0";
 
                 Destroy(target.gameObject);
-                draggingitem = null;
+                draggingItem = null;
                 return;
             }
         }
 
-        draggingitem.SetActive(true);
+        draggingItem.SetActive(true);
         Destroy(target.gameObject);
-        draggingitem = null;
+
+        if (ShortSlotDrop.isSuccessMove)
+        {
+            ShortSlotDrop.isSuccessMove = false;
+            draggingItem.SetActive(false);
+        }
+
+        draggingItem = null;
     }
 }
