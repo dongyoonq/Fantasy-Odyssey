@@ -1,0 +1,3 @@
+이름,드랍 경험치,최대 체력,이동 속도,회전 속도,드랍아이템,
+Spider,300,200,3,5,Data/ItemData/EtcData/SpiderBooty,Data/ItemData/WeaponData/NormalSword
+허수아비,0,100,0,0,,

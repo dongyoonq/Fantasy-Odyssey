@@ -1,3 +1,6 @@
-���̵�(�̸�),����Ʈ �̸�,����Ʈ Ÿ��Ʋ,����Ʈ Ÿ��,����,���� ����ġ,"����Ʈ Ÿ�� ( 0 : Gathering, 1 : Kill )",����Ʈ �䱸ġ
-Knox,SpiderKill,Kill 10 spiders,Spider,Catch 10 spiders wandering around town,1500,0,10
-Jean,SpiderGathering,Collect 5 Spider Eyes,Spider Booty,Catch annoying spiders and bring me 5 spider eyes,1500,1,5
+아이디(이름),퀘스트 이름,퀘스트 타이틀,퀘스트 타겟,설명,보상 경험치,"퀘스트 타입 ( 0 : Kill, 1 : Gathering, 2 : Use, 3 : Talk )",퀘스트 요구치,사용 퀘스트시 주는 아이템,
+녹스,SpiderKill,거미 10마리 죽이기,거미,마을을 배회하는 거미 10마리를 잡아주세요,1500,0,10,,
+진,SpiderGathering,거미눈 5개 수집,거미눈,성가시게 하는 거미를 잡아서 거미 눈 5개를 가져와줘,1500,1,5,,
+한스,UsePotion,포션 사용하기,HP Potion,포션을 사용해 보세요,500,2,0,Data/ItemData/PotionData/Hp Potion,
+토마스,TalkNoa,노아랑 대화하기,노아,성 앞에서 기다리는 노아와 대화하세요,100,3,0,,Data/NpcData/노아
+이솔,AttackTutorial,공격 해보기,허수아비,허수아비를 잡아 공격에 익숙해지세요.,200,0,1,,

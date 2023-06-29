@@ -14,6 +14,8 @@ public class Player : MonoBehaviour, IHitable
     public UnityEvent<ItemData> OnChangeShortSlot;
     public UnityEvent OnChangeKillQuestUpdate;
     public UnityEvent<ItemData> OnChangeGatheringQuestUpdate;
+    public UnityEvent<ItemData> OnChangeUseQuestUpdate;
+    public UnityEvent<NpcData> OnChangeTalkQuestUpdate;
     public UnityEvent OnChangedHp;
     public UnityEvent<ItemData, int, int> OnAddItemInventory;
     public UnityEvent<ItemData, int, int> OnRemoveItemInventory;
@@ -40,8 +42,8 @@ public class Player : MonoBehaviour, IHitable
     public Queue<Input> inputBuffer { get; private set; }
 
     [SerializeField] PlayerStatusData status;
-    public PlayerStatusData Status { get { return status; } }
-    public string PlayerName { get { return playerName; } }
+    public PlayerStatusData Status { get { return status; } set { status = value; } }
+    public string PlayerName { get { return playerName; } set { playerName = value; } }
 
     [SerializeField] float currentHp;
     [SerializeField] int level;
@@ -139,7 +141,7 @@ public class Player : MonoBehaviour, IHitable
     private void InitStateMachine()
     {
         PlayerController controller = GetComponent<PlayerController>();
-        stateMachine = new StateMachine(StateName.MOVE, new MoveState(controller)); // µî·Ï
+        stateMachine = new StateMachine(StateName.MOVE, new MoveState(controller)); // ë“±ë¡
         stateMachine.AddState(StateName.Dash, new DashState(controller));
         stateMachine.AddState(StateName.ATTACK, new BaseAttackState(controller));
         stateMachine.AddState(StateName.LAttack, new LeftAttackState(controller));
@@ -165,12 +167,12 @@ public class Player : MonoBehaviour, IHitable
         Status.JumpPower = Status.jumpPower;
     }
 
-    // ÀÎº¥Åä¸® Ãß°¡ ¸Ş¼­µå
+    // ì¸ë²¤í† ë¦¬ ì¶”ê°€ ë©”ì„œë“œ
     public void AddItemToInventory(ItemData item)
     {
         if (inventory.list.Count(x => x == null) == 0)
         {
-            Debug.Log("°¡¹æÀÌ °¡µæÃ¡´Ù");
+            Debug.Log("ê°€ë°©ì´ ê°€ë“ì°¼ë‹¤");
             return;
         }
 
@@ -220,7 +222,7 @@ public class Player : MonoBehaviour, IHitable
         OnAddItemInventory?.Invoke(item, index, 1);
     }
 
-    // ÀÎº¥Åä¸® ¾ÆÀÌÅÛ Á¦°Å ¸Ş¼­µå
+    // ì¸ë²¤í† ë¦¬ ì•„ì´í…œ ì œê±° ë©”ì„œë“œ
     public void RemoveItemFromInventory(ItemData item, int index = -1)
     {
         if (index == -1)
@@ -252,29 +254,29 @@ public class Player : MonoBehaviour, IHitable
     }
 
     /// <summary>
-    /// Àåºñ Âø¿ë ÀÌº¥Æ® ÇÚµé·¯
+    /// ì¥ë¹„ ì°©ìš© ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬
     /// </summary>
     /// <param questName="sender"></param>
     /// <param questName="equipment"></param>
     public bool OnEquip(Equipment equipment, int index = -1)
     {
-        // µé¾î¿Â ¾ÆÀÌÅÛÀÌ ±× ºÎÀ§¿¡ Âø¿ëÁßÀÌ¸é Àåºñ¸¦ ¹ş´Â´Ù.
+        // ë“¤ì–´ì˜¨ ì•„ì´í…œì´ ê·¸ ë¶€ìœ„ì— ì°©ìš©ì¤‘ì´ë©´ ì¥ë¹„ë¥¼ ë²—ëŠ”ë‹¤.
         if (wearingEquip.ContainsKey(equipment.equipmentData.equipType))
         {
             UnEquip(equipment, index);
-            // ±× Àåºñ¿¡ ´ëÇÑ ½ºÅİ Àû¿ë
+            // ê·¸ ì¥ë¹„ì— ëŒ€í•œ ìŠ¤í…Ÿ ì ìš©
             equipment.ApplyStatusModifier();
             RegisterWeapon(equipment.gameObject);
             OnChangeEquipment?.Invoke();
             return true;    
         }
 
-        // ÀÎº¥Åä¸®¿¡ Àåºñ¸¦ Áö¿ì°í
+        // ì¸ë²¤í† ë¦¬ì— ì¥ë¹„ë¥¼ ì§€ìš°ê³ 
         RemoveItemFromInventory(equipment.Data, index);
 
-        // Âø¿ëÇÑ ºĞÀ§¿¡ ÀÌ Àåºñ¸¦ Âø¿ë ½ÃÅ²´Ù.
+        // ì°©ìš©í•œ ë¶„ìœ„ì— ì´ ì¥ë¹„ë¥¼ ì°©ìš© ì‹œí‚¨ë‹¤.
         wearingEquip.Add(equipment.equipmentData.equipType, equipment);
-        // ±× Àåºñ¿¡ ´ëÇÑ ½ºÅİ Àû¿ë
+        // ê·¸ ì¥ë¹„ì— ëŒ€í•œ ìŠ¤í…Ÿ ì ìš©
         equipment.ApplyStatusModifier();
 
         RegisterWeapon(equipment.gameObject);
@@ -283,34 +285,34 @@ public class Player : MonoBehaviour, IHitable
     }
 
     /// <summary>
-    /// Àåºñ Âø¿ëÇØÁ¦ ÀÌº¥Æ® ÇÚµé·¯
+    /// ì¥ë¹„ ì°©ìš©í•´ì œ ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬
     /// </summary>
     /// <param questName="sender"></param>
     /// <param questName="equipment"></param>
     public bool UnEquip(Equipment equipment, int index = -1)
     {
-        // µé¾î¿Â ¾ÆÀÌÅÛÀÌ¾øÀ¸¸é ºüÁ®³ª¿Â´Ù.
+        // ë“¤ì–´ì˜¨ ì•„ì´í…œì´ì—†ìœ¼ë©´ ë¹ ì ¸ë‚˜ì˜¨ë‹¤.
         if (equipment == null)
             return false;
 
-        // Âø¿ëÁßÀÎ ºÎÀ§¿¡ ¾ÆÀÌÅÛÀÌ ÀÖÀ¸¸é
+        // ì°©ìš©ì¤‘ì¸ ë¶€ìœ„ì— ì•„ì´í…œì´ ìˆìœ¼ë©´
         if (wearingEquip.ContainsKey(equipment.equipmentData.equipType))
         {
-            // Âø¿ëÁßÀÎ Àåºñ¸¦ Áö¿öÁØ´Ù.
+            // ì°©ìš©ì¤‘ì¸ ì¥ë¹„ë¥¼ ì§€ì›Œì¤€ë‹¤.
             Destroy(wearingEquip[equipment.equipmentData.equipType].gameObject);
             wearingEquip.Remove(equipment.equipmentData.equipType);
 
-            // Âø¿ëÇÑ ºĞÀ§¿¡ ÀÌ Àåºñ¸¦ Âø¿ë ½ÃÅ²´Ù.
+            // ì°©ìš©í•œ ë¶„ìœ„ì— ì´ ì¥ë¹„ë¥¼ ì°©ìš© ì‹œí‚¨ë‹¤.
             wearingEquip.Add(equipment.equipmentData.equipType, equipment);
 
-            // ÀÎº¥Åä¸®¿¡ Àåºñ¸¦ Áö¿ì°í
+            // ì¸ë²¤í† ë¦¬ì— ì¥ë¹„ë¥¼ ì§€ìš°ê³ 
             RemoveItemFromInventory(inventory.list[index], index);
 
-            // ÀÎº¥Åä¸®¿¡ Âø¿ë ÁßÀÎ Àåºñ¸¦ ³Ö¾îÁÖ°í
+            // ì¸ë²¤í† ë¦¬ì— ì°©ìš© ì¤‘ì¸ ì¥ë¹„ë¥¼ ë„£ì–´ì£¼ê³ 
             inventory.list[index] = equipment.Data;
             AddItemToInventory(equipment.Data, index);
 
-            // ½ºÅİ ¹ÌÀû¿ë
+            // ìŠ¤í…Ÿ ë¯¸ì ìš©
             equipment.RemoveStatusModifier();
 
             UnRegisterWeapon(equipment.gameObject);
@@ -331,7 +333,7 @@ public class Player : MonoBehaviour, IHitable
 
         if (inventory.list.Count(x => x == null) == 0)
         {
-            Debug.Log("°¡¹æÀÌ °¡µæÃ¡´Ù");
+            Debug.Log("ê°€ë°©ì´ ê°€ë“ì°¼ë‹¤");
             return false;
         }
 
@@ -346,15 +348,15 @@ public class Player : MonoBehaviour, IHitable
             }
         }
 
-        // Âø¿ëÁßÀÎ Àåºñ¸¦ Áö¿öÁØ´Ù.
+        // ì°©ìš©ì¤‘ì¸ ì¥ë¹„ë¥¼ ì§€ì›Œì¤€ë‹¤.
         Destroy(wearingEquip[equipment.equipmentData.equipType].gameObject);
         wearingEquip.Remove(equipment.equipmentData.equipType);
 
-        // ÀÎº¥Åä¸®¿¡ Âø¿ë ÁßÀÎ Àåºñ¸¦ ³Ö¾îÁÖ°í
+        // ì¸ë²¤í† ë¦¬ì— ì°©ìš© ì¤‘ì¸ ì¥ë¹„ë¥¼ ë„£ì–´ì£¼ê³ 
         inventory.list[index] = equipment.Data;
         AddItemToInventory(equipment.Data, index);
 
-        // ½ºÅİ ¹ÌÀû¿ë
+        // ìŠ¤í…Ÿ ë¯¸ì ìš©
         equipment.RemoveStatusModifier();
         UnRegisterWeapon(equipment.gameObject);
 
@@ -362,7 +364,7 @@ public class Player : MonoBehaviour, IHitable
         return true;
     }
 
-    // ¹«±â µî·Ï
+    // ë¬´ê¸° ë“±ë¡
     public void RegisterWeapon(GameObject weapon)
     {
         if (wearingEquip.ContainsKey(EquipmentData.EquipType.Weapon))
@@ -377,7 +379,7 @@ public class Player : MonoBehaviour, IHitable
         }
     }
 
-    // ¹«±â »èÁ¦
+    // ë¬´ê¸° ì‚­ì œ
     public void UnRegisterWeapon(GameObject weapon)
     {
         animator.runtimeAnimatorController = defaultAnimator;    
@@ -391,6 +393,7 @@ public class Player : MonoBehaviour, IHitable
             Item instanceItem = Instantiate(itemData.prefab);
             IUsable usableItem = instanceItem as IUsable;
             usableItem.Use();
+            OnChangeUseQuestUpdate?.Invoke(itemData);
             RemoveItemFromInventory(itemData, index);
             Destroy(instanceItem.gameObject);
         }
@@ -439,6 +442,9 @@ public class Player : MonoBehaviour, IHitable
 
     public void ScanMonster()
     {
+        if (monsterUI == null)
+            return;
+
         Collider[] colliders = Physics.OverlapSphere(transform.position, 3f, LayerMask.GetMask("Monster"));
         if (colliders.Length > 0)
         {

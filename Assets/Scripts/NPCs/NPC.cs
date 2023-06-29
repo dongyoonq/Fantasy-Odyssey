@@ -20,7 +20,13 @@ public class NPC : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(SetPanel());
         animator = GetComponent<Animator>();
+    }
+
+    IEnumerator SetPanel()
+    {
+        yield return new WaitForSeconds(0.1f);
         talkPanel = GameObject.Find("TalkUI").transform.GetChild(0).gameObject;
         npcNameText = talkPanel.transform.GetChild(0).GetComponent<TMP_Text>();
         npcContentText = talkPanel.transform.GetChild(1).GetComponent<TMP_Text>();
@@ -44,6 +50,26 @@ public class NPC : MonoBehaviour
         talkPanel.SetActive(true);
         okButton.onClick.RemoveAllListeners();
         npcNameText.text = name;
+
+        QuestData giver;
+
+        if (CheckTargetNpc(out giver))
+        {
+            QuestGiver npc = GameObject.Find(giver.name).GetComponent<QuestGiver>();
+
+            npc.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+
+            npcContentText.text = data.talkData.talkContents[4];
+
+            okButton.onClick.AddListener(() => {
+                npc.OpenQuestfromNPC();
+                npcNameText.transform.parent.gameObject.SetActive(false);
+            });
+
+            npc.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => npc.CompleteQuest());
+
+            return;
+        }
 
         if (data.isQuestNPC)
         {
@@ -102,5 +128,21 @@ public class NPC : MonoBehaviour
     public void FinishTalkNpc()
     {
         animator.SetBool("Talk", false);
+    }
+
+    public bool CheckTargetNpc(out QuestData giver)
+    {
+        for (int i = 0; i < Player.Instance.questList.Count; i++)
+        {
+            if (Player.Instance.questList[i].goal.goalType == GoalType.Talk && Player.Instance.questList[i].goal.targetNpc == this.data)
+            {
+                giver = Player.Instance.questList[i];
+                Player.Instance.OnChangeTalkQuestUpdate?.Invoke(this.data);
+                return true;
+            }
+        }
+
+        giver = null;
+        return false;
     }
 }

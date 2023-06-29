@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class Spider : Monster, IHitable
 {
-    public enum State { Idle, Trace, Return, BiteAttack, ProjecTileAttack, TakeDamage, Die, CastAttack, Size }
+    public enum State { Idle, Trace, Return, BiteAttack, ProjecTileAttack, TakeDamage, Die, Size }
 
     [NonSerialized] public Vector3 spawnPos;
     [NonSerialized] public Animator animator;
@@ -142,7 +142,7 @@ public class Spider : Monster, IHitable
 
         int random = UnityEngine.Random.Range(1, 101);
 
-        // Àü¸®Ç°(Spider Booty) µå¶øÈ®·ü 70%
+        // ì „ë¦¬í’ˆ(Spider Booty) ë“œëí™•ë¥  70%
         int spiderBootyDropPercent = (int)(percent.Length * 0.7f);
         for (int i = 0; i < spiderBootyDropPercent; i++)
         {
@@ -157,7 +157,7 @@ public class Spider : Monster, IHitable
 
         random = UnityEngine.Random.Range(1, 101);
 
-        // Àåºñ(Sword) µå¶øÈ®·ü 5%
+        // ì¥ë¹„(Sword) ë“œëí™•ë¥  5%
         int spiderSwordDropPercent = (int)(percent.Length * 0.05f);
         for (int i = 0; i < spiderSwordDropPercent; i++)
         {

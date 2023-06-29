@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
@@ -96,6 +97,12 @@ public class LoadManager
             npcQuestData.goal = new QuestGoal();
             npcQuestData.goal.goalType = (GoalType)(int.Parse(splitData[6]));
             npcQuestData.goal.requiredAmount = int.Parse(splitData[7]);
+
+            if (!string.IsNullOrEmpty(splitData[8]))
+                npcQuestData.goal.item = Resources.Load<ItemData>(splitData[8]);
+
+            if (!string.IsNullOrEmpty(splitData[9]))
+                npcQuestData.goal.targetNpc = Resources.Load<NpcData>(splitData[9]);
 
             AssetDatabase.CreateAsset(npcQuestData, $"Assets/Imports/Resources/Data/NpcData/QuestData/{splitData[0]}.asset");
 

@@ -53,12 +53,12 @@ public class QuestGiver : MonoBehaviour
         {
             if (!quest.goal.IsReached())
             {
-                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#FF0000>Quest is Not finished yet</color>\n<color=#04E2FD>{quest.target} : {quest.goal.currentAmount}/{quest.goal.requiredAmount}</color>";
+                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#FF0000>퀘스트를 아직 완료하지 못했습니다.</color>\n<color=#04E2FD>{quest.target} : {quest.goal.currentAmount}/{quest.goal.requiredAmount}</color>";
                 acceptButton.gameObject.SetActive(false);
             }
             else
             {
-                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#00FF00>Quest completed. Click OK to complete</color>";
+                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#00FF00>퀘스트를 완료했습니다.</color>";
                 acceptButton.gameObject.SetActive(true);
                 acceptButton.transform.GetChild(0).GetComponent<TMP_Text>().text = "Ok";
             }
@@ -80,11 +80,11 @@ public class QuestGiver : MonoBehaviour
         {
             if (!quest.goal.IsReached())
             {
-                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#FF0000>Quest is Not finished yet</color>\n<color=#04E2FD>{quest.target} : {quest.goal.currentAmount}/{quest.goal.requiredAmount}</color>";
+                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#FF0000>퀘스트를 아직 완료하지 못했습니다.</color>\n<color=#04E2FD>{quest.target} : {quest.goal.currentAmount}/{quest.goal.requiredAmount}</color>";
             }
             else
             {
-                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#00FF00>Quest completed. Return to that NPC</color>";
+                descriptionText.text = $"<color=#FFFF00>{name}</color>\n{quest.description}\n<color=#00FF00>퀘스트를 완료했습니다 해당 NPC에게 돌아가세요.</color>";
             }
         }
     }
@@ -93,6 +93,12 @@ public class QuestGiver : MonoBehaviour
     {
         if (!quest.isActive)
         {
+            if (quest.goal.goalType == GoalType.Use)
+            {
+                quest.goal.currentAmount = 1;
+                Player.Instance.AddItemToInventory(quest.goal.item);
+            }
+
             questDescriptionPanel.SetActive(false);
             quest.isActive = true;
             Player.Instance.questList.Add(quest);
