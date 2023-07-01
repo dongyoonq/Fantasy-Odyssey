@@ -13,11 +13,11 @@ public class PlayerController : MonoBehaviour
     public Vector3 moveDir { get; set; }
     public Vector3 MouseDirection { get; private set; }
 
-    [Header("¶¥ Ã¼Å©")]
-    [SerializeField, Tooltip("Ä³¸¯ÅÍ°¡ ¶¥¿¡ ºÙ¾î ÀÖ´ÂÁö È®ÀÎÇÏ±â À§ÇÑ CheckBox ½ÃÀÛ ÁöÁ¡ÀÔ´Ï´Ù.")]
+    [Header("ë•… ì²´í¬")]
+    [SerializeField, Tooltip("ìºë¦­í„°ê°€ ë•…ì— ë¶™ì–´ ìˆëŠ”ì§€ í™•ì¸í•˜ê¸° ìœ„í•œ CheckBox ì‹œì‘ ì§€ì ì…ë‹ˆë‹¤.")]
     Transform groundCheck;
     private int groundLayer;
-    private bool isGrounded;
+    public bool isGrounded;
 
     public BaseAttackState attackState;
 
@@ -105,11 +105,11 @@ public class PlayerController : MonoBehaviour
 
         if (context.performed)
         {
-            if (context.interaction is HoldInteraction)         // Â÷Áö °ø°İ
+            if (context.interaction is HoldInteraction)         // ì°¨ì§€ ê³µê²©
             {
                 isCharging = true;
             }
-            else if (context.interaction is PressInteraction)   // ÀÏ¹İ °ø°İ
+            else if (context.interaction is PressInteraction)   // ì¼ë°˜ ê³µê²©
             {
                 if (GetWeapon() == null)
                 {
@@ -175,13 +175,13 @@ public class PlayerController : MonoBehaviour
             {
                 if (skillCoolTime == null)
                 {
-                    Debug.Log("ÄğÅ¸ÀÓ ½ÃÀÛ");
+                    Debug.Log("ì¿¨íƒ€ì„ ì‹œì‘");
                     skillCoolTime = StartCoroutine(UltCoolTimer());
                     isUltAttack = true;
                     player.stateMachine.ChangeState(StateName.ATTACK);
                 }
 
-                Debug.Log("ÄğÅ¸ÀÓ Áß");
+                Debug.Log("ì¿¨íƒ€ì„ ì¤‘");
             }
         }
     }

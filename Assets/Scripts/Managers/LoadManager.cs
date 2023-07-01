@@ -145,6 +145,8 @@ public class LoadManager
 
         foreach (string s in agrDataLines)
         {
+            int i = 0;
+
             if (s == agrDataLines[0])
                 continue;
 
@@ -154,7 +156,10 @@ public class LoadManager
             agrData.id = splitData[0];
             agrData.detectRange = float.Parse(splitData[1]);
 
-            AssetDatabase.CreateAsset(agrData, $"Assets/Imports/Resources/Data/MonsterData/{splitData[0]}/Trace Data.asset");
+            for (int j = 0; j < agrDataList.Count; j++)
+                if (agrDataList[j].id == agrData.id)
+                    i++;
+            AssetDatabase.CreateAsset(agrData, $"Assets/Imports/Resources/Data/MonsterData/{splitData[0]}/Trace Data{i}.asset");
 
             agrDataList.Add(agrData);
         }
@@ -165,6 +170,8 @@ public class LoadManager
 
         foreach (string s in melDataLines)
         {
+            int i = 0;
+
             if (s == melDataLines[0])
                 continue;
 
@@ -177,7 +184,11 @@ public class LoadManager
             melData.angle = float.Parse(splitData[3]);
             melData.attackDamage = int.Parse(splitData[4]);
 
-            AssetDatabase.CreateAsset(melData, $"Assets/Imports/Resources/Data/MonsterData/{splitData[0]}/Melee Data.asset");
+            for (int j = 0; j < meleeDataList.Count; j++)
+                if (meleeDataList[j].id == melData.id)
+                    i++;
+
+            AssetDatabase.CreateAsset(melData, $"Assets/Imports/Resources/Data/MonsterData/{splitData[0]}/Melee Data{i}.asset");
 
             meleeDataList.Add(melData);
         }
@@ -188,6 +199,8 @@ public class LoadManager
 
         foreach (string s in ranDataLines)
         {
+            int i = 0;
+
             if (s == ranDataLines[0])
                 continue;
 
@@ -200,7 +213,11 @@ public class LoadManager
             ranData.angle = float.Parse(splitData[3]);
             ranData.attackDamage = int.Parse(splitData[4]);
 
-            AssetDatabase.CreateAsset(ranData, $"Assets/Imports/Resources/Data/MonsterData/{splitData[0]}/Range Data.asset");
+            for (int j = 0; j < rangeDataList.Count; j++)
+                if (rangeDataList[j].id == ranData.id)
+                    i++;
+
+            AssetDatabase.CreateAsset(ranData, $"Assets/Imports/Resources/Data/MonsterData/{splitData[0]}/Range Data{i}.asset");
 
             rangeDataList.Add(ranData);
         }
