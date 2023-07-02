@@ -4,16 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.UI.GridLayoutGroup;
 
 public class DemonBoss : Monster, IHitable
 {
-    public enum State { Spawn, Idle, Move, Claw, Smash, Breathe, JumpAttack, Grab, Summon, Throw, Heal, TakeDamage, Groggy, Die, Rage, Size }
+    public enum State { Spawn, Idle, Move, Claw, Smash, Breathe, JumpAttack, Grab, Summon, Heal, Throw, TakeDamage, Groggy, Die, Rage, Size }
 
     [NonSerialized] public Animator animator;
     [NonSerialized] public float patternChangeTimer = 0f;
     [NonSerialized] public float rockElapseTime;
-    public int stunValue;
+    [NonSerialized] int stunValue;
+    public int stunThreshold;
 
     [SerializeField] public GameObject jaw;
     [SerializeField] public GameObject lefthand;
@@ -24,6 +24,8 @@ public class DemonBoss : Monster, IHitable
     public float patternChangeInterval = 8f;
     public float coolTime;
 
+    public bool pharse2;
+
     public Coroutine clawRoutine;
     public Coroutine smashRoutine;
     public Coroutine breatheRoutine;
@@ -32,6 +34,7 @@ public class DemonBoss : Monster, IHitable
     public Coroutine grabAttackRoutine;
     public Coroutine summonAttackRoutine;
     public Coroutine rockAttackRoutine;
+    public Coroutine healRoutine;
 
     List<MonsterBaseState<DemonBoss>> states;
     State currState;
@@ -50,6 +53,7 @@ public class DemonBoss : Monster, IHitable
             new Demon_Boss.JumpAttackState(this),
             new Demon_Boss.GrabAttackState(this),
             new Demon_Boss.SummonAttackState(this),
+            new Demon_Boss.HealState(this),
             new Demon_Boss.ThrowAttackState(this),
         };
     }
@@ -74,7 +78,6 @@ public class DemonBoss : Monster, IHitable
             patternChangeTimer += Time.deltaTime;
             if (patternChangeTimer >= patternChangeInterval)
             {
-                patternChangeTimer = 0f;
                 ChangePatternState();
             }
         }
@@ -92,9 +95,18 @@ public class DemonBoss : Monster, IHitable
 
     private void ChangePatternState()
     {
-        int patternIndex = UnityEngine.Random.Range((int)State.Smash, (int)State.Summon + 1);
+        if (currState != State.Move)
+            return;
+
+        int patternIndex;
+        if (!pharse2)
+            patternIndex = UnityEngine.Random.Range((int)State.Smash, (int)State.Summon + 1);
+        else
+            patternIndex = UnityEngine.Random.Range((int)State.Smash, (int)State.Heal + 1);
+
         ChangeState((State)patternIndex);
-        //ChangeState(State.Throw); // : State Test
+        patternChangeTimer = 0f;
+        //ChangeState(State.Heal); // : State Test
     }
 
     public override void DropItemAndUpdateExp()
@@ -104,7 +116,28 @@ public class DemonBoss : Monster, IHitable
 
     public void Hit(int damamge)
     {
+        currHp -= damamge;
+        stunValue += 10;
+
+        if (currHp <= 0)
+        {
+            ChangeState(State.Die);
+            return;
+        }
+
+        if (stunValue >= stunThreshold)
+        {
+            ChangeState(State.Groggy);
+            return;
+        }
+
         // 맞기 구현
+        if (currHp < data.maxHp * 0.4f)
+        {
+            pharse2 = true;
+            ChangeState(State.Rage);
+            return;
+        }
     }
 
     private void OnDrawGizmosSelected()

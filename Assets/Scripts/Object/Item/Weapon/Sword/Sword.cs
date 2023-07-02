@@ -169,7 +169,7 @@ public class Sword : Weapon
 
     IEnumerator ActiveSkillAttackHitBox()
     {
-        GameObject hitObj = GameManager.Resource.Instantiate<GameObject>("Prefabs/Item/Weapon/Sword/SkillAttackHitBox", true);
+        GameObject hitObj = GameManager.Resource.Instantiate<GameObject>("Prefabs/Item/Weapon/NormalSword/SkillAttackHitBox", true);
 
         float rate = 0;
         Vector3 start = Player.Instance.transform.position;
@@ -305,7 +305,7 @@ public class Sword : Weapon
 
     void StopCommandBufferTimer()
     {
-        //Debug.Log("≈∏¿Ã∏” ¡æ∑·");
+        //Debug.Log("ÌÉÄÏù¥Î®∏ Ï¢ÖÎ£å");
         if (bufferTimer != null)
         {
             StopCoroutine(bufferTimer);

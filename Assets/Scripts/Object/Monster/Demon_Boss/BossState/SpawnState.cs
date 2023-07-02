@@ -11,6 +11,7 @@ namespace Demon_Boss
 
         public override void Enter()
         {
+            owner.animator.SetBool("Spawn", true);
             owner.StartCoroutine(SpawnRoutine());
         }
 
@@ -26,8 +27,8 @@ namespace Demon_Boss
 
         IEnumerator SpawnRoutine()
         {
-            owner.animator.SetTrigger("Spawn");
-            yield return new WaitForSeconds(0.9f);
+            yield return new WaitForSeconds(1.6f);
+            owner.animator.SetBool("Spawn", false);
             owner.ChangeState(DemonBoss.State.Idle);
         }
     }

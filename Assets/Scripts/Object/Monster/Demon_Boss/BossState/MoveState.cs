@@ -33,7 +33,7 @@ namespace Demon_Boss
             {
                 owner.ChangeState(DemonBoss.State.Claw);
             }
-            else if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < owner.data.rangeMonsterData[0].detectRange && !isWait)
+            else if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < owner.data.rangeMonsterData[0].detectRange && !isWait && owner.pharse2)
             {
                 owner.ChangeState(DemonBoss.State.Throw);
             }
