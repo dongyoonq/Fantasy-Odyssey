@@ -17,6 +17,7 @@ public class NPC : MonoBehaviour
     public Animator animator;
 
     [SerializeField] public NpcData data;
+    [SerializeField] public bool isShopNpc;
 
     private void Start()
     {
@@ -50,6 +51,18 @@ public class NPC : MonoBehaviour
         talkPanel.SetActive(true);
         okButton.onClick.RemoveAllListeners();
         npcNameText.text = name;
+
+        if (isShopNpc)
+        {
+            npcContentText.text = data.talkData.talkContents[0];
+
+            okButton.onClick.AddListener(() => {
+                transform.GetComponent<ShopNpc>().OpenShop();
+                npcNameText.transform.parent.gameObject.SetActive(false);
+            });
+
+            return;
+        }
 
         QuestData giver;
 
