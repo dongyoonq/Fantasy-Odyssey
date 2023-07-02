@@ -35,6 +35,7 @@ namespace Demon_Boss
             food = GameManager.Resource.Instantiate<GameObject>("Prefabs/Monster/DemonBoss/Chicken", owner.lefthand.transform.position, Quaternion.identity, owner.lefthand.transform);
             yield return new WaitForSeconds(1.1f);
             owner.currHp += 400;
+            GameManager.Ui.SetFloating(owner.gameObject, +400, new Color(0,1,0,1));
             if (owner.currHp >= owner.data.maxHp)
                 owner.currHp = owner.data.maxHp;
             GameManager.Resource.Destroy(food);

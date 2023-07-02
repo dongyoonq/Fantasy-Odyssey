@@ -45,7 +45,7 @@ public class Player : MonoBehaviour, IHitable
     public PlayerStatusData Status { get { return status; } set { status = value; } }
     public string PlayerName { get { return playerName; } set { playerName = value; } }
 
-    [SerializeField] float currentHp;
+    [SerializeField] int currentHp;
     [SerializeField] int level;
     [SerializeField] string playerName;
 
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour, IHitable
 
     RuntimeAnimatorController defaultAnimator;
 
-    public float CurrentHP { 
+    public int CurrentHP { 
         get { return currentHp; } 
         set 
         {
@@ -172,7 +172,7 @@ public class Player : MonoBehaviour, IHitable
     {
         if (inventory.list.Count(x => x == null) == 0)
         {
-            Debug.Log("가방이 가득찼다");
+            GameManager.Ui.SetFloating(gameObject, "가방이 가득찼다", new Color(1, 0, 0, 1), 0.1f, 5f);
             return;
         }
 
@@ -198,6 +198,7 @@ public class Player : MonoBehaviour, IHitable
             OnChangeGatheringQuestUpdate?.Invoke(item);
             OnChangeShortSlot?.Invoke(item);
             OnAddItemInventory?.Invoke(item, index, 1);
+            GameManager.Ui.SetFloating(gameObject, $"+{item.itemName}", new Color(0, 1, 0, 1), 0.1f, 5f);
             return;
         }
 
@@ -215,11 +216,13 @@ public class Player : MonoBehaviour, IHitable
         OnChangeGatheringQuestUpdate?.Invoke(item);
         OnChangeShortSlot?.Invoke(item);
         OnAddItemInventory?.Invoke(item, index, 1);
+        GameManager.Ui.SetFloating(gameObject, $"+{item.itemName}", new Color(0, 1, 0, 1), 0.1f, 5f);
     }
 
     public void AddItemToInventory(ItemData item, int index = 0)
     {
         OnAddItemInventory?.Invoke(item, index, 1);
+        GameManager.Ui.SetFloating(gameObject, $"+{item.itemName}", new Color(0, 1, 0, 1), 0.1f, 5f);
     }
 
     // 인벤토리 아이템 제거 메서드
@@ -251,6 +254,7 @@ public class Player : MonoBehaviour, IHitable
 
         OnChangeShortSlot?.Invoke(item);
         inventory.onChangeInventory?.Invoke();
+        StartCoroutine(GameManager.Ui.SetFloatingDelay(gameObject, $"-{item.itemName}", new Color(1, 0, 0, 1), 0.8f, 5f, 0.2f));
     }
 
     /// <summary>
@@ -399,9 +403,10 @@ public class Player : MonoBehaviour, IHitable
         }
     }
 
-    public void Hit(int damamge)
+    public void Hit(int damage)
     {
-        CurrentHP -= damamge;
+        CurrentHP -= damage;
+        GameManager.Ui.SetFloating(gameObject, -damage, new Color(1,0,0,1));
     }
 
     NPC prevNpc;

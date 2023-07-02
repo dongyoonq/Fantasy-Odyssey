@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,6 +13,8 @@ public class UIManager : MonoBehaviour
     private Canvas popUpCanvas;
     private Canvas windowCanvas;
     private Canvas inGameCanvas;
+
+    private Canvas toastMsgCanvas;
 
     private void Awake()
     {
@@ -32,6 +35,8 @@ public class UIManager : MonoBehaviour
         inGameCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
         inGameCanvas.gameObject.name = "InGameCanvas";
         inGameCanvas.sortingOrder = 0;
+
+        toastMsgCanvas = GameObject.Find("ToastMsgCanvas").GetComponent<Canvas>();
     }
 
     public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI
@@ -120,5 +125,52 @@ public class UIManager : MonoBehaviour
     public void CloseInGameUI<T>(T inGameUI) where T : InGameUI
     {
         GameManager.Pool.ReleaseUI(inGameUI.gameObject);
+    }
+
+    public void SetFloating(GameObject target, int damage, Color color = default(Color), float moveSpeed = 4f, float destroyTime = 3f)
+    {
+        GameObject floatingText = GameManager.Resource.Instantiate<GameObject>("UI/Floating Text");
+        Vector3 uiPosition = Camera.main.WorldToScreenPoint(target.transform.position);
+
+        if (color != default(Color))
+            floatingText.GetComponent<TMP_Text>().color = color;
+
+        floatingText.transform.localPosition = uiPosition;
+        floatingText.transform.SetParent(toastMsgCanvas.transform);
+        floatingText.GetComponent<FloatingText>().moveSpeed = moveSpeed;
+        floatingText.GetComponent<FloatingText>().destroyTime = destroyTime;
+        floatingText.GetComponent<FloatingText>().print(damage.ToString());
+    }
+
+    public void SetFloating(GameObject target, string text, Color color = default(Color), float moveSpeed = 4f, float destroyTime = 3f)
+    {
+        GameObject floatingText = GameManager.Resource.Instantiate<GameObject>("UI/Floating Text");
+        Vector3 uiPosition = Camera.main.WorldToScreenPoint(target.transform.position);
+
+        if (color != default(Color))
+            floatingText.GetComponent<TMP_Text>().color = color;
+
+        floatingText.transform.localPosition = uiPosition;
+        floatingText.transform.SetParent(toastMsgCanvas.transform);
+        floatingText.GetComponent<FloatingText>().moveSpeed = moveSpeed;
+        floatingText.GetComponent<FloatingText>().destroyTime = destroyTime;
+        floatingText.GetComponent<FloatingText>().print(text);
+    }
+
+    public IEnumerator SetFloatingDelay(GameObject target, string text, Color color = default(Color), float moveSpeed = 4f, float destroyTime = 3f, float delay = 0f)
+    {
+        yield return new WaitForSeconds(delay);
+
+        GameObject floatingText = GameManager.Resource.Instantiate<GameObject>("UI/Floating Text");
+        Vector3 uiPosition = Camera.main.WorldToScreenPoint(target.transform.position);
+
+        if (color != default(Color))
+            floatingText.GetComponent<TMP_Text>().color = color;
+
+        floatingText.transform.localPosition = uiPosition;
+        floatingText.transform.SetParent(toastMsgCanvas.transform);
+        floatingText.GetComponent<FloatingText>().moveSpeed = moveSpeed;
+        floatingText.GetComponent<FloatingText>().destroyTime = destroyTime;
+        floatingText.GetComponent<FloatingText>().print(text);
     }
 }

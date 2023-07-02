@@ -108,6 +108,7 @@ public class Spider : Monster, IHitable
             ChangeState(State.TakeDamage);
 
         currHp -= damage;
+        GameManager.Ui.SetFloating(gameObject, -damage);
 
         if (currHp <= 0)
         {

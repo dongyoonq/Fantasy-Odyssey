@@ -1,9 +1,9 @@
 using UnityEngine;
-/// <summary> ¼Òºñ ¾ÆÀÌÅÛ Á¤º¸ </summary>
+/// <summary> ì†Œë¹„ ì•„ì´í…œ ì •ë³´ </summary>
 [CreateAssetMenu(fileName = "Portion Data", menuName = "Scriptable Object/Portion Data", order = 100000000)]
 public class PotionData : CountableItemData
 {
-    /// <summary> È¿°ú·®(È¸º¹·® µî) </summary>
-    public float Value { get {  return _value; } set { _value = value; } }
-    [SerializeField] private float _value;
+    /// <summary> íš¨ê³¼ëŸ‰(íšŒë³µëŸ‰ ë“±) </summary>
+    public int Value { get {  return _value; } set { _value = value; } }
+    [SerializeField] private int _value;
 }

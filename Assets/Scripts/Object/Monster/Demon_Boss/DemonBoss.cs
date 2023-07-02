@@ -10,7 +10,7 @@ public class DemonBoss : Monster, IHitable
     public enum State { Spawn, Idle, Move, Claw, Smash, Breathe, JumpAttack, Grab, Summon, Heal, Throw, Rage, Groggy, Die, Size }
 
     [NonSerialized] public Animator animator;
-    [NonSerialized] public float patternChangeTimer = 0f;
+    [SerializeField] public float patternChangeTimer = 0f;
     [NonSerialized] public float rockElapseTime;
     [NonSerialized] public bool isGroggyed;
     [NonSerialized] public int stunValue;
@@ -103,10 +103,11 @@ public class DemonBoss : Monster, IHitable
 
     private void ChangePatternState()
     {
-        if (currState != State.Move)
+        if (currState == State.Groggy || currState == State.Rage || currState == State.Die)
             return;
 
         int patternIndex;
+
         if (!pharse2)
             patternIndex = UnityEngine.Random.Range((int)State.Smash, (int)State.Summon + 1);
         else
@@ -122,12 +123,14 @@ public class DemonBoss : Monster, IHitable
         // 드랍 구현
     }
 
-    public void Hit(int damamge)
+    public void Hit(int damage)
     {
         if (currState == State.Die)
             return;
 
-        currHp -= damamge;
+        currHp -= damage;
+        GameManager.Ui.SetFloating(gameObject, -damage);
+
         if (!isGroggyed)
             stunValue += 10;
 
@@ -154,6 +157,7 @@ public class DemonBoss : Monster, IHitable
             ChangeState(State.Rage);
             return;
         }
+
 
         if (currState == State.Idle || currState == State.Move)
         {

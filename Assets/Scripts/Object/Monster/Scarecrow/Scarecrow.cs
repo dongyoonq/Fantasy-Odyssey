@@ -15,10 +15,11 @@ public class Scarecrow : Monster, IHitable
 
     }
 
-    public void Hit(int damamge)
+    public void Hit(int damage)
     {
         animator.SetBool("Damage", true);
-        currHp -= damamge;
+        currHp -= damage;
+        GameManager.Ui.SetFloating(gameObject, -damage);
 
         if (currHp <= 0)
         {
