@@ -26,9 +26,9 @@ namespace Demon_Boss
             owner.StopCoroutine(owner.clawRoutine);
             owner.animator.SetBool($"Claw{randomValue}", false);
             if (!owner.pharse2)
-                owner.coolTime = 0.8f;
+                owner.coolTime = 1.3f;
             else
-                owner.coolTime = 0.6f;
+                owner.coolTime = 0.8f;
         }
 
         public override void Update()
@@ -68,7 +68,7 @@ namespace Demon_Boss
             // animation Timing
             yield return new WaitForSeconds(0.3f);
             AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance + 0.5f, owner.data.meleeMonsterData[0].angle, 360f);
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(0.7f);
             owner.animator.SetFloat("MoveSpeed", 0);
             owner.ChangeState(DemonBoss.State.Move);
         }
@@ -107,7 +107,7 @@ namespace Demon_Boss
             owner.animator.SetBool($"Claw2", true);
             yield return new WaitForSeconds(0.8f);
             AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance + 0.5f, owner.data.meleeMonsterData[0].angle, 360f);
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(0.5f);
             owner.animator.SetBool($"Claw2", false);
             owner.animator.SetFloat("MoveSpeed", 0);
             owner.ChangeState(DemonBoss.State.Move);

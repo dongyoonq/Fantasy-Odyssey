@@ -23,7 +23,7 @@ namespace Demon_Boss
         {
             owner.animator.SetBool("Throw", false);
             if (!owner.pharse2)
-                owner.coolTime = 1f;
+                owner.coolTime = 1.3f;
             else
                 owner.coolTime = 0.8f;
         }
@@ -70,7 +70,7 @@ namespace Demon_Boss
             yield return null;
 
             if (rock.IsValid())
-                GameManager.Resource.Destroy(rock, 1.4f);
+                GameManager.Resource.Destroy(rock, 1f);
         }
     }
 }

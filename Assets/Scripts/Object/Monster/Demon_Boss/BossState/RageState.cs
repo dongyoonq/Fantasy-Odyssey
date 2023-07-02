@@ -21,6 +21,7 @@ namespace Demon_Boss
         {
             owner.animator.SetBool("Rage", false);
             owner.StopCoroutine(owner.rageRoutine);
+            owner.patternChangeTimer = 0f;
         }
 
         public override void Update()

@@ -4,16 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.UI.GridLayoutGroup;
 
 public class DemonBoss : Monster, IHitable
 {
-    public enum State { Spawn, Idle, Move, Claw, Smash, Breathe, JumpAttack, Grab, Summon, Heal, Throw, Rage, TakeDamage, Groggy, Die, Size }
+    public enum State { Spawn, Idle, Move, Claw, Smash, Breathe, JumpAttack, Grab, Summon, Heal, Throw, Rage, Groggy, Die, Size }
 
     [NonSerialized] public Animator animator;
     [NonSerialized] public float patternChangeTimer = 0f;
     [NonSerialized] public float rockElapseTime;
-    [NonSerialized] int stunValue;
+    [NonSerialized] public bool isGroggyed;
+    [NonSerialized] public int stunValue;
     public int stunThreshold;
 
     [SerializeField] public GameObject jaw;
@@ -37,6 +37,7 @@ public class DemonBoss : Monster, IHitable
     public Coroutine rockAttackRoutine;
     public Coroutine healRoutine;
     public Coroutine rageRoutine;
+    public Coroutine groggyRoutine;
 
     List<MonsterBaseState<DemonBoss>> states;
     State currState;
@@ -58,6 +59,8 @@ public class DemonBoss : Monster, IHitable
             new Demon_Boss.HealState(this),
             new Demon_Boss.ThrowAttackState(this),
             new Demon_Boss.RageState(this),
+            new Demon_Boss.GroggyState(this),
+            new Demon_Boss.DieState(this),
         };
     }
 
@@ -111,7 +114,7 @@ public class DemonBoss : Monster, IHitable
 
         ChangeState((State)patternIndex);
         patternChangeTimer = 0f;
-        //ChangeState(State.Heal); // : State Test
+        //ChangeState(State.Breathe); // : State Test
     }
 
     public override void DropItemAndUpdateExp()
@@ -121,28 +124,73 @@ public class DemonBoss : Monster, IHitable
 
     public void Hit(int damamge)
     {
+        if (currState == State.Die)
+            return;
+
         currHp -= damamge;
-        stunValue += 10;
+        if (!isGroggyed)
+            stunValue += 10;
 
         if (currHp <= 0)
         {
+            StopAllAnimationCoroutine();
             ChangeState(State.Die);
             return;
         }
 
-        if (stunValue >= stunThreshold)
+        if (stunValue >= stunThreshold && !isGroggyed && !pharse2)
         {
+            StopAllAnimationCoroutine();
             ChangeState(State.Groggy);
+            isGroggyed = true;
             return;
         }
 
         // 맞기 구현
         if (currHp < data.maxHp * 0.4f && !pharse2)
         {
+            StopAllAnimationCoroutine();
             pharse2 = true;
             ChangeState(State.Rage);
             return;
         }
+
+        if (currState == State.Idle || currState == State.Move)
+        {
+            animator.SetBool("Claw1", false);
+            animator.SetBool("Claw2", false);
+            animator.SetBool("Smash", false);
+            animator.SetBool("Breath", false);
+            animator.SetBool("Jump", false);
+            animator.SetBool("Grab", false);
+            animator.SetBool("Summon1", false);
+            animator.SetBool("Summon2", false);
+            animator.SetBool("Throw", false);
+            animator.SetBool("Heal", false);
+            animator.SetBool("TakeDamage", true);
+        }
+    }
+
+    public void FinishedDamageAnimation()
+    {
+        animator.SetBool("TakeDamage", false);
+    }
+
+    void StopAllAnimationCoroutine()
+    {
+        StopAllCoroutines();
+        animator.SetBool("Claw1", false);
+        animator.SetBool("Claw2", false);
+        animator.SetBool("Smash", false);
+        animator.SetBool("Breath", false);
+        animator.SetBool("Jump", false);
+        animator.SetBool("Grab", false);
+        animator.SetBool("Summon1", false);
+        animator.SetBool("Summon2", false);
+        animator.SetBool("Throw", false);
+        animator.SetBool("Heal", false);
+        animator.SetBool("Groggy", false);
+        isGroggyed = false;
     }
 
     private void OnDrawGizmosSelected()

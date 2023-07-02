@@ -21,7 +21,7 @@ namespace Demon_Boss
         {
             owner.animator.SetBool("Heal", false);
             owner.StopCoroutine(owner.healRoutine);
-            owner.coolTime = 0.8f;
+            owner.coolTime = 1f;
         }
 
         public override void Update()

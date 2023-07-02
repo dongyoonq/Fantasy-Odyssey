@@ -25,9 +25,9 @@ namespace Demon_Boss
             owner.animator.SetBool($"Grab", false);
             owner.StopCoroutine(owner.grabAttackRoutine);
             if (!owner.pharse2)
-                owner.coolTime = 1f;
+                owner.coolTime = 1.5f;
             else
-                owner.coolTime = 0.8f;
+                owner.coolTime = 1f;
             owner.patternChangeTimer = 0f;
         }
 

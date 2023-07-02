@@ -21,9 +21,9 @@ namespace Demon_Boss
         {
             owner.StopCoroutine(owner.jumpAttackRoutine);
             if (!owner.pharse2)
-                owner.coolTime = 1f;
+                owner.coolTime = 1.5f;
             else
-                owner.coolTime = 0.8f;
+                owner.coolTime = 1f;
             owner.patternChangeTimer = 0f;
         }
 
