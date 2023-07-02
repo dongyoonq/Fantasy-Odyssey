@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net;
 using UnityEngine;
 
 namespace Demon_Boss
@@ -14,14 +15,20 @@ namespace Demon_Boss
         public override void Enter()
         {
             randomValue = Random.Range(1, 3);
-            owner.clawRoutine = owner.StartCoroutine(animationRoutine());
+            if (!owner.pharse2)
+                owner.clawRoutine = owner.StartCoroutine(animationRoutine());
+            else
+                owner.clawRoutine = owner.StartCoroutine(Pharse2animationRoutine());
         }
 
         public override void Exit()
         {
             owner.StopCoroutine(owner.clawRoutine);
             owner.animator.SetBool($"Claw{randomValue}", false);
-            owner.coolTime = 0.8f;
+            if (!owner.pharse2)
+                owner.coolTime = 0.8f;
+            else
+                owner.coolTime = 0.6f;
         }
 
         public override void Update()
@@ -42,7 +49,7 @@ namespace Demon_Boss
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 2.5f;
+            end += hit.normal * 2f;
 
             float totalTime = Vector3.Distance(start, end) / owner.data.moveSpeed;
             float rate = 0f;
@@ -59,9 +66,49 @@ namespace Demon_Boss
             }
 
             // animation Timing
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
             AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance + 0.5f, owner.data.meleeMonsterData[0].angle, 360f);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.8f);
+            owner.animator.SetFloat("MoveSpeed", 0);
+            owner.ChangeState(DemonBoss.State.Move);
+        }
+
+        IEnumerator Pharse2animationRoutine()
+        {
+            owner.animator.SetFloat("MoveSpeed", owner.data.moveSpeed);
+
+            Vector3 start = owner.transform.position;
+            Vector3 end = Player.Instance.transform.position;
+
+            RaycastHit hit;
+            Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
+
+            end += hit.normal * 2f;
+
+            float totalTime = Vector3.Distance(start, end) / owner.data.moveSpeed;
+            float rate = 0f;
+
+            while (rate < 1f)
+            {
+                rate += Time.deltaTime / totalTime;
+                owner.transform.position = Vector3.Lerp(start, new Vector3(end.x, start.y, end.z), rate);
+
+                if (rate > 0.8f)
+                    owner.animator.SetBool($"Claw1", true);
+
+                yield return null;
+            }
+
+            // animation Timing
+            yield return new WaitForSeconds(0.3f);
+            AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance + 0.5f, owner.data.meleeMonsterData[0].angle, 360f);
+            yield return new WaitForSeconds(0.3f);
+            owner.animator.SetBool($"Claw1", false);
+            owner.animator.SetBool($"Claw2", true);
+            yield return new WaitForSeconds(0.8f);
+            AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance + 0.5f, owner.data.meleeMonsterData[0].angle, 360f);
+            yield return new WaitForSeconds(0.6f);
+            owner.animator.SetBool($"Claw2", false);
             owner.animator.SetFloat("MoveSpeed", 0);
             owner.ChangeState(DemonBoss.State.Move);
         }

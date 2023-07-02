@@ -24,7 +24,10 @@ namespace Demon_Boss
         {
             owner.animator.SetBool($"Grab", false);
             owner.StopCoroutine(owner.grabAttackRoutine);
-            owner.coolTime = 1f;
+            if (!owner.pharse2)
+                owner.coolTime = 1f;
+            else
+                owner.coolTime = 0.8f;
             owner.patternChangeTimer = 0f;
         }
 

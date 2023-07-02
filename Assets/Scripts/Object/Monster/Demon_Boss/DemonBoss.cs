@@ -4,10 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class DemonBoss : Monster, IHitable
 {
-    public enum State { Spawn, Idle, Move, Claw, Smash, Breathe, JumpAttack, Grab, Summon, Heal, Throw, TakeDamage, Groggy, Die, Rage, Size }
+    public enum State { Spawn, Idle, Move, Claw, Smash, Breathe, JumpAttack, Grab, Summon, Heal, Throw, Rage, TakeDamage, Groggy, Die, Size }
 
     [NonSerialized] public Animator animator;
     [NonSerialized] public float patternChangeTimer = 0f;
@@ -21,7 +22,7 @@ public class DemonBoss : Monster, IHitable
     [SerializeField] public Transform summonPos1;
     [SerializeField] public Transform summonPos2;
 
-    public float patternChangeInterval = 8f;
+    public float patternChangeInterval = 12f;
     public float coolTime;
 
     public bool pharse2;
@@ -35,6 +36,7 @@ public class DemonBoss : Monster, IHitable
     public Coroutine summonAttackRoutine;
     public Coroutine rockAttackRoutine;
     public Coroutine healRoutine;
+    public Coroutine rageRoutine;
 
     List<MonsterBaseState<DemonBoss>> states;
     State currState;
@@ -55,6 +57,7 @@ public class DemonBoss : Monster, IHitable
             new Demon_Boss.SummonAttackState(this),
             new Demon_Boss.HealState(this),
             new Demon_Boss.ThrowAttackState(this),
+            new Demon_Boss.RageState(this),
         };
     }
 
@@ -73,7 +76,7 @@ public class DemonBoss : Monster, IHitable
     {
         states[(int)currState]?.Update();
 
-        if (currState != State.Spawn)
+        if (currState != State.Spawn && currState != State.Idle)
         {
             patternChangeTimer += Time.deltaTime;
             if (patternChangeTimer >= patternChangeInterval)
@@ -88,8 +91,10 @@ public class DemonBoss : Monster, IHitable
         if (currState == State.Die)
             return;
 
+        Debug.Log(currState);
         states[(int)currState]?.Exit();
         currState = state;
+        Debug.Log(currState);
         states[(int)currState]?.Enter();
     }
 
@@ -132,7 +137,7 @@ public class DemonBoss : Monster, IHitable
         }
 
         // 맞기 구현
-        if (currHp < data.maxHp * 0.4f)
+        if (currHp < data.maxHp * 0.4f && !pharse2)
         {
             pharse2 = true;
             ChangeState(State.Rage);

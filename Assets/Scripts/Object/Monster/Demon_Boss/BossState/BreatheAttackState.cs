@@ -30,7 +30,10 @@ namespace Demon_Boss
             if (owner.hitBoxRoutine != null)
                 owner.StopCoroutine(owner.hitBoxRoutine);
             owner.StopCoroutine(HitBoxOn());
-            owner.coolTime = 1f;
+            if (!owner.pharse2)
+                owner.coolTime = 1f;
+            else
+                owner.coolTime = 0.8f;
             owner.patternChangeTimer = 0f;
         }
 

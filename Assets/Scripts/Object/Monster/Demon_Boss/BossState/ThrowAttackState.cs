@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Net;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 namespace Demon_Boss
 {
@@ -23,7 +22,10 @@ namespace Demon_Boss
         public override void Exit()
         {
             owner.animator.SetBool("Throw", false);
-            owner.coolTime = 1f;
+            if (!owner.pharse2)
+                owner.coolTime = 1f;
+            else
+                owner.coolTime = 0.8f;
         }
 
         public override void Update()

@@ -20,7 +20,10 @@ namespace Demon_Boss
         public override void Exit()
         {
             owner.StopCoroutine(owner.summonAttackRoutine);
-            owner.coolTime = 1;
+            if (!owner.pharse2)
+                owner.coolTime = 1f;
+            else
+                owner.coolTime = 0.8f;
             owner.patternChangeTimer = 0f;
         }
 

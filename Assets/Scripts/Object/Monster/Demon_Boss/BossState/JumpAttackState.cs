@@ -20,7 +20,10 @@ namespace Demon_Boss
         public override void Exit()
         {
             owner.StopCoroutine(owner.jumpAttackRoutine);
-            owner.coolTime = 1f;
+            if (!owner.pharse2)
+                owner.coolTime = 1f;
+            else
+                owner.coolTime = 0.8f;
             owner.patternChangeTimer = 0f;
         }
 
@@ -32,7 +35,7 @@ namespace Demon_Boss
         IEnumerator JumpAttackRoutine()
         {
             owner.animator.SetBool("Jump", true);
-            yield return new WaitForSeconds(1.2f);
+            yield return new WaitForSeconds(1.5f);
             AttackJudgeMent();
             particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Monster/DemonBoss/GroundCrack", owner.transform.position + (owner.transform.up * 0.2f), Quaternion.identity);
             GameManager.Resource.Destroy(particle, 1f);

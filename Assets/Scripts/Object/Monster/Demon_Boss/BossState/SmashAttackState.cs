@@ -21,7 +21,10 @@ namespace Demon_Boss
         {
             owner.StopCoroutine(owner.smashRoutine);
             owner.animator.SetBool($"Smash", false);
-            owner.coolTime = 1f;
+            if (!owner.pharse2)
+                owner.coolTime = 1f;
+            else
+                owner.coolTime = 0.8f;
             owner.patternChangeTimer = 0f;
         }
 

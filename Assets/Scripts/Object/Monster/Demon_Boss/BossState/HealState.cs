@@ -21,7 +21,7 @@ namespace Demon_Boss
         {
             owner.animator.SetBool("Heal", false);
             owner.StopCoroutine(owner.healRoutine);
-            owner.coolTime = 1f;
+            owner.coolTime = 0.8f;
         }
 
         public override void Update()
@@ -34,7 +34,7 @@ namespace Demon_Boss
             yield return new WaitForSeconds(0.5f);
             food = GameManager.Resource.Instantiate<GameObject>("Prefabs/Monster/DemonBoss/Chicken", owner.lefthand.transform.position, Quaternion.identity, owner.lefthand.transform);
             yield return new WaitForSeconds(1.1f);
-            owner.currHp += 1000;
+            owner.currHp += 400;
             if (owner.currHp >= owner.data.maxHp)
                 owner.currHp = owner.data.maxHp;
             GameManager.Resource.Destroy(food);
