@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class EquipmentUI : PopUpUI
 {
-    public GameObject EquipmentPanel;
+    public GameObject equipmentPanel;
     public bool activeEquipment = false;
 
     public EquipmentSlot[] slots;
@@ -22,7 +22,7 @@ public class EquipmentUI : PopUpUI
     {
         Player.Instance.equipUI = this;
         slots = new EquipmentSlot[8];
-        slots = EquipmentPanel.transform.GetChild(0).GetComponentsInChildren<EquipmentSlot>();
+        slots = equipmentPanel.transform.GetChild(0).GetComponentsInChildren<EquipmentSlot>();
 
         slots[0].equipType = EquipmentData.EquipType.Head;
         slots[1].equipType = EquipmentData.EquipType.Weapon;
@@ -37,17 +37,18 @@ public class EquipmentUI : PopUpUI
             orgSprite[i] = slots[i].transform.GetChild(0).GetComponent<Image>().sprite;
 
         Player.Instance.OnChangeEquipment.AddListener(UpdateEquipmentUI);
-        EquipmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenEquipment(); });
+        equipmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenEquipment(); });
 
-        orgPosition = EquipmentPanel.transform.GetChild(0).position;
+        orgPosition = equipmentPanel.transform.GetChild(0).position;
     }
 
     public void OpenEquipment()
     {
         activeEquipment = !activeEquipment;
         GameManager.Ui.activePopupUI = activeEquipment;
-        EquipmentPanel.transform.GetChild(0).gameObject.SetActive(activeEquipment);
-        EquipmentPanel.transform.GetChild(0).position = orgPosition;
+        equipmentPanel.transform.GetChild(0).gameObject.SetActive(activeEquipment);
+        equipmentPanel.transform.GetChild(0).position = orgPosition;
+        equipmentPanel.transform.SetAsLastSibling();
     }
 
     public void OpenEquipment(InputAction.CallbackContext context)
@@ -56,8 +57,9 @@ public class EquipmentUI : PopUpUI
         {
             activeEquipment = !activeEquipment;
             GameManager.Ui.activePopupUI = activeEquipment;
-            EquipmentPanel.transform.GetChild(0).gameObject.SetActive(activeEquipment);
-            EquipmentPanel.transform.GetChild(0).position = orgPosition;
+            equipmentPanel.transform.GetChild(0).gameObject.SetActive(activeEquipment);
+            equipmentPanel.transform.GetChild(0).position = orgPosition;
+            equipmentPanel.transform.SetAsLastSibling();
         }
     }
 

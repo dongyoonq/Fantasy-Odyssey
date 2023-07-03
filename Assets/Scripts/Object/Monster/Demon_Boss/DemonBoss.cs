@@ -156,7 +156,6 @@ public class DemonBoss : Monster, IHitable
             return;
         }
 
-        // 맞기 구현
         if (currHp < data.maxHp * 0.4f && !pharse2)
         {
             StopAllAnimationCoroutine();

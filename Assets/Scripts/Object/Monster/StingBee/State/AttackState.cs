@@ -26,6 +26,14 @@ namespace StingBeeState
         public override void Exit()
         {
             owner.StopCoroutine(owner.attackRoutine);
+            if (randomValue == 1)
+                owner.animator.SetBool("Attack1", false);
+            else if (randomValue == 2)
+                owner.animator.SetBool("Attack2", false);
+            else if (randomValue == 3)
+                owner.animator.SetBool("Attack3", false);
+
+            owner.coolTime = 0.8f;
         }
 
         public override void Update()
@@ -46,7 +54,7 @@ namespace StingBeeState
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 1.2f;
+            end += hit.normal * 1.5f;
 
             float totalTime = Vector3.Distance(start, end) / 5f;
             float rate = 0f;
@@ -62,7 +70,7 @@ namespace StingBeeState
             owner.animator.SetBool("Attack1", true);
 
             yield return new WaitForSeconds(0.5f);
-            attackJudgement();
+            AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance, owner.data.meleeMonsterData[0].angle, 300f);
             yield return new WaitForSeconds(0.5f);
             owner.ChangeState(StingBee.State.Trace);
         }
@@ -77,7 +85,7 @@ namespace StingBeeState
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 1.2f;
+            end += hit.normal * 1.5f;
 
             float totalTime = Vector3.Distance(start, end) / 5f;
             float rate = 0f;
@@ -92,9 +100,9 @@ namespace StingBeeState
             owner.animator.SetBool("Move", false);
             owner.animator.SetBool("Attack2", true);
 
-            yield return new WaitForSeconds(0.5f);
-            attackJudgement();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.9f);
+            AttackCircleJudgement(owner.data.meleeMonsterData[1].attackDamage, owner.data.meleeMonsterData[1].attackDistance, owner.data.meleeMonsterData[1].angle, 300f);
+            yield return new WaitForSeconds(0.4f);
             owner.ChangeState(StingBee.State.Trace);
         }
 
@@ -108,7 +116,7 @@ namespace StingBeeState
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 1.2f;
+            end += hit.normal * 1.5f;
 
             float totalTime = Vector3.Distance(start, end) / 5f;
             float rate = 0f;
@@ -124,22 +132,39 @@ namespace StingBeeState
             owner.animator.SetBool("Attack3", true);
 
             yield return new WaitForSeconds(0.5f);
-            attackJudgement();
+            AttackCircleJudgement(owner.data.meleeMonsterData[2].attackDamage, owner.data.meleeMonsterData[2].attackDistance, owner.data.meleeMonsterData[2].angle, 300f);
             yield return new WaitForSeconds(0.5f);
             owner.ChangeState(StingBee.State.Trace);
         }
 
-        void attackJudgement()
+        void AttackCircleJudgement(int damage, float range, float forwardAngle, float upAngle)
         {
-            Vector3 start = owner.transform.position;
-            Vector3 end = Player.Instance.transform.position;
-
-            RaycastHit hit;
-            if (Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, owner.data.meleeMonsterData[0].attackDistance, LayerMask.GetMask("Player")))
+            Collider[] colliders = Physics.OverlapSphere(owner.transform.position, range, LayerMask.GetMask("Player"));
+            foreach (Collider collider in colliders)
             {
-                hit.collider.GetComponent<IHitable>().Hit(owner.data.meleeMonsterData[0].attackDamage);
-            }
+                Vector3 dirTarget = (collider.transform.position - owner.transform.position).normalized;
 
+                if (Vector3.Dot(owner.transform.up, dirTarget) >= Mathf.Cos(upAngle * 0.5f * Mathf.Deg2Rad) &&
+                    Vector2.Dot(owner.transform.forward, dirTarget) >= Mathf.Cos(forwardAngle * 0.5f * Mathf.Deg2Rad))
+                {
+                    if (randomValue == 3)
+                        owner.StartCoroutine(PoisionDamageRoutine(damage));
+                    else
+                        collider.GetComponent<IHitable>().Hit(damage);
+                }
+            }
+        }
+
+        IEnumerator PoisionDamageRoutine(int damage)
+        {
+            int count = 0;
+
+            while (count < 4)
+            {
+                Player.Instance.Hit(damage);
+                count++;
+                yield return new WaitForSeconds(1f);
+            }
         }
     }
 }

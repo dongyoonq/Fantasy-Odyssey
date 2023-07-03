@@ -61,6 +61,7 @@ public class InventoryUI : PopUpUI
         GameManager.Ui.activePopupUI = activeInventory;
         inventoryPanel.transform.GetChild(0).gameObject.SetActive(activeInventory);
         inventoryPanel.transform.GetChild(0).position = orgPosition;
+        inventoryPanel.transform.SetAsLastSibling();
     }
 
     public void OpenInventory(InputAction.CallbackContext context)
@@ -71,6 +72,7 @@ public class InventoryUI : PopUpUI
             GameManager.Ui.activePopupUI = activeInventory;
             inventoryPanel.transform.GetChild(0).gameObject.SetActive(activeInventory);
             inventoryPanel.transform.GetChild(0).position = orgPosition;
+            inventoryPanel.transform.SetAsLastSibling();
         }
     }
 

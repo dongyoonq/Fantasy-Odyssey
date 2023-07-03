@@ -29,6 +29,7 @@ public class QuestUI : PopUpUI
             activeQuest = !activeQuest;
             GameManager.Ui.activePopupUI = activeQuest;
             questPanel.SetActive(activeQuest);
+            questPanel.transform.parent.SetAsLastSibling();
         }
     }
 
@@ -38,5 +39,6 @@ public class QuestUI : PopUpUI
         activeQuest = !activeQuest;
         GameManager.Ui.activePopupUI = activeQuest;
         questPanel.SetActive(activeQuest);
+        questPanel.transform.parent.SetAsLastSibling();
     }
 }

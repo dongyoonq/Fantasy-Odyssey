@@ -36,6 +36,7 @@ public class Player : MonoBehaviour, IHitable
     public EquipmentUI equipUI { get; set; }
     public MonsterInfoUI monsterUI { get; set; }
     public ShortSlotUI shortUI { get; set; }
+    public StatusUI statusUI { get; set; }
     public List<QuestData> questList { get; private set; }
 
     public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }

@@ -15,12 +15,14 @@ public class StingBee : Monster, IHitable, IHearable
 
     [NonSerialized] public Vector3 spawnPos;
     [NonSerialized] public Animator animator;
+    [NonSerialized] public float coolTime;
 
     [SerializeField] public LayerMask targetMask;
     [SerializeField] public LayerMask obstacleMask;
 
     List<MonsterBaseState<StingBee>> states;
     public Coroutine attackRoutine;
+    public Coroutine takedamageRoutine;
 
     State currState;
 
@@ -97,31 +99,12 @@ public class StingBee : Monster, IHitable, IHearable
         if (currState == State.Die)
             return;
 
-        if (attackRoutine != null)
-        {
-            StopCoroutine(attackRoutine);
-        }
-
-        animator.SetBool("Move", false);
-        animator.SetBool("Attack1", false);
-        animator.SetBool("Attack2", false);
-        animator.SetBool("Attack3", false);
-
-        if (currState == State.TakeDamage)
-            StartCoroutine(coolTimer());
-        else
-            ChangeState(State.TakeDamage);
-
         currHp -= damage;
         GameManager.Ui.SetFloating(gameObject, -damage);
 
         if (currHp <= 0)
         {
-            if (attackRoutine != null)
-            {
-                StopCoroutine(attackRoutine);
-            }
-
+            StopAllCoroutines();
             animator.SetBool("Move", false);
             animator.SetBool("Attack1", false);
             animator.SetBool("Attack2", false);
@@ -129,13 +112,11 @@ public class StingBee : Monster, IHitable, IHearable
             animator.SetBool("Damage", false);
             ChangeState(State.Die);
         }
-    }
 
-    IEnumerator coolTimer()
-    {
-        states[(int)currState]?.Exit();
-        yield return new WaitForSeconds(0.1f);
-        states[(int)currState]?.Enter();
+        if (currState == State.Idle || currState == State.Trace)
+        {
+            ChangeState(State.TakeDamage);
+        }
     }
 
     public void Hear(Transform source)

@@ -11,7 +11,8 @@ namespace StingBeeState
 
         public override void Enter()
         {
-
+            owner.animator.SetBool("Die", true);
+            owner.StartCoroutine(DissapearRoutine());
         }
 
         public override void Exit()
@@ -22,6 +23,15 @@ namespace StingBeeState
         public override void Update()
         {
 
+        }
+
+        IEnumerator DissapearRoutine()
+        {
+            yield return new WaitForSeconds(2.5f);
+            owner.animator.SetBool("Die", false);
+            owner.animator.SetBool("Disappear", true);
+            yield return new WaitForSeconds(1f);
+            GameManager.Resource.Destroy(owner.gameObject);
         }
     }
 }
