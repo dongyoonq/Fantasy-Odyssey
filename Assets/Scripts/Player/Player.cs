@@ -45,7 +45,8 @@ public class Player : MonoBehaviour, IHitable
     public PlayerStatusData Status { get { return status; } set { status = value; } }
     public string PlayerName { get { return playerName; } set { playerName = value; } }
 
-    [SerializeField] int currentHp;
+    // * OnChangedHp 이벤트 발생시키지 않을때만 사용
+    [SerializeField] public int currentHp; 
     [SerializeField] int level;
     [SerializeField] string playerName;
 
@@ -62,7 +63,7 @@ public class Player : MonoBehaviour, IHitable
                 OnChangedHp?.Invoke();
 
             currentHp = value;
-        } 
+        }
     }
 
     public int Level { get { return level; } set { level = value; } }

@@ -19,6 +19,9 @@ public class WarriorCrown : Armor
         Player.Instance.Status.WalkSpeed += armorData.WalkSpeed;
         Player.Instance.Status.RunSpeed += armorData.RunSpeed;
         Player.Instance.Status.JumpPower += armorData.JumpPower;
+
+        if (Player.Instance.CurrentHP > Player.Instance.Status.MaxHp)
+            Player.Instance.currentHp = Player.Instance.Status.MaxHp;
     }
 
     public override void RemoveStatusModifier()

@@ -13,7 +13,6 @@ public class FloatingText : MonoBehaviour
     private void OnEnable()
     {
         floatingText = GetComponent<TMP_Text>();
-        Debug.Log(floatingText);
     }
 
     public void print(string Text)
