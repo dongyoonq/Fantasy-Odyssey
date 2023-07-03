@@ -156,6 +156,9 @@ public class LoadManager
             agrData.id = splitData[0];
             agrData.detectRange = float.Parse(splitData[1]);
 
+            if (!string.IsNullOrEmpty(splitData[2]))
+                agrData.detectAngle = float.Parse(splitData[2]);
+
             for (int j = 0; j < agrDataList.Count; j++)
                 if (agrDataList[j].id == agrData.id)
                     i++;

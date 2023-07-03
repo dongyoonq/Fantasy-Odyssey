@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SpiderSpawnPoint : MonoBehaviour
+public class SpawnPoint : MonoBehaviour
 {
     public enum State
     {

@@ -37,10 +37,10 @@ namespace SpiderState
             owner.animator.SetBool("Disappear", true);
             yield return new WaitForSeconds(1f);
 
-            owner.spawnInfo.currSpider--;
-            int index = Array.IndexOf(owner.spawnInfo.spiders, owner);
-            owner.spawnInfo.spawnPoint[index].state = SpiderSpawnPoint.State.Empty;
-            owner.spawnInfo.spiders[index] = null;
+            owner.spawnInfo.currMonster--;
+            int index = Array.IndexOf(owner.spawnInfo.monters, owner);
+            owner.spawnInfo.spawnPoint[index].state = SpawnPoint.State.Empty;
+            owner.spawnInfo.monters[index] = null;
             GameManager.Resource.Destroy(owner.gameObject);
         }
     }

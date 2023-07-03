@@ -15,6 +15,8 @@ public class TownScene : BaseScene
         yield return null;
 
         progress = 0.5f;
+        GameManager.Resource.Instantiate<Canvas>("UI/ShopUI");
+        GameManager.Resource.Instantiate<Canvas>("UI/PopupUI");
         GameManager.Resource.Instantiate<Canvas>("UI/SceneUI");
         yield return null;
 

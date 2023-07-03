@@ -21,7 +21,7 @@ public class ShortSlotDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (transform.GetChild(0).IsValid())
         {
-            // µå·¡±×½Ã¿¡ º¹»çº» »ı¼º
+            // ë“œë˜ê·¸ì‹œì— ë³µì‚¬ë³¸ ìƒì„±
             target = Instantiate(transform.GetChild(0).GetChild(0));
             target.SetParent(GameObject.Find("ShortUI").transform);
 

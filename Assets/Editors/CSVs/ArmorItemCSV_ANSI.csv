@@ -1,6 +1,19 @@
-아이템 이름,설명,요구 레벨,요구 직업,"장비 타입 ( 1 : Shield,  2 : Head,  3: Armor,  4 : Pants,   5 : Boots,  6 : Gloves,  7 : Cloak)",체력,방어력,걷는 속도,뛰는 속도,점프력,스프라이트,프리펩
-Warrior's Crown,전사들이 쓰고다니는 평범한 투구다.,1,Warrior,2,200,30,0,0,0,Sprite/Mail_head_1,Prefabs/Item/Head/WarriorCrown
-Sunstrike Headguard,귀족들이 쓰고 다녔던 투구다.,1,Warrior,2,400,50,0,0,0,Sprite/Mail_head_2,Prefabs/Item/Head/SunstrikeHeadguard
-Rune-Ward Helm,문자가 세겨진 투구이다.,1,Warrior,2,800,80,0,0,0,Sprite/Mail_head_3,Prefabs/Item/Head/RuneWardHelm
-,,,,,,,,,,,
-,,,,,,,,,,,
+아이템 이름,설명,요구 레벨,요구 직업,"장비 타입 ( 1 : Shield,  2 : Head,  3: Armor,  4 : Pants,  5 : Boots,  6 : Gloves,  7 : Cloak)",체력,방어력,걷는 속도,뛰는 속도,점프력,스프라이트,프리펩
+Warrior's Crown,워리어스 크라운. 전투에 특화된 크라운으로. 체력을 강화하여 전투력을 향상시킨다,1,Warrior,2,200,30,0,0,0,Sprite/Mail_head_1,Prefabs/Item/Head/WarriorCrown
+Sunstrike Headguard,선스트라이크 헤드가드. 태양의 힘이 담긴 헤드가드,1,Warrior,2,400,50,0,0,0,Sprite/Mail_head_2,Prefabs/Item/Head/SunstrikeHeadguard
+Rune-Ward Helm,룬워드 투구. 문자가 세겨진 투구,1,Warrior,2,800,80,0,0,0,Sprite/Mail_head_3,Prefabs/Item/Head/RuneWardHelm
+Hero's Plate,영웅의 갑주. 강인한 영웅을 위한 강력한 갑옷으로 물리적인 피해를 효과적으로 막아준다,1,Warrior,3,400,50,0,0,0,Sprite/Mail_Chest_1,Prefabs/Item/Armor/Hero's Plate
+Stormguard Armor,폭풍 갑주. 강력한 바람과 번개의 힘이 담긴 갑옷,1,Warrior,3,800,80,0,0,0,Sprite/Mail_Chest_2,Prefabs/Item/Armor/Stormguard Armor
+Golden Sentinel Mail,황금 비호갑. 고대의 황금으로 만들어진 갑옷으로 근접 공격에 강한 방어력을 제공한다,1,Warrior,3,1000,100,0,0,0,Sprite/Mail_Chest_3,Prefabs/Item/Armor/Golden Sentinel Mail
+Shadowweave Trousers,그림자매듭 바지. 어둠의 힘이 담긴 바지,1,Warrior,4,300,40,0,0,0,Sprite/Mail_Pants_1,Prefabs/Item/Pants/Shadowweave Trousers
+Elder Raven Leggings,엘더레이븐 바지. 고대의 까마귀의 힘이 담긴 바지,1,Warrior,4,600,65,0,0,0,Sprite/Mail_Pants_2,Prefabs/Item/Pants/Elder Raven Leggings
+Flameheart Leggings,화염심장 바지. 화염의 힘이 담긴 바지,1,Warrior,4,900,90,0,0,0,Sprite/Mail_Pants_3,Prefabs/Item/Pants/Flameheart Leggings
+Windrunner Boots,윈드러너 부츠. 바람의 속도와 기민함을 상징하는 신발,1,Warrior,5,100,10,0.5,0.5,0.5,Sprite/Mail_Boots_1,Prefabs/Item/Boots/Windrunner Boots
+Stealthwalkers Dust,스텔스워크 더스트. 은밀한 행동을 돕기 위해 만들어진 신발,1,Warrior,5,300,35,1,1,1,Sprite/Mail_Boots_2,Prefabs/Item/Boots/Stealthwalkers Dust
+Lightstep Shoes,라이트스텝 슈즈. 경량화된 신발로 이동 속도와 점프 높이를 증가한다,1,Warrior,5,500,50,2,2,2,Sprite/Mail_Boots_3,Prefabs/Item/Boots/Lightstep Shoes
+Ironclaw Gauntlets,철강손톱 장갑. 용감하고 강인한 용사를 상징하는 장갑,1,Warrior,6,200,30,0,0,0,Sprite/Mail_Gloves_1,Prefabs/Item/Gloves/Ironclaw Gauntlets
+Lionheart Gauntlets,라이온하트 장갑. 용감하고 강인한 용사를 상징하는 장갑,1,Warrior,6,400,50,0,0,0,Sprite/Mail_Gloves_2,Prefabs/Item/Gloves/Lionheart Gauntlets
+Flameforged Gauntlets,화염의 손보호구. 불타오르는 화염의 힘을 담은 장갑,1,Warrior,6,800,80,0,0,0,Sprite/Mail_Gloves_3,Prefabs/Item/Gloves/Flameforged Gauntlets
+Shadowwave Cloak,섀도우웨이브 망토. 어둠의 힘으로 스며드는 망토,1,Warrior,7,100,10,0.5,0.5,0.5,Sprite/Cloak_1,Prefabs/Item/Cloak/Shadowwave Cloak
+Sunstrike Cloak,선스트라이크 망토. 태양의 힘을 모은 망토,1,Warrior,7,300,20,1,1,1,Sprite/Cloak_2,Prefabs/Item/Cloak/Sunstrike Cloak
+Evergreen Cloak,에버그린 망토. 끊임없이 생명력을 회복하는 힘이 담긴 망토,1,Warrior,7,500,30,2,2,2,Sprite/Cloak_3,Prefabs/Item/Cloak/Evergreen Cloak

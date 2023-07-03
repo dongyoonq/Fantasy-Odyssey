@@ -22,15 +22,22 @@ namespace Demon_Boss
         public override void Exit()
         {
             owner.animator.SetBool("Throw", false);
-            if (!owner.pharse2)
-                owner.coolTime = 1.3f;
-            else
-                owner.coolTime = 0.8f;
+            if (owner.rockAttackRoutine != null)
+            {
+                owner.StopCoroutine(owner.rockAttackRoutine);
+                if (rock.IsValid())
+                    GameManager.Resource.Destroy(rock);
+            }
+
+            owner.coolTime = 0f;
         }
 
         public override void Update()
         {
+            Vector3 TargetDir = (Player.Instance.transform.position - owner.transform.position).normalized;
 
+            Quaternion targetRot = Quaternion.LookRotation(TargetDir);
+            owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, Quaternion.Euler(0, targetRot.eulerAngles.y, 0), owner.data.rotSpeed * Time.deltaTime);
         }
 
         IEnumerator ThrowRoutine()
@@ -38,9 +45,7 @@ namespace Demon_Boss
             yield return new WaitForSeconds(0.65f);
             rock = GameManager.Resource.Instantiate<GameObject>("Prefabs/Monster/DemonBoss/Rock", owner.righthand.transform.position + (owner.transform.up * 0.5f), Quaternion.identity);
             rock.GetComponent<BossRock>().owner = owner;
-            yield return new WaitForSeconds(0.7f);
-
-            owner.ChangeState(DemonBoss.State.Move);
+            yield return new WaitForSeconds(0.6f);
 
             Vector3 start = rock.transform.position;
             Vector3 end = Player.Instance.transform.position;
@@ -59,10 +64,13 @@ namespace Demon_Boss
 
                 if (rock.IsValid())
                     rock.transform.position += new Vector3(xSpeed, ySpeed, zSpeed) * Time.deltaTime;
+
                 ySpeed += Physics.gravity.y * Time.deltaTime;
 
                 yield return null;
             }
+
+            owner.ChangeState(DemonBoss.State.Move);
 
             if (rock.IsValid())
                 rock.transform.position = end;

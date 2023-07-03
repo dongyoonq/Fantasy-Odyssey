@@ -14,10 +14,11 @@ public class InventorySlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDrag
     Rect baseRect;
     Rect shortSlotRect;
 
-    [SerializeField] GameObject shortSlotPanel;
+    GameObject shortSlotPanel;
 
     void Start()
     {
+        shortSlotPanel = GameObject.Find("ShortUI");
         baseRect = transform.parent.parent.GetComponent<RectTransform>().rect;
         shortSlotRect = shortSlotPanel.GetComponent<RectTransform>().rect;
     }
@@ -34,7 +35,7 @@ public class InventorySlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDrag
     {
         if (transform.GetChild(0).IsValid())
         {
-            // µÂ∑°±◊Ω√ø° ∫πªÁ∫ª ª˝º∫
+            // ÎìúÎûòÍ∑∏ÏãúÏóê Î≥µÏÇ¨Î≥∏ ÏÉùÏÑ±
             target = Instantiate(transform.GetChild(0));
             target.SetParent(GameObject.Find("InventoryUI").transform);
 
@@ -56,7 +57,7 @@ public class InventorySlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (draggingItem != null && GetComponent<InventorySlot>().data != null)
+        if (draggingItem != null && GetComponent<InventorySlot>().data != null && ShortSlotDrop.isShortSlotDrop)
         {
             if (target.localPosition.x > shortSlotRect.xMin
                 || target.localPosition.x < shortSlotRect.xMax
@@ -66,11 +67,12 @@ public class InventorySlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDrag
                 transform.GetChild(0).gameObject.SetActive(true);
                 Destroy(target.gameObject);
                 draggingItem = null;
+                ShortSlotDrop.isShortSlotDrop = false;
                 return;
             }
         }
 
-        if (draggingItem != null && GetComponent<InventorySlot>().data != null)
+        if (draggingItem != null && GetComponent<InventorySlot>().data != null && !ShortSlotDrop.isShortSlotDrop)
         {
             if (target.localPosition.x < baseRect.xMin
                 || target.localPosition.x > baseRect.xMax

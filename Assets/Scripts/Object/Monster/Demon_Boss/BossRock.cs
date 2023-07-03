@@ -27,7 +27,7 @@ public class BossRock : MonoBehaviour
 
             owner.StopCoroutine(owner.rockAttackRoutine);
             owner.rockAttackRoutine = null;
-            owner.StartCoroutine(waitTime(calculateTime));
+            owner.rockIntervalRoutine = owner.StartCoroutine(waitTime(calculateTime));
 
             if (gameObject.IsValid())
                 GameManager.Resource.Destroy(gameObject);

@@ -4,7 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AgressiveMonster Data", menuName = "Scriptable Object/AgressiveMonster Data", order = 1)]
 public class AgressiveMonsterData : ScriptableObject
 {
-    [Header("°ø°İÀûÀÎ ¸ó½ºÅÍ Á¤º¸")]
+    [Header("ê³µê²©ì ì¸ ëª¬ìŠ¤í„° ì •ë³´")]
     [NonSerialized] public string id;
     [SerializeField] public float detectRange;
+    [SerializeField] public float detectAngle;
 }

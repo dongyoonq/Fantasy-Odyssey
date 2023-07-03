@@ -38,6 +38,7 @@ public class DemonBoss : Monster, IHitable
     public Coroutine healRoutine;
     public Coroutine rageRoutine;
     public Coroutine groggyRoutine;
+    public Coroutine rockIntervalRoutine;
 
     List<MonsterBaseState<DemonBoss>> states;
     State currState;
@@ -93,6 +94,12 @@ public class DemonBoss : Monster, IHitable
     {
         if (currState == State.Die)
             return;
+
+        if (rockIntervalRoutine != null)
+        {
+            StopCoroutine(rockIntervalRoutine);
+            rockIntervalRoutine = null;
+        }
 
         Debug.Log(currState);
         states[(int)currState]?.Exit();

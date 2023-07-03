@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FieldItem : MonoBehaviour
@@ -8,7 +9,15 @@ public class FieldItem : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+        Collider outColl;
+
+        if (!TryGetComponent(out outColl))
+        {
+            transform.AddComponent<CapsuleCollider>();
+            GetComponent<CapsuleCollider>().isTrigger = true;
+        }
+
+            transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
         ParticleSystem particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Item/FieldItemParticle", transform);
         particle.transform.localPosition = new Vector3(0.013f, 0.006f, 0.419f);
         particle.transform.localRotation = Quaternion.Euler(20.705f, 49.107f, 22.208f);

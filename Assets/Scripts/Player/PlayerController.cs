@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour
     private int groundLayer;
     public bool isGrounded;
 
+    [SerializeField] public float runStepRange;
+    [SerializeField] public float walkStepRange;
+
     public BaseAttackState attackState;
 
     private void OnEnable()
@@ -278,5 +281,18 @@ public class PlayerController : MonoBehaviour
         {
             player.useItem(player.shortUI.slots[4].usableItem);
         }
+    }
+
+    [SerializeField] bool debug;
+
+    private void OnDrawGizmos()
+    {
+        if (!debug)
+            return;
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, walkStepRange);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, runStepRange);
     }
 }

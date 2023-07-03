@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MoveState : PlayerBaseState
 {
+    float lastStepTime = 0.5f;
+
     public MoveState(PlayerController controller) : base(controller)
     {
     }
@@ -52,5 +54,21 @@ public class MoveState : PlayerBaseState
 
         float percent = ((Controller.OnRunKey) ? 1 : 0.5f) * Controller.moveDir.magnitude;
         Player.Instance.animator.SetFloat("Speed", percent, 0.1f, Time.deltaTime);
+
+        lastStepTime -= Time.deltaTime;
+        if (lastStepTime < 0)
+        {
+            lastStepTime = 0.5f;
+            GenerateFootStepSound();
+        }
+    }
+
+    void GenerateFootStepSound()
+    {
+        Collider[] colliders = Physics.OverlapSphere(Player.Instance.transform.position, (Controller.OnRunKey) ? Controller.runStepRange : Controller.walkStepRange);
+        foreach (Collider collider in colliders)
+        {
+            collider.GetComponent<IHearable>()?.Hear(Player.Instance.transform);
+        }
     }
 }

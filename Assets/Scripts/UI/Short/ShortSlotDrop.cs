@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class ShortSlotDrop : MonoBehaviour, IDropHandler
 {
     public static bool isSuccessMove = false;
+    public static bool isShortSlotDrop = false;
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -23,6 +24,8 @@ public class ShortSlotDrop : MonoBehaviour, IDropHandler
 
         if (InventorySlotDrag.draggingItem.transform.parent.GetComponent<InventorySlot>().data.prefab is not IUsable)
             return;
+
+        isShortSlotDrop = true;
 
         for (int i = 0; i < Player.Instance.shortUI.slots.Length; i++)
         {

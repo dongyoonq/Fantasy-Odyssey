@@ -13,7 +13,6 @@ public class Spider : Monster, IHitable
 
     [NonSerialized] public Vector3 spawnPos;
     [NonSerialized] public Animator animator;
-    [NonSerialized] public SpiderSpawn spawnInfo;
 
     [NonSerialized] public float ProjecttileTime;
 

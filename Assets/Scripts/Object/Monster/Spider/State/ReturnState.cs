@@ -26,8 +26,8 @@ namespace SpiderState
             if (Vector3.Distance(owner.transform.position, owner.spawnPos) < 0.5f)
             {
                 if (owner.IsValid())
-                    if (Array.IndexOf(owner.spawnInfo.spiders, owner) >= 0)
-                        owner.transform.rotation = owner.spawnInfo.spawnPoint[Array.IndexOf(owner.spawnInfo.spiders, owner)].transform.rotation;
+                    if (Array.IndexOf(owner.spawnInfo.monters, owner) >= 0)
+                        owner.transform.rotation = owner.spawnInfo.spawnPoint[Array.IndexOf(owner.spawnInfo.monters, owner)].transform.rotation;
                 owner.ChangeState(Spider.State.Idle);
             }
 

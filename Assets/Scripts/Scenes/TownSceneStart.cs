@@ -18,10 +18,6 @@ public class TownSceneStart : MonoBehaviour
         questObj.name = "QuestManager";
         questObj.AddComponent<QuestManager>();
 
-        GameManager.Resource.Instantiate<Canvas>("UI/SceneUI");
-
         Player.Instance.transform.position = transform.position;
-
-        Debug.Log(Player.Instance.transform.position);
     }
 }

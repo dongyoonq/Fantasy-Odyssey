@@ -13,7 +13,7 @@ public class ShopNpc : MonoBehaviour
     {
         Player.Instance.GetComponent<PlayerInput>().enabled = false;
         shopUI = GameManager.Resource.Instantiate<ShopUI>("UI/Shop");
-        shopUI.transform.SetParent(GameObject.Find("SceneUI").transform, false);
+        shopUI.transform.SetParent(GameObject.Find("ShopUI").transform, false);
 
         foreach (ItemData item in shopItemList)
         {

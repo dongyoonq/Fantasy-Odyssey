@@ -6,6 +6,7 @@ public abstract class Monster : MonoBehaviour
 {
     public int currHp;
     public BaseMonsterData data;
+    public MonsterSpawn spawnInfo;
 
     public abstract void DropItemAndUpdateExp();
 }
