@@ -21,6 +21,7 @@ public class ShopNpc : MonoBehaviour
             slot.itemData = item;
             slot.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = slot.itemData.sprite;
             slot.transform.GetChild(1).GetComponent<TMP_Text>().text = slot.itemData.itemName;
+            // GetChild(2) : itemData.price 가 들어갈 자리
             slot.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() => ShopSell(slot.itemData));
             slot.detail = shopUI.detail;
         }
@@ -37,6 +38,7 @@ public class ShopNpc : MonoBehaviour
 
     public void ShopSell(ItemData itemData)
     {
+        // 가격 추가시 조건문으로 Player Money와 itemData의 Price비교해 구매, 구매불가 가능
         Player.Instance.AddItemToInventory(itemData);
     }
 }

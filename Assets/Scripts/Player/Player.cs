@@ -270,7 +270,8 @@ public class Player : MonoBehaviour, IHitable
             UnEquip(equipment, index);
             // 그 장비에 대한 스텟 적용
             equipment.ApplyStatusModifier();
-            RegisterWeapon(equipment.gameObject);
+            if (equipment.equipmentData.equipType == EquipmentData.EquipType.Weapon)
+                RegisterWeapon(equipment.gameObject);
             OnChangeEquipment?.Invoke();
             return true;    
         }
@@ -283,7 +284,9 @@ public class Player : MonoBehaviour, IHitable
         // 그 장비에 대한 스텟 적용
         equipment.ApplyStatusModifier();
 
-        RegisterWeapon(equipment.gameObject);
+        if (equipment.equipmentData.equipType == EquipmentData.EquipType.Weapon)
+            RegisterWeapon(equipment.gameObject);
+
         OnChangeEquipment?.Invoke();
         return true;
     }
@@ -302,6 +305,11 @@ public class Player : MonoBehaviour, IHitable
         // 착용중인 부위에 아이템이 있으면
         if (wearingEquip.ContainsKey(equipment.equipmentData.equipType))
         {
+            EquipmentData temp = wearingEquip[equipment.equipmentData.equipType].equipmentData;
+
+            // 스텟 미적용
+            wearingEquip[equipment.equipmentData.equipType].RemoveStatusModifier();
+
             // 착용중인 장비를 지워준다.
             Destroy(wearingEquip[equipment.equipmentData.equipType].gameObject);
             wearingEquip.Remove(equipment.equipmentData.equipType);
@@ -313,13 +321,11 @@ public class Player : MonoBehaviour, IHitable
             RemoveItemFromInventory(inventory.list[index], index);
 
             // 인벤토리에 착용 중인 장비를 넣어주고
-            inventory.list[index] = equipment.Data;
-            AddItemToInventory(equipment.Data, index);
+            inventory.list[index] = temp;
+            AddItemToInventory(temp, index);
 
-            // 스텟 미적용
-            equipment.RemoveStatusModifier();
-
-            UnRegisterWeapon(equipment.gameObject);
+            if (equipment.equipmentData.equipType == EquipmentData.EquipType.Weapon)
+                UnRegisterWeapon(equipment.gameObject);
 
             OnChangeEquipment?.Invoke();
             return true;
@@ -362,7 +368,9 @@ public class Player : MonoBehaviour, IHitable
 
         // 스텟 미적용
         equipment.RemoveStatusModifier();
-        UnRegisterWeapon(equipment.gameObject);
+
+        if (equipment.equipmentData.equipType == EquipmentData.EquipType.Weapon)
+            UnRegisterWeapon(equipment.gameObject);
 
         OnChangeEquipment?.Invoke();
         return true;

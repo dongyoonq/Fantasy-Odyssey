@@ -1,0 +1,4 @@
+아이템 이름,설명,요구 레벨,요구 직업,"장비 타입 ( 1 : Shield,  2 : Head,  3: Armor,  4 : Pants,   5 : Boots,  6 : Gloves,  7 : Cloak)",체력,방어력,걷는 속도,뛰는 속도,점프력,스프라이트,프리펩
+Warrior's Crown,전사들이 쓰고다니는 평범한 투구다.,1,Warrior,2,200,30,0,0,0,Sprite/Mail_head_1,Prefabs/Item/Head/WarriorCrown
+Sunstrike Headguard,귀족들이 쓰고 다녔던 투구다.,1,Warrior,2,400,50,0,0,0,Sprite/Mail_head_2,Prefabs/Item/Head/SunstrikeHeadguard
+Rune-Ward Helm,문자가 세겨진 투구이다.,1,Warrior,2,800,80,0,0,0,Sprite/Mail_head_3,Prefabs/Item/Head/RuneWardHelm

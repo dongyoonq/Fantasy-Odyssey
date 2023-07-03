@@ -74,7 +74,7 @@ public class EquipmentUI : PopUpUI
             else
             {
                 slots[i].transform.GetChild(0).GetComponent<Image>().sprite = orgSprite[i];
-                slots[i].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+                slots[i].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0.15f);
             }
         }
     }

@@ -373,4 +373,39 @@ public class LoadManager
 
         AssetDatabase.SaveAssets();
     }
+
+    private static string armorItemPath = "/Editors/CSVs/ArmorItemCSV.csv";
+
+    [MenuItem("Utilities/Generate Armor Item Data")]
+    public static void CSVtoSO_ArmorItemData()
+    {
+        string[] allLines = File.ReadAllLines(Application.dataPath + armorItemPath);
+
+        foreach (string s in allLines)
+        {
+            if (s == allLines[0])
+                continue;
+
+            string[] splitData = s.Split(',');
+
+            ArmorData armorData = ScriptableObject.CreateInstance<ArmorData>();
+            armorData.itemName = splitData[0];
+            armorData.Tooltip = splitData[1];
+            armorData.ReqLvl = int.Parse(splitData[2]);
+            armorData.ReqJob = splitData[3];
+            armorData.equipType = (EquipmentData.EquipType)(int.Parse(splitData[4]));
+            armorData.MaxHP = int.Parse(splitData[5]);
+            armorData.Deffense = int.Parse(splitData[6]);
+            armorData.WalkSpeed = float.Parse(splitData[7]);
+            armorData.RunSpeed = float.Parse(splitData[8]);
+            armorData.JumpPower = float.Parse(splitData[9]);
+            armorData.sprite = Resources.Load<Sprite>(splitData[10]);
+            armorData.prefab = Resources.Load<Item>(splitData[11]);
+
+            AssetDatabase.CreateAsset(armorData, $"Assets/Imports/Resources/Data/ItemData/ArmorData/{armorData.equipType}/{armorData.itemName}.asset");
+        }
+
+        AssetDatabase.SaveAssets();
+
+    }
 }

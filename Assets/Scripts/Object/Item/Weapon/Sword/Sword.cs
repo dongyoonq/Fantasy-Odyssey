@@ -35,8 +35,7 @@ public class Sword : Weapon
 
     private void Start()
     {
-        Debug.Log(equipmentData);
-        Debug.Log(weaponData);
+
     }
 
     private void LateUpdate()
