@@ -424,35 +424,51 @@ public class Player : MonoBehaviour, IHitable
 
     public void ScanNpc()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 2f, LayerMask.GetMask("NPC")))
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("NPC"));
+        if (colliders.Length > 0)
         {
-            NPC npc = hit.collider.GetComponent<NPC>();
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.F))
+            foreach (Collider collider in colliders)
             {
-                lookrot = npc.transform.rotation.eulerAngles;
-                animator.SetBool("Talk", true);
-                npc.transform.LookAt(transform.position);
+                Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
+                if (Vector3.Dot(transform.forward, dirTarget) >= Mathf.Cos(160 * 0.5f * Mathf.Deg2Rad))
+                {
+                    NPC npc = collider.GetComponent<NPC>();
 
-                npc.OpenTalk();
+                    if (UnityEngine.Input.GetKeyDown(KeyCode.F))
+                    {
+                        lookrot = npc.transform.rotation.eulerAngles;
+                        animator.SetBool("Talk", true);
+                        npc.transform.LookAt(transform.position);
 
-                prevNpc = npc;
+                        npc.OpenTalk();
+
+                        prevNpc = npc;
+                    }
+                }
+                else
+                {
+                    ExitNpc();
+                }
             }
         }
         else
         {
-            if (prevNpc != null)
-            {
-                if (GameObject.Find("TalkUI Panel").IsValid())
-                    GameObject.Find("TalkUI Panel").SetActive(false);
-                prevNpc.transform.rotation = Quaternion.Euler(lookrot);
-                prevNpc.animator.SetBool("Talk", false);
-            }
-
-            animator.SetBool("Talk", false);
-            prevNpc = null;
+            ExitNpc();
         }
+    }
+
+    void ExitNpc()
+    {
+        if (prevNpc != null)
+        {
+            if (GameObject.Find("TalkUI Panel").IsValid())
+                GameObject.Find("TalkUI Panel").SetActive(false);
+            prevNpc.transform.rotation = Quaternion.Euler(lookrot);
+            prevNpc.animator.SetBool("Talk", false);
+        }
+
+        animator.SetBool("Talk", false);
+        prevNpc = null;
     }
 
     public void ScanMonster()
