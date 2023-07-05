@@ -32,7 +32,7 @@ public class BaseAttackState : PlayerBaseState
         Player.Instance.animator.SetBool(hashIsLeftAttackAnimation, true);
         Player.Instance.animator.SetInteger(hashAttackAnimation, ComboCount);
         totalDamge = Player.Instance.Status.AttackPower;
-        AttackCircleJudgement(totalDamge, 2f, 160f, 220f);
+        AttackCircleJudgement(totalDamge, 2.5f, 165f, 230f);
         CheckAttackReInput(CanReInputTime);
     }
 

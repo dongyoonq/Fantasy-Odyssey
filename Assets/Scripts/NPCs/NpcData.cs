@@ -9,10 +9,10 @@ public class NpcData : ScriptableObject
 {
     //[NonSerialized] public TalkData talkData;
     //[NonSerialized] public QuestData quest;
-
     [NonSerialized] public QuestGiver questNpc;
     [NonSerialized] public bool isCompleteQuest;
     public bool isQuestNPC;
+    public bool isTargetNpc;
 
     [SerializeField] public TalkData talkData;
     [SerializeField] public  QuestData quest;

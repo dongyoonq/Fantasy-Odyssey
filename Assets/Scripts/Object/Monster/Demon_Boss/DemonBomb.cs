@@ -4,12 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class DemonBomb : Monster, IHitable
 {
     public enum State { Spawn, Move, Suicide, Size }
 
     [NonSerialized] public Animator animator;
+    [NonSerialized] public CharacterController controller;
 
     List<MonsterBaseState<DemonBomb>> states;
     State currState;
@@ -17,6 +19,7 @@ public class DemonBomb : Monster, IHitable
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
         states = new List<MonsterBaseState<DemonBomb>>((int)State.Size)
         {
             new Demon_Bomb.SpawnState(this),

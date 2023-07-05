@@ -30,11 +30,12 @@ namespace StingBeeState
                 owner.ChangeState(StingBee.State.Idle);
             }
 
-            Vector3 TargetDir = (owner.spawnPos - owner.transform.position).normalized;
+            Vector3 targetDir = (owner.spawnPos - owner.transform.position).normalized;
 
-            owner.transform.Translate(new Vector3(TargetDir.x, 0, TargetDir.z) * owner.data.moveSpeed * Time.deltaTime, Space.World);
+            if (owner.controller.enabled)
+                owner.controller.Move(targetDir * owner.data.moveSpeed * Time.deltaTime);
 
-            Quaternion targetRot = Quaternion.LookRotation(TargetDir);
+            Quaternion targetRot = Quaternion.LookRotation(targetDir);
             owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, Quaternion.Euler(0, targetRot.eulerAngles.y, 0), owner.data.rotSpeed * Time.deltaTime);
         }
     }

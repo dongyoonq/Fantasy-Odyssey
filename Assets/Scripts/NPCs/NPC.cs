@@ -19,6 +19,8 @@ public class NPC : MonoBehaviour
     [SerializeField] public NpcData data;
     [SerializeField] public bool isShopNpc;
 
+    bool isPrevQuestComplete;
+
     private void Start()
     {
         StartCoroutine(SetPanel());
@@ -81,11 +83,25 @@ public class NPC : MonoBehaviour
 
             npc.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => npc.CompleteQuest());
 
+            isPrevQuestComplete = true;
+
             return;
         }
 
         if (data.isQuestNPC)
         {
+            if (data.isTargetNpc)
+            {
+                if (!isPrevQuestComplete)
+                {
+                    npcContentText.text = data.talkData.talkContents[0];
+                    okButton.onClick.AddListener(() => {
+                        npcNameText.transform.parent.gameObject.SetActive(false);
+                    });
+                    return;
+                }
+            }
+
             data.questNpc.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
 
             if (!data.quest.isActive)

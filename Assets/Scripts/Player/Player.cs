@@ -12,7 +12,7 @@ using UnityEngine.UIElements;
 public class Player : MonoBehaviour, IHitable
 {
     public UnityEvent<ItemData> OnChangeShortSlot;
-    public UnityEvent OnChangeKillQuestUpdate;
+    public UnityEvent<BaseMonsterData> OnChangeKillQuestUpdate;
     public UnityEvent<ItemData> OnChangeGatheringQuestUpdate;
     public UnityEvent<ItemData> OnChangeUseQuestUpdate;
     public UnityEvent<NpcData> OnChangeTalkQuestUpdate;

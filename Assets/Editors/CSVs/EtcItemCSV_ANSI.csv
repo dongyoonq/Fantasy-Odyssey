@@ -1,2 +1,5 @@
 아이템 이름,설명,최대수량,아이콘,프리펩
-SpiderBooty,SpiderBooty,99,Sprite/Spider Booty,Prefabs/Item/Etc/Spider Booty
+SpiderBooty,거미눈. 거미한테서 죽이면 나오는 전리품이다,99,Sprite/Spider Booty,Prefabs/Item/Etc/Spider Booty
+Demon's Heart,보스 데몬을 잡아서 나오는 심장이다. 이것을 가져다 주면 용맹함을 증명할 수 있다.,99,Sprite/Demon Heart,Prefabs/Item/Etc/Demon Heart
+Spectral Eye,환영의 눈. 팬텀이 가지고 다니는 눈이다. 환영이 보이는 듯 하다,99,Sprite/Spectral Eye,Prefabs/Item/Etc/Spectral Eye
+Venomous Sting,벌 독침. 벌에게서 나오는 독침 전리품이다.,99,Sprite/Venomous Sting,Prefabs/Item/Etc/Venomous Sting

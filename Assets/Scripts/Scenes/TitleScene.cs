@@ -49,7 +49,6 @@ public class TitleScene : BaseScene
 
         Player player = GameManager.Resource.Instantiate<Player>("Prefabs/Player/Player");
         player.PlayerName = inputText.text;
-        player.Status = Resources.Load<PlayerStatusData>("Data/PlayerData/PlayerBaseData");
 
         GameManager.Scene.LoadScene("Town");
 

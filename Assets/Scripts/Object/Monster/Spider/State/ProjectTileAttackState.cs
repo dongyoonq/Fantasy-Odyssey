@@ -42,15 +42,17 @@ namespace SpiderState
         {
             yield return new WaitForSeconds(0.4f);
             particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Monster/Spider/SpiderProjectileAttack",
-                owner.transform.position + (owner.transform.forward * 0.8f) + (owner.transform.up * 0.3f), owner.transform.rotation, true);
+                owner.transform.position + (owner.transform.forward * 0.8f) + (owner.transform.up * 0.5f), owner.transform.rotation, true);
             particle.GetComponent<SpiderProjectile>().spider = owner;
             owner.projectTileMoveRoutine = owner.StartCoroutine(projectileMoveRoutine(particle));
         }
 
         IEnumerator projectileMoveRoutine(ParticleSystem particle)
         {
+            Vector3 targetDir = (Player.Instance.transform.position - owner.transform.position).normalized;
+
             Vector3 start = particle.transform.position;
-            Vector3 end = start + (particle.transform.forward * owner.data.rangeMonsterData[0].attackDistance);
+            Vector3 end = start + (targetDir * owner.data.rangeMonsterData[0].attackDistance);
             float totalTime = Vector3.Distance(start, end) / projectileSpeed;
             owner.ProjecttileTime = totalTime;
 
@@ -61,7 +63,7 @@ namespace SpiderState
                 while (rate < 1)
                 {
                     rate += Time.deltaTime / totalTime;
-                    particle.transform.position = Vector3.Lerp(start, new Vector3(end.x, start.y, end.z), rate);
+                    particle.transform.position = Vector3.Lerp(start, end, rate);
                     yield return null;
                 }
 

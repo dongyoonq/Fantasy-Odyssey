@@ -46,20 +46,28 @@ namespace SpiderState
             while (rate < 1f)
             {
                 rate += Time.deltaTime / totalTime;
-                owner.transform.position = Vector3.Lerp(start, new Vector3(end.x, start.y, end.z), rate);
+
+                Vector3 targetPosition = Vector3.Lerp(start, end, rate);
+
+                // Calculate the movement direction and speed
+                Vector3 moveDirection = (targetPosition - owner.transform.position).normalized;
+
+                // Move the character using the Character Controller
+                owner.controller.Move(moveDirection * owner.data.moveSpeed * Time.deltaTime);
+
                 yield return null;
             }
 
             owner.animator.SetBool("Move", false);
             owner.animator.SetBool("Attack", true);
 
-            // ???? ??? ???????.
-            // animation Timing
+            // Wait for the specified animation timing
             yield return new WaitForSeconds(0.5f);
             attackJudgement();
             yield return new WaitForSeconds(0.5f);
             owner.ChangeState(Spider.State.Trace);
         }
+
 
         void attackJudgement()
         {

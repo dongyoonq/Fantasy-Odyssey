@@ -16,6 +16,7 @@ public class StingBee : Monster, IHitable, IHearable
     [NonSerialized] public Vector3 spawnPos;
     [NonSerialized] public Animator animator;
     [NonSerialized] public float coolTime;
+    [NonSerialized] public CharacterController controller;
 
     [SerializeField] public LayerMask targetMask;
     [SerializeField] public LayerMask obstacleMask;
@@ -29,6 +30,7 @@ public class StingBee : Monster, IHitable, IHearable
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
         states = new List<MonsterBaseState<StingBee>>((int)State.Size)
         {
             new StingBeeState.IdleState(this),
@@ -113,7 +115,7 @@ public class StingBee : Monster, IHitable, IHearable
             ChangeState(State.Die);
         }
 
-        if (currState == State.Idle || currState == State.Trace)
+        if (currState == State.Idle || currState == State.Trace || currState == State.Return)
         {
             ChangeState(State.TakeDamage);
         }
@@ -129,16 +131,17 @@ public class StingBee : Monster, IHitable, IHearable
 
     int[] percent = Enumerable.Range(1, 100).ToArray();
 
-    // 0 - SpiderBooty,  1 - NormalSword
+    // 0 - Venomous Sting,  1 - Hero's Plate, 2 - Windrunner Boots, 3 - Shadowwave Cloak, 4 - Ironclaw Gauntlets
+    // 5 - Warrior's Crown, 6 - Shadowweave Trousers
     public override void DropItemAndUpdateExp()
     {
         StartCoroutine(ExpDropRoutine());
 
         int random = UnityEngine.Random.Range(1, 101);
 
-        // 전리품(Spider Booty) 드랍확률 70%
-        int spiderBootyDropPercent = (int)(percent.Length * 0.7f);
-        for (int i = 0; i < spiderBootyDropPercent; i++)
+        // 전리품(Venomous Sting) 드랍확률 70%
+        int dropPercent = (int)(percent.Length * 0.7f);
+        for (int i = 0; i < dropPercent; i++)
         {
             if (percent[i] == random)
             {
@@ -151,9 +154,9 @@ public class StingBee : Monster, IHitable, IHearable
 
         random = UnityEngine.Random.Range(1, 101);
 
-        // 장비(Sword) 드랍확률 5%
-        int spiderSwordDropPercent = (int)(percent.Length * 0.05f);
-        for (int i = 0; i < spiderSwordDropPercent; i++)
+        // Hero's Plate 드랍확률 2%
+        dropPercent = (int)(percent.Length * 0.02f);
+        for (int i = 0; i < dropPercent; i++)
         {
             if (percent[i] == random)
             {
@@ -164,11 +167,86 @@ public class StingBee : Monster, IHitable, IHearable
             }
         }
 
+        random = UnityEngine.Random.Range(1, 101);
+
+        // Windrunner Boots 드랍확률 2%
+        dropPercent = (int)(percent.Length * 0.02f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[2].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[2];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        random = UnityEngine.Random.Range(1, 101);
+
+        // Shadowwave Cloak 드랍확률 2%
+        dropPercent = (int)(percent.Length * 0.02f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[3].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[3];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        random = UnityEngine.Random.Range(1, 101);
+
+        // Ironclaw Gauntlets 드랍확률 2%
+        dropPercent = (int)(percent.Length * 0.02f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[4].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[4];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        random = UnityEngine.Random.Range(1, 101);
+
+        // Warrior's Crown 드랍확률 2%
+        dropPercent = (int)(percent.Length * 0.02f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[5].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[5];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        random = UnityEngine.Random.Range(1, 101);
+
+        // Shadowweave Trousers 드랍확률 2%
+        dropPercent = (int)(percent.Length * 0.02f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[6].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[6];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
         IEnumerator ExpDropRoutine()
         {
-            for (int i = 0; i < data.dropExp / 5; i++)
+            for (int i = 0; i < data.dropExp / 10; i++)
             {
-                Player.Instance.Exp += 5;
+                Player.Instance.Exp += 10;
                 yield return new WaitForSeconds(0.00001f);
             }
         }

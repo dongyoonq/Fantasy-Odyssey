@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Demon_Boss
@@ -35,7 +36,20 @@ namespace Demon_Boss
         IEnumerator JumpAttackRoutine()
         {
             owner.animator.SetBool("Jump", true);
-            yield return new WaitForSeconds(1.5f);
+
+            float time = 0f;
+
+            while (time < 1f)
+            {
+                time += Time.deltaTime;
+
+                owner.ySpeed = Mathf.Lerp(owner.ySpeed, 6.5f, time);
+
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.6f);
+
             AttackJudgeMent();
             particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Monster/DemonBoss/GroundCrack", owner.transform.position + (owner.transform.up * 0.2f), Quaternion.identity);
             GameManager.Resource.Destroy(particle, 1f);

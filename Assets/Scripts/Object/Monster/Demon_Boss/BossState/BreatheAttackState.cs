@@ -18,7 +18,7 @@ namespace Demon_Boss
             isWait = true;
             playerHited = false;
             owner.animator.SetBool("Breath", true);
-            owner.breatheRoutine = owner.StartCoroutine(animationRoutine());
+            owner.breatheRoutine = owner.StartCoroutine(AnimationRoutine());
             owner.hitBoxRoutine = owner.StartCoroutine(HitBoxOn());
         }
 
@@ -39,9 +39,9 @@ namespace Demon_Boss
 
         public override void Update()
         {
-            Vector3 TargetDir = (Player.Instance.transform.position - owner.transform.position).normalized;
+            Vector3 targetDir = (Player.Instance.transform.position - owner.transform.position).normalized;
 
-            Quaternion targetRot = Quaternion.LookRotation(TargetDir);
+            Quaternion targetRot = Quaternion.LookRotation(targetDir);
             owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, Quaternion.Euler(0, targetRot.eulerAngles.y, 0), owner.data.rotSpeed * Time.deltaTime);
         
             if (!isWait && !playerHited)
@@ -50,7 +50,7 @@ namespace Demon_Boss
             }
         }
 
-        IEnumerator animationRoutine()
+        IEnumerator AnimationRoutine()
         {
             yield return new WaitForSeconds(0.5f);
             particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Monster/DemonBoss/Flame", owner.jaw.transform.position, owner.jaw.transform.rotation, owner.jaw.transform);

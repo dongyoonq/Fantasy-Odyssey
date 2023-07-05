@@ -22,7 +22,7 @@ public class SpiderProjectile : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            // moveRoutineÁß µµÁß¿¡ ²÷Å² ½Ã°£¿¡ ´ëÇØ Ã¼Å©¸¦ ÇÏ¿© ±×½Ã°£ ¸¸Å­ WaitÇÏ±â À§ÇØ °è»ê
+            // moveRoutineì¤‘ ë„ì¤‘ì— ëŠí‚¨ ì‹œê°„ì— ëŒ€í•´ ì²´í¬ë¥¼ í•˜ì—¬ ê·¸ì‹œê°„ ë§Œí¼ Waití•˜ê¸° ìœ„í•´ ê³„ì‚°
             float calculateTime = spider.ProjecttileTime - elapseTime;
             other.GetComponent<IHitable>().Hit(spider.data.rangeMonsterData[0].attackDamage);
 

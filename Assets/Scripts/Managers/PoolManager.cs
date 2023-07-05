@@ -16,6 +16,11 @@ public class PoolManager : MonoBehaviour
         canvasRoot = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
     }
 
+    public void Restart()
+    {
+        Awake();
+    }
+
     public T Get<T>(T original) where T : Object
     {
         return Get(original, Vector3.zero, Quaternion.identity, null);
@@ -34,7 +39,7 @@ public class PoolManager : MonoBehaviour
     public T Get<T>(T original, Vector3 position, Quaternion rotation, Transform parent) where T : Object
     {
         if (original == null)
-            Debug.Log("NULL ÂüÁ¶ ¿À·ù");
+            Debug.Log("NULL ì°¸ì¡° ì˜¤ë¥˜");
 
         if (original is GameObject)
         {
@@ -199,7 +204,7 @@ public class PoolManager : MonoBehaviour
     public T GetUI<T>(T original) where T : Object
     {
         if (original == null)
-            Debug.Log("NULL ÂüÁ¶ ¿À·ù");
+            Debug.Log("NULL ì°¸ì¡° ì˜¤ë¥˜");
 
         if (original is GameObject)
         {

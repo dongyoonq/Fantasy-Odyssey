@@ -21,12 +21,12 @@ namespace Demon_Bomb
 
         public override void Update()
         {
-            Vector3 TargetDir = (Player.Instance.transform.position - owner.transform.position).normalized;
+            Vector3 targetDir = (Player.Instance.transform.position - owner.transform.position).normalized;
 
-            Quaternion targetRot = Quaternion.LookRotation(TargetDir);
+            Quaternion targetRot = Quaternion.LookRotation(targetDir);
             owner.transform.rotation = Quaternion.Lerp(owner.transform.rotation, Quaternion.Euler(0, targetRot.eulerAngles.y, 0), owner.data.rotSpeed * Time.deltaTime);
 
-            owner.transform.Translate(new Vector3(TargetDir.x, 0, TargetDir.z) * owner.data.moveSpeed * Time.deltaTime, Space.World);
+            owner.controller.Move(targetDir * owner.data.moveSpeed * Time.deltaTime);
 
             if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < owner.data.meleeMonsterData[0].detectRange)
             {

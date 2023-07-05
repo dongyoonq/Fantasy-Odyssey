@@ -13,6 +13,9 @@ namespace Demon_Boss
         {
             owner.animator.SetBool("Die", true);
             owner.StartCoroutine(DissapearRoutine());
+            owner.GetComponent<CharacterController>().enabled = false;
+            Player.Instance.OnChangeKillQuestUpdate?.Invoke(owner.data);
+            owner.DropItemAndUpdateExp();
         }
 
         public override void Exit()

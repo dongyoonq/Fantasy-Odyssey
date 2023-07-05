@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Xml.Linq;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
@@ -80,6 +82,8 @@ public class LoadManager
         string[] questDataLines = File.ReadAllLines(Application.dataPath + npcQuestCSVPath);
         QuestData npcQuestData;
 
+        Dictionary<QuestData, string> tempData = new Dictionary<QuestData, string>();
+
         foreach (string s in questDataLines)
         {
             if (s == questDataLines[0])
@@ -102,7 +106,7 @@ public class LoadManager
                 npcQuestData.goal.item = Resources.Load<ItemData>(splitData[8]);
 
             if (!string.IsNullOrEmpty(splitData[9]))
-                npcQuestData.goal.targetNpc = Resources.Load<NpcData>(splitData[9]);
+                tempData.Add(npcQuestData, splitData[9]);
 
             AssetDatabase.CreateAsset(npcQuestData, $"Assets/Imports/Resources/Data/NpcData/QuestData/{splitData[0]}.asset");
 
@@ -128,6 +132,31 @@ public class LoadManager
 
             if (npcData.talkData != null || npcData.quest != null)
                 AssetDatabase.CreateAsset(npcData, $"Assets/Imports/Resources/Data/NpcData/{npcData.talkData.id}.asset");
+        }
+
+        AssetDatabase.SaveAssets();
+
+        foreach (KeyValuePair<QuestData, string> items in tempData)
+        {
+            NpcData tmpData = ScriptableObject.CreateInstance<NpcData>();
+            NpcData npcData = Resources.Load<NpcData>(items.Value);
+            string tempid = npcData.talkData.id;
+
+            tmpData.questNpc = npcData.questNpc; tmpData.quest = npcData.quest; tmpData.isQuestNPC = npcData.isQuestNPC; tmpData.isCompleteQuest = npcData.isCompleteQuest;
+            tmpData.talkData = npcData.talkData;
+
+            QuestData questData = ScriptableObject.CreateInstance<QuestData>();
+            questData.questName = items.Key.questName; questData.title = items.Key.title; questData.target = items.Key.target; questData.description = items.Key.description;
+            questData.expReward = items.Key.expReward; questData.goal = items.Key.goal; questData.id = items.Key.id; questData.isActive = items.Key.isActive;
+            questData.goal.targetNpc = tmpData;
+
+            tmpData.isTargetNpc = true;
+            Debug.Log(Resources.Load<NpcData>(items.Value) + "Target Npc");
+            AssetDatabase.DeleteAsset($"Assets/Imports/Resources/Data/NpcData/{tempid}.asset");
+            AssetDatabase.CreateAsset(tmpData, $"Assets/Imports/Resources/Data/NpcData/{tmpData.talkData.id}.asset");
+
+            AssetDatabase.DeleteAsset($"Assets/Imports/Resources/Data/NpcData/QuestData/{items.Key.id}.asset");
+            AssetDatabase.CreateAsset(questData, $"Assets/Imports/Resources/Data/NpcData/QuestData/{questData.id}.asset");
         }
 
         AssetDatabase.SaveAssets();

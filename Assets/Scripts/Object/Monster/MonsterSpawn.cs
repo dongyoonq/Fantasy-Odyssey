@@ -13,7 +13,7 @@ public class MonsterSpawn : MonoBehaviour
     [NonSerialized] public Monster[] monters;
     [NonSerialized] public int currMonster;
 
-    private void Awake()
+    private void Start()
     {
         monters = new Monster[spawnPoint.Count];
         for (int i = 0; i < spawnPoint.Count; i++)

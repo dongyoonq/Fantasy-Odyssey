@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class Scarecrow : Monster, IHitable
 {
@@ -25,8 +27,13 @@ public class Scarecrow : Monster, IHitable
         {
             GetComponent<Collider>().enabled = false;
             animator.SetTrigger("Die");
-            Player.Instance.OnChangeKillQuestUpdate?.Invoke();
+            Player.Instance.OnChangeKillQuestUpdate?.Invoke(data);
             Destroy(gameObject, 3f);
+
+            spawnInfo.currMonster--;
+            int index = Array.IndexOf(spawnInfo.monters, this);
+            spawnInfo.spawnPoint[index].state = SpawnPoint.State.Empty;
+            spawnInfo.monters[index] = null;
         }
     }
 

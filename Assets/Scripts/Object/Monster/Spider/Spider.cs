@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class Spider : Monster, IHitable
 {
@@ -15,17 +17,20 @@ public class Spider : Monster, IHitable
     [NonSerialized] public Animator animator;
 
     [NonSerialized] public float ProjecttileTime;
+    [NonSerialized] public float ySpeed;
 
     List<MonsterBaseState<Spider>> states;
     public Coroutine projectTileAttackRoutine;
     public Coroutine projectTileMoveRoutine;
     public Coroutine biteRoutine;
     public Coroutine takedamageRoutine;
+    public CharacterController controller;
     State currState;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
         states = new List<MonsterBaseState<Spider>>((int)State.Size)
         {
             new SpiderState.IdleState(this),
@@ -54,6 +59,7 @@ public class Spider : Monster, IHitable
 
     private void Update()
     {
+        Fall();
         states[(int)currState]?.Update();
     }
 
@@ -75,6 +81,24 @@ public class Spider : Monster, IHitable
             if (biteRoutine != null) StopCoroutine(biteRoutine);
             ChangeState(State.Return);
         }
+    }
+
+    void Fall()
+    {
+        if (IsGrounded() && ySpeed < 0)
+            ySpeed = -2;
+        else
+            ySpeed += Physics.gravity.y * Time.deltaTime;
+
+        if (controller.enabled)
+            controller.Move(Vector3.up * ySpeed * Time.deltaTime);
+    }
+
+    private bool IsGrounded()
+    {
+        Vector3 boxSize = new Vector3(transform.lossyScale.x, 0.3f, transform.lossyScale.z);
+        return Physics.CheckBox(transform.position, boxSize, Quaternion.identity,
+               LayerMask.GetMask("Ground"));
     }
 
     private void OnDrawGizmosSelected()

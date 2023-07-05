@@ -74,5 +74,7 @@ public class ShortSlotDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
 
         draggingItem = null;
+
+        ShortSlotDrop.isShortSlotDrop = false;
     }
 }

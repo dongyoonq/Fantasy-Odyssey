@@ -51,6 +51,12 @@ public class SceneManager : MonoBehaviour
 
         while (CurrScene.progress < 1f)
         {
+            if (CurrScene.progress == 0.7f)
+            {
+                GameManager.Ui.Restart();
+                GameManager.Pool.Restart();
+            }
+
             loadingUI.SetProgress(Mathf.Lerp(0.5f, 1.0f, currScene.progress));
             yield return null;
         }

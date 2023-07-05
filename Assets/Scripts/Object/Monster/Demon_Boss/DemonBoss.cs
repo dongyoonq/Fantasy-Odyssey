@@ -3,19 +3,25 @@ using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class DemonBoss : Monster, IHitable
 {
     public enum State { Spawn, Idle, Move, Claw, Smash, Breathe, JumpAttack, Grab, Summon, Heal, Throw, Rage, Groggy, Die, Size }
 
     [NonSerialized] public Animator animator;
-    [SerializeField] public float patternChangeTimer = 0f;
     [NonSerialized] public float rockElapseTime;
     [NonSerialized] public bool isGroggyed;
     [NonSerialized] public int stunValue;
+    [NonSerialized] public CharacterController controller;
+    [NonSerialized] public float ySpeed;
+
     public int stunThreshold;
 
+    [SerializeField] public float patternChangeTimer = 0f;
     [SerializeField] public GameObject jaw;
     [SerializeField] public GameObject lefthand;
     [SerializeField] public GameObject righthand;
@@ -46,6 +52,7 @@ public class DemonBoss : Monster, IHitable
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
         states = new List<MonsterBaseState<DemonBoss>>((int)State.Size)
         {
             new Demon_Boss.SpawnState(this),
@@ -78,6 +85,8 @@ public class DemonBoss : Monster, IHitable
 
     private void Update()
     {
+        Fall();
+
         states[(int)currState]?.Update();
 
         if (currState != State.Spawn && currState != State.Idle)
@@ -101,10 +110,8 @@ public class DemonBoss : Monster, IHitable
             rockIntervalRoutine = null;
         }
 
-        Debug.Log(currState);
         states[(int)currState]?.Exit();
         currState = state;
-        Debug.Log(currState);
         states[(int)currState]?.Enter();
     }
 
@@ -122,13 +129,150 @@ public class DemonBoss : Monster, IHitable
 
         ChangeState((State)patternIndex);
         patternChangeTimer = 0f;
-        //ChangeState(State.Breathe); // : State Test
+        //ChangeState(State.JumpAttack); // : State Test
     }
 
+    void Fall()
+    {
+        if (IsGrounded() && ySpeed < 0)
+            ySpeed = -2;
+        else
+            ySpeed += Physics.gravity.y * Time.deltaTime;
+
+        if (controller.enabled)
+            controller.Move(Vector3.up * ySpeed * Time.deltaTime);
+    }
+
+    private bool IsGrounded()
+    {
+        Vector3 boxSize = new Vector3(transform.lossyScale.x, 0.3f, transform.lossyScale.z);
+        return Physics.CheckBox(transform.position, boxSize, Quaternion.identity,
+               LayerMask.GetMask("Ground"));
+    }
+
+    int[] percent = Enumerable.Range(1, 100).ToArray();
+
+    // 0 - Demon's Heart,  1 - Golden Sentinel Mail, 2 - Lightstep Shoes, 3 - Evergreen Cloak, 4 - Flameforged Gauntlets
+    // 5 - Rune-Ward Helm, 6 - Flameheart Leggings
     public override void DropItemAndUpdateExp()
     {
-        // 드랍 구현
+        StartCoroutine(ExpDropRoutine());
+
+        int random = UnityEngine.Random.Range(1, 101);
+
+        // 전리품(Demon's Heart) 드랍확률 100%
+        int dropPercent = (int)(percent.Length * 1f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[0].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[0];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        random = UnityEngine.Random.Range(1, 101);
+
+        // Golden Sentinel Mail 드랍확률 100%
+        dropPercent = (int)(percent.Length * 1f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[1].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[1];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        random = UnityEngine.Random.Range(1, 101);
+
+        // Lightstep Shoes 드랍확률 100%
+        dropPercent = (int)(percent.Length * 1f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[2].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[2];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        random = UnityEngine.Random.Range(1, 101);
+
+        // Evergreen Cloak 드랍확률 100%
+        dropPercent = (int)(percent.Length * 1f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[3].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[3];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        random = UnityEngine.Random.Range(1, 101);
+
+        // Flameforged Gauntlets 드랍확률 100%
+        dropPercent = (int)(percent.Length * 1f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[4].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[4];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        random = UnityEngine.Random.Range(1, 101);
+
+        // Rune-Ward Helm 드랍확률 100%
+        dropPercent = (int)(percent.Length * 1f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[5].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[5];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        random = UnityEngine.Random.Range(1, 101);
+
+        // Flameheart Leggings 드랍확률 100%
+        dropPercent = (int)(percent.Length * 1f);
+        for (int i = 0; i < dropPercent; i++)
+        {
+            if (percent[i] == random)
+            {
+                Item fieldItem = Instantiate(data.dropTable[6].prefab, transform.position + (transform.up * 0.5f), Quaternion.identity);
+                ItemData tempData = data.dropTable[6];
+                fieldItem.AddComponent<FieldItem>();
+                fieldItem.GetComponent<FieldItem>().itemData = tempData;
+            }
+        }
+
+        IEnumerator ExpDropRoutine()
+        {
+            for (int i = 0; i < data.dropExp / 30; i++)
+            {
+                Player.Instance.Exp += 30;
+                yield return new WaitForSeconds(0.00001f);
+            }
+        }
     }
+
 
     public void Hit(int damage)
     {

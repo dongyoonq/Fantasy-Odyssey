@@ -1,6 +1,7 @@
-이름,드랍 경험치,최대 체력,이동 속도,회전 속도,드랍아이템,
-Spider,300,200,3,5,Data/ItemData/EtcData/SpiderBooty,Data/ItemData/WeaponData/NormalSword
-허수아비,0,100,0,0,,
-DemonBoss,50000,5000,6,7,,
-DemonBomb,0,0,7,5,,
-StingBee,800,500,5,7,,
+이름,드랍 경험치,최대 체력,이동 속도,회전 속도,드랍아이템,,,,,,
+Spider,300,200,3,5,Data/ItemData/EtcData/SpiderBooty,Data/ItemData/WeaponData/NormalSword,,,,,
+ScareCrow,0,100,0,0,,,,,,,
+DemonBoss,50000,5000,6,7,Data/ItemData/EtcData/Demon's Heart,Data/ItemData/ArmorData/Armor/Golden Sentinel Mail,Data/ItemData/ArmorData/Boots/Lightstep Shoes,Data/ItemData/ArmorData/Cloak/Evergreen Cloak,Data/ItemData/ArmorData/Gloves/Flameforged Gauntlets,Data/ItemData/ArmorData/Head/Rune-Ward Helm,Data/ItemData/ArmorData/Pants/Flameheart Leggings
+DemonBomb,0,0,7,5,,,,,,,
+StingBee,800,500,5,7,Data/ItemData/EtcData/Venomous Sting,Data/ItemData/ArmorData/Armor/Hero's Plate,Data/ItemData/ArmorData/Boots/Windrunner Boots,Data/ItemData/ArmorData/Cloak/Shadowwave Cloak,Data/ItemData/ArmorData/Gloves/Ironclaw Gauntlets,Data/ItemData/ArmorData/Head/Warrior's Crown,Data/ItemData/ArmorData/Pants/Shadowweave Trousers
+Phantom,1500,800,6,6,Data/ItemData/EtcData/Spectral Eye,Data/ItemData/ArmorData/Armor/Stormguard Armor,Data/ItemData/ArmorData/Boots/Stealthwalkers Dust,Data/ItemData/ArmorData/Cloak/Sunstrike Cloak,Data/ItemData/ArmorData/Gloves/Lionheart Gauntlets,Data/ItemData/ArmorData/Head/Sunstrike Headguard,Data/ItemData/ArmorData/Pants/Elder Raven Leggings

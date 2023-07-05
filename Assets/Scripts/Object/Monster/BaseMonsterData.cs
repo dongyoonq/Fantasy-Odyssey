@@ -6,8 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BaseMonster Data", menuName = "Scriptable Object/BaseMonster Data", order = 1)]
 public class BaseMonsterData : ScriptableObject
 {
-    [Header("¸ó½ºÅÍ Á¤º¸")]
-    [NonSerialized] public string id;
+    [Header("ëª¬ìŠ¤í„° ì •ë³´")]
+    [SerializeField] public string id;
     [SerializeField] public List<AgressiveMonsterData> agressiveMonsterData;
     [SerializeField] public List<MeleeMonsterData> meleeMonsterData;
     [SerializeField] public List<RangeMonsterData> rangeMonsterData;

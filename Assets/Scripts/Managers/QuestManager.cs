@@ -19,13 +19,13 @@ public class QuestManager : MonoBehaviour
         Player.Instance.OnChangeTalkQuestUpdate.AddListener(UpdateTalkQuest);
     }
 
-    void UpdateKillQuest()
+    void UpdateKillQuest(BaseMonsterData monsterData)
     {
         for (int i = 0; i < Player.Instance.questList.Count; i++)
         {
             // Spider Kill QuestData
-            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "SpiderKill" &&
-                Player.Instance.questList[i].goal.goalType == GoalType.Kill)
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "SpiderKill" 
+                && monsterData.id == "Spider" && Player.Instance.questList[i].goal.goalType == GoalType.Kill)
             {
                 Player.Instance.questList[i].goal.EnemyKilled();
 
@@ -34,12 +34,11 @@ public class QuestManager : MonoBehaviour
                     contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
                     contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
                 }
-
             }
 
             // Attack Tutorial Kill QuestData
-            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "AttackTutorial" &&
-                Player.Instance.questList[i].goal.goalType == GoalType.Kill)
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "AttackTutorial"
+                && monsterData.id == "ScareCrow" && Player.Instance.questList[i].goal.goalType == GoalType.Kill)
             {
                 Player.Instance.questList[i].goal.EnemyKilled();
 
@@ -48,7 +47,45 @@ public class QuestManager : MonoBehaviour
                     contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
                     contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
                 }
+            }
 
+            // StingBee Kill QuestData
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "StingBee"
+                && monsterData.id == "StingBee" && Player.Instance.questList[i].goal.goalType == GoalType.Kill)
+            {
+                Player.Instance.questList[i].goal.EnemyKilled();
+
+                if (Player.Instance.questList[i].goal.IsReached())
+                {
+                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
+                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                }
+            }
+
+            // Phantom Kill QuestData
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "Phantom"
+                && monsterData.id == "Phantom" && Player.Instance.questList[i].goal.goalType == GoalType.Kill)
+            {
+                Player.Instance.questList[i].goal.EnemyKilled();
+
+                if (Player.Instance.questList[i].goal.IsReached())
+                {
+                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
+                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                }
+            }
+
+            // DemonBoss QuestData
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "DemonBoss"
+                && monsterData.id == "DemonBoss" && Player.Instance.questList[i].goal.goalType == GoalType.Kill)
+            {
+                Player.Instance.questList[i].goal.EnemyKilled();
+
+                if (Player.Instance.questList[i].goal.IsReached())
+                {
+                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
+                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                }
             }
         }
     }
@@ -60,6 +97,45 @@ public class QuestManager : MonoBehaviour
             // Spider Gathering QuestData
             if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "SpiderGathering" &&
                 Player.Instance.questList[i].goal.goalType == GoalType.Gathering && item.itemName == "SpiderBooty")
+            {
+                Player.Instance.questList[i].goal.ItemCollected();
+
+                if (Player.Instance.questList[i].goal.IsReached())
+                {
+                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
+                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                }
+            }
+
+            // StingVenom Gathering QuestData
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "StingVenom" &&
+                Player.Instance.questList[i].goal.goalType == GoalType.Gathering && item.itemName == "Venomous Sting")
+            {
+                Player.Instance.questList[i].goal.ItemCollected();
+
+                if (Player.Instance.questList[i].goal.IsReached())
+                {
+                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
+                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                }
+            }
+
+            // PhantomEye Gathering QuestData
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "PhantomEye" &&
+                Player.Instance.questList[i].goal.goalType == GoalType.Gathering && item.itemName == "Spectral Eye")
+            {
+                Player.Instance.questList[i].goal.ItemCollected();
+
+                if (Player.Instance.questList[i].goal.IsReached())
+                {
+                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
+                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                }
+            }
+
+            // DemonBossHeart Gathering QuestData
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "DemonBossHeart" &&
+                Player.Instance.questList[i].goal.goalType == GoalType.Gathering && item.itemName == "Demon's Heart")
             {
                 Player.Instance.questList[i].goal.ItemCollected();
 
@@ -95,8 +171,40 @@ public class QuestManager : MonoBehaviour
     {
         for (int i = 0; i < Player.Instance.questList.Count; i++)
         {
-            // Spider Gathering QuestData
+            // Talk Noa Quest
             if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "TalkNoa" &&
+                Player.Instance.questList[i].goal.goalType == GoalType.Talk && Player.Instance.questList[i].goal.targetNpc == npc)
+            {
+                Player.Instance.questList[i].goal.TalkNpc();
+
+                if (Player.Instance.questList[i].goal.IsReached())
+                {
+                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
+                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                }
+            }
+        }
+
+        for (int i = 0; i < Player.Instance.questList.Count; i++)
+        {
+            // Talk Rayleigh Quest
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "TalkRayleigh" &&
+                Player.Instance.questList[i].goal.goalType == GoalType.Talk && Player.Instance.questList[i].goal.targetNpc == npc)
+            {
+                Player.Instance.questList[i].goal.TalkNpc();
+
+                if (Player.Instance.questList[i].goal.IsReached())
+                {
+                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
+                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                }
+            }
+        }
+
+        for (int i = 0; i < Player.Instance.questList.Count; i++)
+        {
+            // Talk Rayleigh Quest
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "TalkAlice" &&
                 Player.Instance.questList[i].goal.goalType == GoalType.Talk && Player.Instance.questList[i].goal.targetNpc == npc)
             {
                 Player.Instance.questList[i].goal.TalkNpc();

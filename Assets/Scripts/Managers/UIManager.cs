@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     private Canvas inGameCanvas;
 
     private Canvas toastMsgCanvas;
+    private Canvas shopCanvas;
 
     private void Awake()
     {
@@ -36,7 +37,17 @@ public class UIManager : MonoBehaviour
         inGameCanvas.gameObject.name = "InGameCanvas";
         inGameCanvas.sortingOrder = 0;
 
-        toastMsgCanvas = GameObject.Find("ToastMsgCanvas").GetComponent<Canvas>();
+        toastMsgCanvas = GameManager.Resource.Instantiate<Canvas>("UI/ToastMsgCanvas");
+        toastMsgCanvas.gameObject.name = "ToastMsgCanvas";
+
+        shopCanvas = GameManager.Resource.Instantiate<Canvas>("UI/ShopUI");
+        shopCanvas.gameObject.name = "ShopUI";
+    }
+
+    public void Restart()
+    {
+        Destroy(eventSystem.gameObject);
+        Awake();
     }
 
     public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI
