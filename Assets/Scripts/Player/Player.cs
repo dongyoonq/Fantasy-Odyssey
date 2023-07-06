@@ -37,7 +37,8 @@ public class Player : MonoBehaviour, IHitable
     public MonsterInfoUI monsterUI { get; set; }
     public ShortSlotUI shortUI { get; set; }
     public StatusUI statusUI { get; set; }
-    public List<QuestData> questList { get; private set; }
+    public List<Quest> questList { get; private set; }
+    public List<Quest> completeQuest { get; private set; }
 
     public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }
     public Queue<Input> inputBuffer { get; private set; }
@@ -97,7 +98,8 @@ public class Player : MonoBehaviour, IHitable
 
         instance = this;
         wearingEquip = new Dictionary<EquipmentData.EquipType, Equipment>();
-        questList = new List<QuestData>();
+        questList = new List<Quest>();
+        completeQuest = new List<Quest>();
         inputBuffer = new Queue<Input>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();

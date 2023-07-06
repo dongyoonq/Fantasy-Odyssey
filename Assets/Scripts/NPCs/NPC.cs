@@ -19,8 +19,6 @@ public class NPC : MonoBehaviour
     [SerializeField] public NpcData data;
     [SerializeField] public bool isShopNpc;
 
-    bool isPrevQuestComplete;
-
     private void Start()
     {
         StartCoroutine(SetPanel());
@@ -36,14 +34,6 @@ public class NPC : MonoBehaviour
         okButton = talkPanel.transform.GetChild(2).GetComponent<Button>();
         npcInGameName = transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         npcInGameName.text = name;
-
-        if (data.isQuestNPC)
-        {
-            data.quest.goal.currentAmount = 0;
-            data.quest.isActive = false;
-            data.quest.isCompleteQuest = false;
-            data.quest.goal.isCompleteTalked = false;
-        }
     }
 
     public void OpenTalk()
@@ -80,9 +70,6 @@ public class NPC : MonoBehaviour
 
             GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Quest.CompleteQuest(questData));
 
-            isPrevQuestComplete = true;
-            questData.isCompleteQuest = true;
-
             return;
         }
 
@@ -90,7 +77,7 @@ public class NPC : MonoBehaviour
         {
             if (data.isTargetNpc)
             {
-                if (!isPrevQuestComplete)
+                if (!CheckPrevComplete())
                 {
                     npcContentText.text = data.talkData.talkContents[0];
                     okButton.onClick.AddListener(() => {
@@ -102,31 +89,35 @@ public class NPC : MonoBehaviour
 
             GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
 
-            if (!data.quest.isActive)
+            Quest playerQuest;
+
+            if (!CheckPlayerQuest(out playerQuest))
             {
-                if (data.quest.isCompleteQuest)
+                if (CheckCompleteQuest())
                 {
                     npcContentText.text = data.talkData.talkContents[0];
-                    okButton.onClick.AddListener(() => {
+                    okButton.onClick.AddListener(() =>
+                    {
                         npcNameText.transform.parent.gameObject.SetActive(false);
                     });
                     return;
                 }
+                else
+                {
+                    npcContentText.text = data.talkData.talkContents[1];
 
-                npcContentText.text = data.talkData.talkContents[1];
+                    okButton.onClick.AddListener(() => {
+                        GameManager.Quest.OpenQuestfromNPC(data.quest);
+                        npcNameText.transform.parent.gameObject.SetActive(false);
+                    });
 
-                okButton.onClick.AddListener(() => {
-                    GameManager.Quest.OpenQuestfromNPC(data.quest);
-                    npcNameText.transform.parent.gameObject.SetActive(false);
-                });
-
-                GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Quest.AcceptQuest(data.quest));
+                    GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Quest.AcceptQuest(data.quest));
+                }
             }
             else
             {
-                if (data.quest.goal.IsReached())
+                if (playerQuest.questData.goal.IsReached())
                 {
-                    data.quest.isCompleteQuest = true;
                     npcContentText.text = data.talkData.talkContents[3];
                     GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Quest.CompleteQuest(data.quest));
                     okButton.onClick.AddListener(() => {
@@ -161,15 +152,56 @@ public class NPC : MonoBehaviour
     {
         for (int i = 0; i < Player.Instance.questList.Count; i++)
         {
-            if (Player.Instance.questList[i].goal.goalType == GoalType.Talk && Player.Instance.questList[i].goal.targetNpc == this.data)
+            if (Player.Instance.questList[i].questData.goal.goalType == GoalType.Talk && Player.Instance.questList[i].questData.goal.targetNpc == this.data)
             {
-                questData = Player.Instance.questList[i];
+                questData = Player.Instance.questList[i].questData;
                 Player.Instance.OnChangeTalkQuestUpdate?.Invoke(this.data);
                 return true;
             }
         }
 
         questData = null;
+        return false;
+    }
+
+    public bool CheckPrevComplete()
+    {
+        for (int i = 0; i < Player.Instance.completeQuest.Count; i++)
+        {
+            if (Player.Instance.completeQuest[i].questData.goal.goalType == GoalType.Talk && Player.Instance.completeQuest[i].questData.goal.targetNpc == this.data)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool CheckPlayerQuest(out Quest playerQuest)
+    {
+        foreach (Quest quest in Player.Instance.questList)
+        {
+            if (quest.questData == data.quest)
+            {
+                playerQuest = quest;
+                return true;
+            }
+        }
+
+        playerQuest = null;
+        return false;
+    }
+
+    bool CheckCompleteQuest()
+    {
+        foreach (Quest quest in Player.Instance.completeQuest)
+        {
+            if (quest.questData == data.quest)
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 }

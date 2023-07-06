@@ -146,7 +146,7 @@ public class LoadManager
 
             QuestData questData = ScriptableObject.CreateInstance<QuestData>();
             questData.questName = items.Key.questName; questData.title = items.Key.title; questData.target = items.Key.target; questData.description = items.Key.description;
-            questData.expReward = items.Key.expReward; questData.goal = items.Key.goal; questData.id = items.Key.id; questData.isActive = items.Key.isActive;
+            questData.expReward = items.Key.expReward; questData.goal = items.Key.goal; questData.id = items.Key.id;
             questData.goal.targetNpc = tmpData;
 
             tmpData.isTargetNpc = true;
