@@ -5,7 +5,7 @@ public class QuestGoal
 {
     public GoalType goalType;
     public ItemData item;
-    bool isCompleteTalked;
+    public bool isCompleteTalked;
     public NpcData targetNpc;
 
     public int requiredAmount;

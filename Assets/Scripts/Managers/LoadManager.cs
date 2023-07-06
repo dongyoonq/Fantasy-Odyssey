@@ -119,7 +119,6 @@ public class LoadManager
         {
             NpcData npcData = ScriptableObject.CreateInstance<NpcData>();
             npcData.talkData = npcTalkDataList[i];
-            npcData.questNpc = null;
 
             for (int j = 0; j < npcQuestDataList.Count; j++)
             {
@@ -142,7 +141,7 @@ public class LoadManager
             NpcData npcData = Resources.Load<NpcData>(items.Value);
             string tempid = npcData.talkData.id;
 
-            tmpData.questNpc = npcData.questNpc; tmpData.quest = npcData.quest; tmpData.isQuestNPC = npcData.isQuestNPC; tmpData.isCompleteQuest = npcData.isCompleteQuest;
+            tmpData.quest = npcData.quest; tmpData.isQuestNPC = npcData.isQuestNPC;
             tmpData.talkData = npcData.talkData;
 
             QuestData questData = ScriptableObject.CreateInstance<QuestData>();

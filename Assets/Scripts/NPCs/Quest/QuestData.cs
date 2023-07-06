@@ -4,9 +4,10 @@ using UnityEngine;
 
 [Serializable]
 [CreateAssetMenu(fileName = "Quest Data", menuName = "Scriptable Object/Quest Data", order = 100000)]
-public class QuestData : ScriptableObject
+public class QuestData : ScriptableObject, ISerializationCallbackReceiver
 {
     [NonSerialized] public bool isActive;
+    [NonSerialized] public bool isCompleteQuest;
     [NonSerialized] public string id;
 
     [SerializeField] public string questName;     // QuestData Name or QuestData Id(Identifier)
@@ -15,4 +16,14 @@ public class QuestData : ScriptableObject
     [SerializeField, TextArea] public string description;
     [SerializeField] public int expReward;
     [SerializeField] public QuestGoal goal;
+
+    public void OnAfterDeserialize()
+    {
+        //
+    }
+
+    public void OnBeforeSerialize()
+    {
+        //
+    }
 }
