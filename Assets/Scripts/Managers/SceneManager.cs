@@ -34,8 +34,8 @@ public class SceneManager : MonoBehaviour
     IEnumerator LoadingRoutine(string sceneName)
     {
         loadingUI.FadeOut();
+
         yield return new WaitForSeconds(0.5f);
-        Player.Instance.controller.enabled = false;
         Time.timeScale = 0f;
 
         loadingUI.transform.GetChild(1).gameObject.SetActive(true);
@@ -51,10 +51,14 @@ public class SceneManager : MonoBehaviour
 
         while (CurrScene.progress < 1f)
         {
+            if (CurrScene.progress == 0.5f)
+            {
+                GameManager.Pool.Restart();
+            }
+
             if (CurrScene.progress == 0.7f)
             {
-                GameManager.Ui.Restart();
-                GameManager.Pool.Restart();
+                LoadUI();
             }
 
             loadingUI.SetProgress(Mathf.Lerp(0.5f, 1.0f, currScene.progress));
@@ -65,5 +69,10 @@ public class SceneManager : MonoBehaviour
         loadingUI.transform.GetChild(1).gameObject.SetActive(false);
         loadingUI.FadeIn();
         yield return new WaitForSeconds(0.5f);
+    }
+
+    void LoadUI()
+    {
+
     }
 }

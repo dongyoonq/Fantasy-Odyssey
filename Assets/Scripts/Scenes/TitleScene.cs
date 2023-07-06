@@ -52,6 +52,9 @@ public class TitleScene : BaseScene
 
         GameManager.Scene.LoadScene("Town");
 
+        Player.Instance.controller.enabled = false;
+        Player.Instance.transform.position = new Vector3(216.596f, -24.09f, -84.016f);
+
         createOk.onClick.RemoveAllListeners();
     }
 

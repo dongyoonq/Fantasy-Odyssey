@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class QuestGiver : MonoBehaviour
 {
-    QuestData quest;
+    [NonSerialized] public QuestData quest;
 
     [NonSerialized] public GameObject questDescriptionPanel;
     GameObject questPanel;
@@ -123,6 +123,8 @@ public class QuestGiver : MonoBehaviour
             quest.goal.currentAmount = 0;
             Destroy(instanceContent);
             acceptButton.GetComponent<Button>().onClick.RemoveAllListeners();
+
+            GameManager.Quest.questGivers.Remove(this);
         }
     }
 }

@@ -79,8 +79,8 @@ public class PlayerController : MonoBehaviour
         else
             player.YSpeed += Physics.gravity.y * Time.deltaTime;
 
-
-        player.controller.Move(Vector3.up * player.YSpeed * Time.deltaTime);
+        if (Player.Instance.controller.enabled)
+            player.controller.Move(Vector3.up * player.YSpeed * Time.deltaTime);
     }
 
     [NonSerialized] public bool OnRunKey;

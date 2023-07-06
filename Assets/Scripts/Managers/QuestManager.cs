@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class QuestManager : MonoBehaviour
 {
+    public List<QuestGiver> questGivers = new List<QuestGiver>();
+
     GameObject contentArea;
     GameObject questListUI;
 
@@ -203,8 +205,40 @@ public class QuestManager : MonoBehaviour
 
         for (int i = 0; i < Player.Instance.questList.Count; i++)
         {
-            // Talk Rayleigh Quest
+            // Talk Alice Quest
             if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "TalkAlice" &&
+                Player.Instance.questList[i].goal.goalType == GoalType.Talk && Player.Instance.questList[i].goal.targetNpc == npc)
+            {
+                Player.Instance.questList[i].goal.TalkNpc();
+
+                if (Player.Instance.questList[i].goal.IsReached())
+                {
+                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
+                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                }
+            }
+        }
+
+        for (int i = 0; i < Player.Instance.questList.Count; i++)
+        {
+            // Talk Cassius Quest
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "TalkCassius" &&
+                Player.Instance.questList[i].goal.goalType == GoalType.Talk && Player.Instance.questList[i].goal.targetNpc == npc)
+            {
+                Player.Instance.questList[i].goal.TalkNpc();
+
+                if (Player.Instance.questList[i].goal.IsReached())
+                {
+                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
+                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                }
+            }
+        }
+
+        for (int i = 0; i < Player.Instance.questList.Count; i++)
+        {
+            // Talk King Quest
+            if (Player.Instance.questList[i].isActive && Player.Instance.questList[i].questName == "TalkKing" &&
                 Player.Instance.questList[i].goal.goalType == GoalType.Talk && Player.Instance.questList[i].goal.targetNpc == npc)
             {
                 Player.Instance.questList[i].goal.TalkNpc();

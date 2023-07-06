@@ -66,22 +66,20 @@ public class NPC : MonoBehaviour
             return;
         }
 
-        QuestData giver;
+        QuestGiver giver;
 
         if (CheckTargetNpc(out giver))
         {
-            QuestGiver npc = GameObject.Find(giver.name).GetComponent<QuestGiver>();
-
-            npc.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+            giver.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
 
             npcContentText.text = data.talkData.talkContents[4];
 
             okButton.onClick.AddListener(() => {
-                npc.OpenQuestfromNPC();
+                giver.OpenQuestfromNPC();
                 npcNameText.transform.parent.gameObject.SetActive(false);
             });
 
-            npc.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => npc.CompleteQuest());
+            giver.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => giver.CompleteQuest());
 
             isPrevQuestComplete = true;
 
@@ -159,15 +157,21 @@ public class NPC : MonoBehaviour
         animator.SetBool("Talk", false);
     }
 
-    public bool CheckTargetNpc(out QuestData giver)
+    public bool CheckTargetNpc(out QuestGiver giver)
     {
         for (int i = 0; i < Player.Instance.questList.Count; i++)
         {
             if (Player.Instance.questList[i].goal.goalType == GoalType.Talk && Player.Instance.questList[i].goal.targetNpc == this.data)
             {
-                giver = Player.Instance.questList[i];
-                Player.Instance.OnChangeTalkQuestUpdate?.Invoke(this.data);
-                return true;
+                foreach (QuestGiver givers in GameManager.Quest.questGivers)
+                {
+                    if (givers.quest == Player.Instance.questList[i])
+                    {
+                        giver = givers;
+                        Player.Instance.OnChangeTalkQuestUpdate?.Invoke(this.data);
+                        return true;
+                    }
+                }
             }
         }
 

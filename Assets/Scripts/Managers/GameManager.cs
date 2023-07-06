@@ -10,12 +10,14 @@ public class GameManager : MonoBehaviour
     private static ResourceManager resourceManager;
     private static UIManager uiManager;
     private static SceneManager sceneManager;
+    private static QuestManager questManager;
 
     public static GameManager Instance { get { return instance; } }
     public static PoolManager Pool { get { return poolManager; } }
     public static ResourceManager Resource { get { return resourceManager; } }
     public static UIManager Ui { get { return uiManager; } }
     public static SceneManager Scene { get { return sceneManager; } }
+    public static QuestManager Quest { get { return questManager; } set { questManager = value; } }
 
     private void Awake()
     {

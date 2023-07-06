@@ -15,7 +15,6 @@ public class UIManager : MonoBehaviour
     private Canvas inGameCanvas;
 
     private Canvas toastMsgCanvas;
-    private Canvas shopCanvas;
 
     private void Awake()
     {
@@ -39,9 +38,6 @@ public class UIManager : MonoBehaviour
 
         toastMsgCanvas = GameManager.Resource.Instantiate<Canvas>("UI/ToastMsgCanvas");
         toastMsgCanvas.gameObject.name = "ToastMsgCanvas";
-
-        shopCanvas = GameManager.Resource.Instantiate<Canvas>("UI/ShopUI");
-        shopCanvas.gameObject.name = "ShopUI";
     }
 
     public void Restart()

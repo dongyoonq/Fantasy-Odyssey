@@ -52,6 +52,9 @@ namespace PhantomState
                 // Move the character using the Character Controller
                 owner.controller.Move(moveDirection * owner.data.moveSpeed * Time.deltaTime);
 
+                if (rate > 0.7f)
+                    owner.animator.SetBool("AttackLeft", true);
+
                 yield return null;
             }
 

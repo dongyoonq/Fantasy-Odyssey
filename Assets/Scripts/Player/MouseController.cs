@@ -29,8 +29,8 @@ public class MouseController : MonoBehaviour
 
         if (FrCam.m_Lens.FieldOfView < 1)
             FrCam.m_Lens.FieldOfView = 1;
-        else if (FrCam.m_Lens.FieldOfView > 60)
-            FrCam.m_Lens.FieldOfView = 60;
+        else if (FrCam.m_Lens.FieldOfView > 70)
+            FrCam.m_Lens.FieldOfView = 70;
         else
             FrCam.m_Lens.FieldOfView -= zoomScroll * Time.deltaTime;
     }

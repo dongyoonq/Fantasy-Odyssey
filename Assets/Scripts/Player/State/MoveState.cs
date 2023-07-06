@@ -43,9 +43,15 @@ public class MoveState : PlayerBaseState
         Vector3 moveVec = (forwardVec * Controller.moveDir.z + rightVec * Controller.moveDir.x) * Player.Instance.MoveSpeed * Time.deltaTime;
 
         if (Player.Instance.animator.GetBool("IsDashAttack"))
-            Player.Instance.controller.Move(moveVec * 0f);
+        {
+            if (Player.Instance.controller.enabled)
+                Player.Instance.controller.Move(moveVec * 0f);
+        }
         else
-            Player.Instance.controller.Move(moveVec);
+        {
+            if (Player.Instance.controller.enabled)
+                Player.Instance.controller.Move(moveVec);
+        }
 
         Quaternion lookRotation = Quaternion.LookRotation(forwardVec * Controller.moveDir.z + rightVec * Controller.moveDir.x);
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TownScene : BaseScene
+public class DungeonScene : BaseScene
 {
     protected override IEnumerator LoadingRoutine()
     {
@@ -23,6 +23,7 @@ public class TownScene : BaseScene
         yield return null;
 
         progress = 0.9f;
+        //Player.Instance.transform.position = transform.position;
         yield return null;
 
         Player.Instance.controller.enabled = true;
