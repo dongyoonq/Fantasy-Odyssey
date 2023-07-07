@@ -22,6 +22,16 @@ namespace Demon_Boss
 
         public override void Exit()
         {
+            if (isGrabbed)
+            {
+                Player.Instance.GetComponent<PlayerController>().enabled = true;
+                Player.Instance.transform.parent = null;
+                Player.Instance.transform.position = prevPlayerPos;
+                Player.Instance.transform.rotation = Quaternion.identity;
+                Player.Instance.GetComponent<CharacterController>().enabled = true;
+                Player.Instance.GetComponent<PlayerInput>().enabled = true;
+            }
+
             owner.animator.SetBool($"Grab", false);
             owner.StopCoroutine(owner.grabAttackRoutine);
             if (!owner.pharse2)
@@ -33,6 +43,12 @@ namespace Demon_Boss
 
         public override void Update()
         {
+            if (Player.Instance.CurrentHP <= 0)
+            {
+                Exit();
+                owner.ChangeState(DemonBoss.State.Move);
+            }
+
             Vector3 targetDir = (Player.Instance.transform.position - owner.transform.position).normalized;
 
             Quaternion targetRot = Quaternion.LookRotation(targetDir);
@@ -49,11 +65,16 @@ namespace Demon_Boss
             float totalTime = Vector3.Distance(start, end) / 10;
             float rate = 0f;
 
+            RaycastHit hit;
+            Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
+
+            end += hit.normal * 2.5f;
+
             while (rate < 1f)
             {
                 rate += Time.deltaTime / totalTime;
 
-                Vector3 targetPosition = Vector3.Lerp(start, end, rate);
+                Vector3 targetPosition = Vector3.Lerp(start, new Vector3(end.x, start.y, end.z), rate);
 
                 // Calculate the movement direction and speed
                 Vector3 moveDirection = (targetPosition - owner.transform.position).normalized;
@@ -70,17 +91,8 @@ namespace Demon_Boss
             yield return new WaitForSeconds(0.5f);
             AttackCircleJudgement(0, 5, 180, 360);
             yield return new WaitForSeconds(3f);
-            owner.animator.SetFloat("MoveSpeed", 0);
-            if (isGrabbed)
-            {
-                Player.Instance.GetComponent<PlayerController>().enabled = true;
-                Player.Instance.transform.parent = null;
-                Player.Instance.transform.position = prevPlayerPos;
-                Player.Instance.transform.rotation = Quaternion.identity;
-                Player.Instance.GetComponent<CharacterController>().enabled = true;
-                Player.Instance.GetComponent<PlayerInput>().enabled = true;
-            }
 
+            owner.animator.SetFloat("MoveSpeed", 0);
             owner.ChangeState(DemonBoss.State.Move);
         }
 

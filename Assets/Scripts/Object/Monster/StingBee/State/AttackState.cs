@@ -54,7 +54,7 @@ namespace StingBeeState
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 1.5f;
+            end += hit.normal * 1.8f;
 
             float totalTime = Vector3.Distance(start, end) / 5f;
             float rate = 0f;
@@ -63,7 +63,7 @@ namespace StingBeeState
             {
                 rate += Time.deltaTime / totalTime;
 
-                Vector3 targetPosition = Vector3.Lerp(start, end, rate);
+                Vector3 targetPosition = Vector3.Lerp(start, new Vector3(end.x, start.y, end.z), rate);
 
                 // Calculate the movement direction and speed
                 Vector3 moveDirection = (targetPosition - owner.transform.position).normalized;
@@ -78,7 +78,7 @@ namespace StingBeeState
             owner.animator.SetBool("Attack1", true);
 
             yield return new WaitForSeconds(0.5f);
-            AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance, owner.data.meleeMonsterData[0].angle, 300f);
+            AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance, owner.data.meleeMonsterData[0].angle, 330f);
             yield return new WaitForSeconds(0.5f);
             owner.ChangeState(StingBee.State.Trace);
         }
@@ -93,7 +93,7 @@ namespace StingBeeState
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 1.5f;
+            end += hit.normal * 1.8f;
 
             float totalTime = Vector3.Distance(start, end) / 5f;
             float rate = 0f;
@@ -101,7 +101,7 @@ namespace StingBeeState
             while (rate < 1f)
             {
                 rate += Time.deltaTime / totalTime;
-                owner.transform.position = Vector3.Lerp(start, end, rate);
+                owner.transform.position = Vector3.Lerp(start, new Vector3(end.x, start.y, end.z), rate);
                 yield return null;
             }
 
@@ -109,7 +109,7 @@ namespace StingBeeState
             owner.animator.SetBool("Attack2", true);
 
             yield return new WaitForSeconds(0.9f);
-            AttackCircleJudgement(owner.data.meleeMonsterData[1].attackDamage, owner.data.meleeMonsterData[1].attackDistance, owner.data.meleeMonsterData[1].angle, 300f);
+            AttackCircleJudgement(owner.data.meleeMonsterData[1].attackDamage, owner.data.meleeMonsterData[1].attackDistance, owner.data.meleeMonsterData[1].angle, 330f);
             yield return new WaitForSeconds(0.4f);
             owner.ChangeState(StingBee.State.Trace);
         }
@@ -124,7 +124,7 @@ namespace StingBeeState
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 1.5f;
+            end += hit.normal * 1.8f;
 
             float totalTime = Vector3.Distance(start, end) / 5f;
             float rate = 0f;
@@ -132,7 +132,7 @@ namespace StingBeeState
             while (rate < 1f)
             {
                 rate += Time.deltaTime / totalTime;
-                owner.transform.position = Vector3.Lerp(start, end, rate);
+                owner.transform.position = Vector3.Lerp(start, new Vector3(end.x, start.y, end.z), rate);
                 yield return null;
             }
 
@@ -140,7 +140,7 @@ namespace StingBeeState
             owner.animator.SetBool("Attack3", true);
 
             yield return new WaitForSeconds(0.5f);
-            AttackCircleJudgement(owner.data.meleeMonsterData[2].attackDamage, owner.data.meleeMonsterData[2].attackDistance, owner.data.meleeMonsterData[2].angle, 300f);
+            AttackCircleJudgement(owner.data.meleeMonsterData[2].attackDamage, owner.data.meleeMonsterData[2].attackDistance, owner.data.meleeMonsterData[2].angle, 330f);
             yield return new WaitForSeconds(0.5f);
             owner.ChangeState(StingBee.State.Trace);
         }

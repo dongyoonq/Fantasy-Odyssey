@@ -47,7 +47,7 @@ namespace SpiderState
             {
                 rate += Time.deltaTime / totalTime;
 
-                Vector3 targetPosition = Vector3.Lerp(start, end, rate);
+                Vector3 targetPosition = Vector3.Lerp(start, new Vector3(end.x, start.y, end.z), rate);
 
                 // Calculate the movement direction and speed
                 Vector3 moveDirection = (targetPosition - owner.transform.position).normalized;
@@ -63,23 +63,22 @@ namespace SpiderState
 
             // Wait for the specified animation timing
             yield return new WaitForSeconds(0.5f);
-            attackJudgement();
+            AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance + 0.5f, 180f, 320f);
             yield return new WaitForSeconds(0.5f);
             owner.ChangeState(Spider.State.Trace);
         }
 
-
-        void attackJudgement()
+        void AttackCircleJudgement(int damage, float range, float forwardAngle, float upAngle)
         {
-            Vector3 start = owner.transform.position;
-            Vector3 end = Player.Instance.transform.position;
-
-            RaycastHit hit;
-            if (Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, owner.data.meleeMonsterData[0].attackDistance, LayerMask.GetMask("Player")))
+            Collider[] colliders = Physics.OverlapSphere(owner.transform.position, range, LayerMask.GetMask("Player"));
+            foreach (Collider collider in colliders)
             {
-                hit.collider.GetComponent<IHitable>().Hit(owner.data.meleeMonsterData[0].attackDamage);
-            }
+                Vector3 dirTarget = (collider.transform.position - owner.transform.position).normalized;
 
+                if (Vector3.Dot(owner.transform.up, dirTarget) >= Mathf.Cos(upAngle * 0.5f * Mathf.Deg2Rad) &&
+                    Vector2.Dot(owner.transform.forward, dirTarget) >= Mathf.Cos(forwardAngle * 0.5f * Mathf.Deg2Rad))
+                    collider.GetComponent<IHitable>().Hit(damage);
+            }
         }
     }
 }

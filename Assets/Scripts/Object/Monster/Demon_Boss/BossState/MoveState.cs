@@ -39,7 +39,7 @@ namespace Demon_Boss
             }
             else if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < owner.data.agressiveMonsterData[0].detectRange)
             {
-                if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < 3.5f)
+                if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < 2.5f)
                 {
                     owner.animator.SetFloat("MoveSpeed", 0);
                     return;
@@ -51,7 +51,7 @@ namespace Demon_Boss
             }
             else if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < owner.data.agressiveMonsterData[1].detectRange)
             {
-                if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < 3.5f)
+                if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < 2.5f)
                 {
                     owner.animator.SetFloat("MoveSpeed", 0);
                     return;

@@ -41,6 +41,12 @@ public class DemonBomb : Monster, IHitable
 
     private void Update()
     {
+        if (Player.Instance == null)
+        {
+            StopAllCoroutines();
+            return;
+        }
+
         states[(int)currState]?.Update();
     }
 

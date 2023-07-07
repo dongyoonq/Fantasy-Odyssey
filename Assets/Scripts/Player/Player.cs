@@ -21,6 +21,7 @@ public class Player : MonoBehaviour, IHitable
     public UnityEvent<ItemData, int, int> OnRemoveItemInventory;
     public UnityEvent OnLevelUp;
     public UnityEvent OnChangeEquipment;
+    public UnityEvent OnDied;
 
     public static Player Instance { get { return instance; } }
     private static Player instance;
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour, IHitable
     public MonsterInfoUI monsterUI { get; set; }
     public ShortSlotUI shortUI { get; set; }
     public StatusUI statusUI { get; set; }
+    public NoticedUI noticeUI { get; set; }
     public List<Quest> questList { get; private set; }
     public List<Quest> completeQuest { get; private set; }
 
@@ -65,6 +67,13 @@ public class Player : MonoBehaviour, IHitable
                 OnChangedHp?.Invoke();
 
             currentHp = value;
+
+            if (currentHp <= 0)
+            {
+                currentHp = 0;
+                OnDied?.Invoke();
+                stateMachine.ChangeState(StateName.Die);
+            }
         }
     }
 
@@ -154,6 +163,7 @@ public class Player : MonoBehaviour, IHitable
         stateMachine.AddState(StateName.SkillAttack, new SkillAttackState(controller));
         stateMachine.AddState(StateName.UltAttack, new UltAttackState(controller));
         stateMachine.AddState(StateName.DashAttack, new DashAttackState(controller));
+        stateMachine.AddState(StateName.Die, new DieState(controller));
     }
 
     void SetStatus()

@@ -28,7 +28,7 @@ namespace StingBeeState
         {
             Vector3 targetDir = (Player.Instance.transform.position - owner.transform.position).normalized;
 
-            if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < 1.5f)
+            if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < 1.8f)
                 owner.animator.SetBool("Move", false);
             else
             {

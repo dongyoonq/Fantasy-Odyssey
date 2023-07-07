@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
-using static UnityEngine.UI.GridLayoutGroup;
+
 
 public class DemonBoss : Monster, IHitable
 {
@@ -18,6 +17,8 @@ public class DemonBoss : Monster, IHitable
     [NonSerialized] public int stunValue;
     [NonSerialized] public CharacterController controller;
     [NonSerialized] public float ySpeed;
+    [NonSerialized] public DemonBomb summon1;
+    [NonSerialized] public DemonBomb summon2;
 
     public int stunThreshold;
 
@@ -85,6 +86,12 @@ public class DemonBoss : Monster, IHitable
 
     private void Update()
     {
+        if (Player.Instance == null)
+        {
+            StopAllCoroutines();
+            return;
+        }
+
         Fall();
 
         states[(int)currState]?.Update();

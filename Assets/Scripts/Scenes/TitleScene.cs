@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -31,7 +32,7 @@ public class TitleScene : BaseScene
         createPanel.SetActive(false);
     }
 
-    public static void Quit()
+    public void Quit()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -61,5 +62,6 @@ public class TitleScene : BaseScene
     protected override IEnumerator LoadingRoutine()
     {
         yield return null;
+        progress = 1f;
     }
 }

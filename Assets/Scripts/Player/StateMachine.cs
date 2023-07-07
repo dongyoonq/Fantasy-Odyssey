@@ -12,13 +12,15 @@ public enum StateName
     ChargeAttack,
     SkillAttack,
     UltAttack,
+    Die,
 }
 
 public class StateMachine
 {
-    public PlayerBaseState CurrentState { get; private set; }  // ÇöÀç »óÅÂ
+    public PlayerBaseState CurrentState { get; private set; }  // í˜„ì¬ ìƒíƒœ
     private Dictionary<StateName, PlayerBaseState> states =
                                         new Dictionary<StateName, PlayerBaseState>();
+    public bool onDied;
 
 
     public StateMachine(StateName stateName, PlayerBaseState state)
@@ -27,7 +29,7 @@ public class StateMachine
         CurrentState = GetState(stateName);
     }
 
-    public void AddState(StateName stateName, PlayerBaseState state)  // »óÅÂ µî·Ï
+    public void AddState(StateName stateName, PlayerBaseState state)  // ìƒíƒœ ë“±ë¡
     {
         if (!states.ContainsKey(stateName))
         {
@@ -35,14 +37,14 @@ public class StateMachine
         }
     }
 
-    public PlayerBaseState GetState(StateName stateName)  // »óÅÂ ²¨³»¿À±â
+    public PlayerBaseState GetState(StateName stateName)  // ìƒíƒœ êº¼ë‚´ì˜¤ê¸°
     {
         if (states.TryGetValue(stateName, out PlayerBaseState state))
             return state;
         return null;
     }
 
-    public void DeleteState(StateName removeStateName)  // »óÅÂ »èÁ¦
+    public void DeleteState(StateName removeStateName)  // ìƒíƒœ ì‚­ì œ
     {
         if (states.ContainsKey(removeStateName))
         {
@@ -50,14 +52,17 @@ public class StateMachine
         }
     }
 
-    public void ChangeState(StateName nextStateName)    // »óÅÂ ÀüÈ¯
+    public void ChangeState(StateName nextStateName)    // ìƒíƒœ ì „í™˜
     {
-        CurrentState?.Exit();   //ÇöÀç »óÅÂ¸¦ Á¾·áÇÏ´Â ¸Ş¼Òµå¸¦ ½ÇÇàÇÏ°í,
-        if (states.TryGetValue(nextStateName, out PlayerBaseState newState)) // »óÅÂ ÀüÈ¯
+        if (onDied)
+            return;
+
+        CurrentState?.Exit();   //í˜„ì¬ ìƒíƒœë¥¼ ì¢…ë£Œí•˜ëŠ” ë©”ì†Œë“œë¥¼ ì‹¤í–‰í•˜ê³ ,
+        if (states.TryGetValue(nextStateName, out PlayerBaseState newState)) // ìƒíƒœ ì „í™˜
         {
             CurrentState = newState;
         }
-        CurrentState?.Enter();  // ´ÙÀ½ »óÅÂ ÁøÀÔ ¸Ş¼Òµå ½ÇÇà
+        CurrentState?.Enter();  // ë‹¤ìŒ ìƒíƒœ ì§„ì… ë©”ì†Œë“œ ì‹¤í–‰
     }
 
     public void UpdateState()

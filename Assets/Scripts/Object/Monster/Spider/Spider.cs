@@ -59,6 +59,12 @@ public class Spider : Monster, IHitable
 
     private void Update()
     {
+        if (Player.Instance == null)
+        {
+            StopAllCoroutines();
+            return;
+        }
+
         Fall();
         states[(int)currState]?.Update();
     }

@@ -56,6 +56,12 @@ public class StingBee : Monster, IHitable, IHearable
 
     private void Update()
     {
+        if (Player.Instance == null)
+        {
+            StopAllCoroutines();
+            return;
+        }
+
         states[(int)currState]?.Update();
     }
 

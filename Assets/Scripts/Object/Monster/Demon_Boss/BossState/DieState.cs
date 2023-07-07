@@ -11,6 +11,12 @@ namespace Demon_Boss
 
         public override void Enter()
         {
+            if (owner.summon1.IsValid())
+                GameManager.Resource.Destroy(owner.summon1.gameObject);
+
+            if (owner.summon2.IsValid())
+                GameManager.Resource.Destroy(owner.summon2.gameObject);
+
             owner.animator.SetBool("Die", true);
             owner.StartCoroutine(DissapearRoutine());
             owner.GetComponent<CharacterController>().enabled = false;
@@ -30,7 +36,7 @@ namespace Demon_Boss
 
         IEnumerator DissapearRoutine()
         {
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(25f);
             owner.animator.SetBool("Die", false);
             owner.animator.SetBool("Disappear", true);
             yield return new WaitForSeconds(2.5f);

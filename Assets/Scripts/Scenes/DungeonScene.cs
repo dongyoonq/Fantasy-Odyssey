@@ -9,6 +9,7 @@ public class DungeonScene : BaseScene
     {
         progress = 0.2f;
         CinemachineFreeLook frCam = GameManager.Resource.Instantiate<CinemachineFreeLook>("Prefabs/Player/PlayerCam");
+        frCam.name = "PlayerCam";
         frCam.LookAt = Player.Instance.transform;
         frCam.Follow = Player.Instance.transform;
         Player.Instance.GetComponent<MouseController>().FrCam = frCam;

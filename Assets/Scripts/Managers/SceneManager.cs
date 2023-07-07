@@ -56,11 +56,6 @@ public class SceneManager : MonoBehaviour
                 GameManager.Pool.Restart();
             }
 
-            if (CurrScene.progress == 0.7f)
-            {
-                LoadUI();
-            }
-
             loadingUI.SetProgress(Mathf.Lerp(0.5f, 1.0f, currScene.progress));
             yield return null;
         }
@@ -69,10 +64,5 @@ public class SceneManager : MonoBehaviour
         loadingUI.transform.GetChild(1).gameObject.SetActive(false);
         loadingUI.FadeIn();
         yield return new WaitForSeconds(0.5f);
-    }
-
-    void LoadUI()
-    {
-
     }
 }

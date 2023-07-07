@@ -44,7 +44,7 @@ namespace PhantomState
             {
                 rate += Time.deltaTime / totalTime;
 
-                Vector3 targetPosition = Vector3.Lerp(start, end, rate);
+                Vector3 targetPosition = Vector3.Lerp(start, new Vector3(end.x, start.y, end.z), rate);
 
                 // Calculate the movement direction and speed
                 Vector3 moveDirection = (targetPosition - owner.transform.position).normalized;

@@ -46,7 +46,7 @@ namespace Demon_Boss
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 2f;
+            end += hit.normal * 2.5f;
 
             float totalTime = Vector3.Distance(start, end) / 9;
             float rate = 0f;
@@ -55,7 +55,7 @@ namespace Demon_Boss
             {
                 rate += Time.deltaTime / totalTime;
 
-                Vector3 targetPosition = Vector3.Lerp(start, end, rate);
+                Vector3 targetPosition = Vector3.Lerp(start, new Vector3(end.x, start.y, end.z), rate);
 
                 // Calculate the movement direction and speed
                 Vector3 moveDirection = (targetPosition - owner.transform.position).normalized;

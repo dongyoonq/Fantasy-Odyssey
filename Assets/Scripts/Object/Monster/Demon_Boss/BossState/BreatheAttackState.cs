@@ -29,6 +29,8 @@ namespace Demon_Boss
                 owner.StopCoroutine(owner.clawRoutine);
             if (owner.hitBoxRoutine != null)
                 owner.StopCoroutine(owner.hitBoxRoutine);
+            if (particle.IsValid())
+                GameManager.Resource.Destroy(particle);
             owner.StopCoroutine(HitBoxOn());
             if (!owner.pharse2)
                 owner.coolTime = 1.5f;
@@ -54,9 +56,10 @@ namespace Demon_Boss
         {
             yield return new WaitForSeconds(0.5f);
             particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Monster/DemonBoss/Flame", owner.jaw.transform.position, owner.jaw.transform.rotation, owner.jaw.transform);
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(3f);
             owner.ChangeState(DemonBoss.State.Idle);
-            GameManager.Resource.Destroy(particle);
+            if (particle.IsValid())
+                GameManager.Resource.Destroy(particle);
         }
 
         IEnumerator HitBoxOn()

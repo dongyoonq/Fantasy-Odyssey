@@ -55,6 +55,12 @@ public class Phantom : Monster, IHitable
 
     private void Update()
     {
+        if (Player.Instance == null)
+        {
+            StopAllCoroutines();
+            return;
+        }
+
         if (currState == State.Attack || currState == State.SpellAttack || currState == State.Die || currState == State.TakeDamage) 
             if (roamingCoolTime != null)
                 StopCoroutine(roamingCoolTime);
