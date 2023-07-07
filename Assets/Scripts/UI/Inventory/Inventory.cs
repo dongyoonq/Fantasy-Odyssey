@@ -36,6 +36,8 @@ public class Inventory : MonoBehaviour
 
     void AddInventory(ItemData itemData, int index, int amount)
     {
+        GameManager.Sound.PlaySFX("ItemGain");
+
         if (itemData is CountableItemData)
             Player.Instance.inventoryUI.slots[index].amount++;
         else
@@ -47,7 +49,6 @@ public class Inventory : MonoBehaviour
 
         //<color=#D76A2E>0</color>
         Player.Instance.inventoryUI.slots[index].transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{Player.Instance.inventoryUI.slots[index].amount}</color>";
-
 
         onChangeInventory?.Invoke();
     }

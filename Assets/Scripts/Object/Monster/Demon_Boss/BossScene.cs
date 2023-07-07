@@ -156,7 +156,7 @@ public class BossScene : MonoBehaviour
         boss.animator.SetBool("Spawn", false);
         boss.StopAllCoroutines();
 
-        //bossHpBar.gameObject.SetActive(true);
+        bossHpBar.gameObject.SetActive(true);
         boss.ChangeState(DemonBoss.State.Idle);
 
         if (boss.spawnParticle.IsValid())

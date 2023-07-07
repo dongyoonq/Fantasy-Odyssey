@@ -7,7 +7,6 @@ namespace Demon_Boss
     public class ThrowAttackState : MonsterBaseState<DemonBoss>
     {
         GameObject rock;
-        float time = 3f;
 
         public ThrowAttackState(DemonBoss owner) : base(owner)
         {
