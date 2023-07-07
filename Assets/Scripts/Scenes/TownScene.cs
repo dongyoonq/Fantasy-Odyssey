@@ -33,6 +33,9 @@ public class TownScene : BaseScene
             Player.Instance.noticeUI.noticePanel.gameObject.SetActive(false);
 
         progress = 1f;
+
+        GameManager.Sound.PlayMusic("Town");
+        GameManager.Sound.musicSource.loop = true;
     }
 
     void ReLoadUi()

@@ -128,6 +128,7 @@ public class Player : MonoBehaviour, IHitable
     {
         inventory = GetComponent<Inventory>();
         OnLevelUp.AddListener(LevelUpEffect);
+        OnDied.AddListener(() => GameManager.Sound.PlayMusic("Die"));
     }
 
     void Update()

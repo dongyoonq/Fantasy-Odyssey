@@ -10,10 +10,26 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
-        musicSounds = new List<Sound>();
+        musicSounds = new List<Sound>()
+        {
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/TitleSceneBgm"), "Title"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/TownBgm"), "Town"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/CastleBgm"), "Castle"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/DungeonBgm"), "Dungeon"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/BossBgm"), "Boss"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/BossBattleBgm"), "BossBattle"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/DieBgm"), "Die"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/VictoryBgm"), "Victory"),
+        };
+
         sfxSounds = new List<Sound>
         {
-            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/ItemGain"), "ItemGain")
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/ItemGain"), "ItemGain"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Player/Sword/Sword7"), "NormalSword1"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Player/Sword/Sword5"), "NormalSword2"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Player/Sword/Sword4"), "NormalSword3"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Player/Sword/Sword5"), "NormalSword4"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Player/Sword/Sword8"), "NormalSword5"),
         };
 
         GameObject _musicSource = new GameObject();
@@ -27,6 +43,9 @@ public class SoundManager : MonoBehaviour
         _sfxSource.name = "SFX Source";
         _sfxSource.transform.parent = transform;
         sfxSource = _sfxSource.GetComponent<AudioSource>();
+
+        PlayMusic("Title");
+        musicSource.loop = true;
     }
 
     public void PlayMusic(string name)

@@ -41,6 +41,8 @@ public class BossScene : MonoBehaviour
 
     IEnumerator BossSceneTrigger()
     {
+        GameManager.Sound.musicSource.Stop();
+
         sceneActivity = true;
         //Player.Instance.controller.enabled = false;
         playerCam = GameObject.Find("PlayerCam").GetComponent<CinemachineFreeLook>();
@@ -63,6 +65,8 @@ public class BossScene : MonoBehaviour
         Destroy(fadeCanvas.gameObject);
 
         yield return new WaitForSeconds(4f);
+        GameManager.Sound.PlayMusic("Boss");
+        GameManager.Sound.musicSource.loop = true;
         boss = GameManager.Resource.Instantiate<DemonBoss>("Prefabs/Monster/DemonBoss/demon_boss", spawnPoint.position, spawnPoint.rotation);
         boss.name = "데몬 보스";
 
@@ -85,10 +89,15 @@ public class BossScene : MonoBehaviour
         fadeAnimator.SetBool("FadeOut", false);
         fadeAnimator.SetBool("FadeIn", true);
         yield return new WaitForSeconds(1.5f);
+
         fadeAnimator.SetBool("FadeIn", false);
         Player.Instance.controller.enabled = true;
         boss.GetComponent<CharacterController>().enabled = true;
         Player.Instance.GetComponent<PlayerInput>().enabled = true;
+
+        GameManager.Sound.PlayMusic("BossBattle");
+        GameManager.Sound.musicSource.loop = true;
+
         boss.enabled = true;
         Destroy(fadeCanvas.gameObject);
         bossHpBar.gameObject.SetActive(true);
@@ -153,6 +162,9 @@ public class BossScene : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
 
+        GameManager.Sound.PlayMusic("BossBattle");
+        GameManager.Sound.musicSource.loop = true;
+
         boss.animator.SetBool("Spawn", false);
         boss.StopAllCoroutines();
 
@@ -188,6 +200,7 @@ public class BossScene : MonoBehaviour
         bossHpBar.gameObject.SetActive(false);
         Player.Instance.animator.SetBool("Victory", true);
         boss.animator.SetFloat("DieSpeed", 0.3f);
+        GameManager.Sound.PlayMusic("Victory");
 
         for (int i = 0; i < 10; i++)
         {

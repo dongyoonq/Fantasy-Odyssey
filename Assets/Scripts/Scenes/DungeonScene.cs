@@ -33,6 +33,8 @@ public class DungeonScene : BaseScene
         if (Player.Instance.noticeUI.noticePanel.IsValid())
             Player.Instance.noticeUI.noticePanel.gameObject.SetActive(false);
 
+        GameManager.Sound.PlayMusic("Dungeon");
+        GameManager.Sound.musicSource.loop = true;
         progress = 1f;
     }
 

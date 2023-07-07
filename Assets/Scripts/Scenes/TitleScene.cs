@@ -61,6 +61,9 @@ public class TitleScene : BaseScene
 
     protected override IEnumerator LoadingRoutine()
     {
+        GameManager.Sound.PlayMusic("Title");
+        GameManager.Sound.musicSource.loop = true;
+
         yield return null;
         progress = 1f;
     }

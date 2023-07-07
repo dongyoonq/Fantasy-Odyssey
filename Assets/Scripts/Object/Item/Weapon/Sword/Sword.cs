@@ -60,6 +60,7 @@ public class Sword : Weapon
 
     void FirstAttack()
     {
+        GameManager.Sound.PlaySFX("NormalSword1");
         TotalDamage = Player.Instance.Status.AttackPower;
         AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
         particle = GameManager.Resource.Instantiate(weaponData.Effects[0],
@@ -69,6 +70,7 @@ public class Sword : Weapon
 
     void SecondAttack()
     {
+        GameManager.Sound.PlaySFX("NormalSword2");
         TotalDamage = Player.Instance.Status.AttackPower;
         AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
         particle =
@@ -79,6 +81,7 @@ public class Sword : Weapon
 
     void FinishAttack()
     {
+        GameManager.Sound.PlaySFX("NormalSword3");
         TotalDamage = Player.Instance.Status.AttackPower + 30;
         AttackCircleJudgement(TotalDamage, 2.5f, 360f, 240f);
         particle = GameManager.Resource.Instantiate(weaponData.Effects[1],
@@ -97,6 +100,7 @@ public class Sword : Weapon
     IEnumerator syncRightAttackParticle()
     {
         yield return new WaitForSeconds(0.3f);
+        GameManager.Sound.PlaySFX("NormalSword5");
         particle = GameManager.Resource.Instantiate(weaponData.Effects[2],
             new Vector3(playerHandPos.x, playerHandPos.y - 0.2f, playerHandPos.z), Quaternion.Euler(playerRot), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.4f);
@@ -112,6 +116,7 @@ public class Sword : Weapon
     IEnumerator syncChargeAttackParticle()
     {
         yield return new WaitForSeconds(0.4f);
+        GameManager.Sound.PlaySFX("NormalSword4");
         particle = GameManager.Resource.Instantiate(weaponData.Effects[4],
             playerPos + (Player.Instance.transform.forward * 3.5f), Quaternion.Euler(playerRot), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.8f);
@@ -139,6 +144,7 @@ public class Sword : Weapon
     IEnumerator syncDashttackParticle()
     {
         yield return new WaitForSeconds(0.9f);
+        GameManager.Sound.PlaySFX("NormalSword4");
         particle = GameManager.Resource.Instantiate(weaponData.Effects[0],
             playerPos, Quaternion.Euler(playerRot.x, playerRot.y, playerRot.z - 90), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.3f);
@@ -195,21 +201,25 @@ public class Sword : Weapon
     {
         TotalDamage = Player.Instance.Status.AttackPower;
         yield return new WaitForSeconds(0.1f);
+        GameManager.Sound.PlaySFX("NormalSword1");
         AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
         particle = GameManager.Resource.Instantiate(weaponData.Effects[0],
             playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -140), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.5f);
         yield return new WaitForSeconds(0.5f);
+        GameManager.Sound.PlaySFX("NormalSword2");
         AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
         particle = GameManager.Resource.Instantiate(weaponData.Effects[0],
             new Vector3(playerHandPos.x - 0.5f, playerHandPos.y, playerHandPos.z), Quaternion.Euler(playerRot.x, playerRot.y, 40), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.5f);
         yield return new WaitForSeconds(0.5f);
+        GameManager.Sound.PlaySFX("NormalSword3");
         AttackCircleJudgement(TotalDamage + 20, 2.5f, 190f, 240f);
         particle = GameManager.Resource.Instantiate(weaponData.Effects[0],
             playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, 140), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.5f);
         yield return new WaitForSeconds(0.5f);
+        GameManager.Sound.PlaySFX("NormalSword5");
         AttackBoxJudgement(TotalDamage + 30, transform.position + transform.forward * 1f, new Vector3(0.4f, 0.4f, 1.8f),
             Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles));
         particle = GameManager.Resource.Instantiate(weaponData.Effects[2],
