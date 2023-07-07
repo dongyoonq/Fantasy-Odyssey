@@ -17,7 +17,9 @@ namespace Demon_Boss
 
         public override void Exit()
         {
-
+            if (owner.spawnParticle.IsValid())
+                GameManager.Resource.Destroy(owner.spawnParticle.gameObject, 5f);
+            owner.animator.SetBool("Spawn", false);
         }
 
         public override void Update()
@@ -27,8 +29,8 @@ namespace Demon_Boss
 
         IEnumerator SpawnRoutine()
         {
+            owner.spawnParticle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Portal/BossSpawnPortal", owner.transform.position + (owner.transform.up * 0.2f), Quaternion.Euler(90f, 0f, 0f));
             yield return new WaitForSeconds(1.6f);
-            owner.animator.SetBool("Spawn", false);
             owner.ChangeState(DemonBoss.State.Idle);
         }
     }

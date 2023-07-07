@@ -46,7 +46,7 @@ namespace Demon_Boss
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 2.5f;
+            end += hit.normal * 3f;
 
             float totalTime = Vector3.Distance(start, end) / 9;
             float rate = 0f;
@@ -76,7 +76,7 @@ namespace Demon_Boss
             yield return new WaitForSeconds(0.5f);
             owner.animator.SetFloat("MoveSpeed", 0);
             if (hitBox.IsValid())
-                GameManager.Resource.Destroy(hitBox, 3.3f);
+                GameManager.Resource.Destroy(hitBox.gameObject, 3.3f);
             owner.ChangeState(DemonBoss.State.Move);
         }
     }

@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -70,6 +72,7 @@ public class Player : MonoBehaviour, IHitable
 
             if (currentHp <= 0)
             {
+                StopAllCoroutines();
                 currentHp = 0;
                 OnDied?.Invoke();
                 stateMachine.ChangeState(StateName.Die);
@@ -124,6 +127,7 @@ public class Player : MonoBehaviour, IHitable
     private void Start()
     {
         inventory = GetComponent<Inventory>();
+        OnLevelUp.AddListener(LevelUpEffect);
     }
 
     void Update()
@@ -427,6 +431,9 @@ public class Player : MonoBehaviour, IHitable
 
     public void Hit(int damage)
     {
+        if (currentHp <= 0)
+            return;
+
         CurrentHP -= damage;
         GameManager.Ui.SetFloating(gameObject, -damage, new Color(1,0,0,1));
     }
@@ -493,6 +500,9 @@ public class Player : MonoBehaviour, IHitable
         {
             foreach (Collider collider in colliders)
             {
+                if (collider.gameObject.tag == "Boss")
+                    return;
+
                 Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
 
                 Monster monster = collider.GetComponent<Monster>();
@@ -575,5 +585,11 @@ public class Player : MonoBehaviour, IHitable
                 nextLevelExp = 60000;
                 break;
         }
+    }
+
+    void LevelUpEffect()
+    {
+        GameObject party = GameManager.Resource.Instantiate<GameObject>("Prefabs/Player/PartyParticle", transform.position + (transform.up * 2f), Quaternion.identity);
+        Destroy(party, 4f);
     }
 }

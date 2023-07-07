@@ -17,7 +17,8 @@ public class ExpBar : MonoBehaviour
 
     void Update()
     {
-        expBar.value = Player.Instance.Exp;
+        if (expBar.IsValid())
+            expBar.value = Player.Instance.Exp;
         //expText.text = $"{Player.Instance.Exp}/{Player.Instance.NextLevelExp}";
     }
 

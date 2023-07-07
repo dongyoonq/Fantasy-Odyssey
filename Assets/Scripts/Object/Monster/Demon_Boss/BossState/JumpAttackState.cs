@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace Demon_Boss
     public class JumpAttackState : MonsterBaseState<DemonBoss>
     {
         ParticleSystem particle;
+        CinemachineImpulseSource impulseSource;
 
         public JumpAttackState(DemonBoss owner) : base(owner)
         {
@@ -14,6 +16,7 @@ namespace Demon_Boss
 
         public override void Enter()
         {
+            impulseSource = owner.GetComponent<CinemachineImpulseSource>();
             owner.animator.SetFloat("MoveSpeed", 0);
             owner.jumpAttackRoutine = owner.StartCoroutine(JumpAttackRoutine());
         }
@@ -26,6 +29,9 @@ namespace Demon_Boss
             else
                 owner.coolTime = 1f;
             owner.patternChangeTimer = 0f;
+
+            if (particle.IsValid())
+                GameManager.Resource.Destroy(particle.gameObject, 1f);
         }
 
         public override void Update()
@@ -49,10 +55,10 @@ namespace Demon_Boss
             }
 
             yield return new WaitForSeconds(0.6f);
-
+            impulseSource.GenerateImpulse();
             AttackJudgeMent();
             particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Monster/DemonBoss/GroundCrack", owner.transform.position + (owner.transform.up * 0.2f), Quaternion.identity);
-            GameManager.Resource.Destroy(particle, 1f);
+            GameManager.Resource.Destroy(particle.gameObject, 1f);
             yield return new WaitForSeconds(0.3f);
             owner.animator.SetBool("Jump", false);
             owner.ChangeState(DemonBoss.State.Move);

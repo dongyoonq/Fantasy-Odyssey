@@ -22,6 +22,9 @@ namespace Demon_Boss
             owner.animator.SetBool("Heal", false);
             owner.StopCoroutine(owner.healRoutine);
             owner.coolTime = 1f;
+
+            if (food.IsValid())
+                GameManager.Resource.Destroy(food.gameObject);
         }
 
         public override void Update()
@@ -38,7 +41,7 @@ namespace Demon_Boss
             GameManager.Ui.SetFloating(owner.gameObject, +400, new Color(0,1,0,1));
             if (owner.currHp >= owner.data.maxHp)
                 owner.currHp = owner.data.maxHp;
-            GameManager.Resource.Destroy(food);
+            GameManager.Resource.Destroy(food.gameObject);
             yield return new WaitForSeconds(1.5f);
 
             owner.ChangeState(DemonBoss.State.Move);

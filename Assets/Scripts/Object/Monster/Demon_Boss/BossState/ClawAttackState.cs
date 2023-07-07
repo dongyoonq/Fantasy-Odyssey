@@ -49,7 +49,7 @@ namespace Demon_Boss
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 2.5f;
+            end += hit.normal * 3f;
 
             float totalTime = Vector3.Distance(start, end) / owner.data.moveSpeed;
             float rate = 0f;
@@ -90,7 +90,7 @@ namespace Demon_Boss
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 2.5f;
+            end += hit.normal * 3f;
 
             float totalTime = Vector3.Distance(start, end) / owner.data.moveSpeed;
             float rate = 0f;

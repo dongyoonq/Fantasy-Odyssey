@@ -39,7 +39,7 @@ public class NoticedUI : PopUpUI
         noticePanel.transform.parent.SetAsLastSibling();
     }
 
-    void CloseNotice()
+    public void CloseNotice()
     {
         activeNotice = false;
         noticePanel.SetActive(activeNotice);
@@ -47,18 +47,20 @@ public class NoticedUI : PopUpUI
 
     IEnumerator SpawnTown()
     {
+        CloseNotice();
+
+        if (GameObject.Find("BossPanel").IsValid())
+            GameObject.Find("BossPanel").gameObject.SetActive(false);
+
         GameManager.Scene.LoadScene("Town");
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
+        Player.Instance.CurrentHP = Player.Instance.Status.MaxHp;
+        yield return new WaitForSeconds(0.1f);
 
         Player.Instance.stateMachine.onDied = false;
         Player.Instance.controller.enabled = false;
         Player.Instance.transform.position = new Vector3(216.596f, -24.09f, -84.016f);
-        Player.Instance.CurrentHP = Player.Instance.Status.MaxHp;
-
-        yield return new WaitForSeconds(0.01f);
-
-        CloseNotice();
 
         Player.Instance.stateMachine.ChangeState(StateName.MOVE);
     }

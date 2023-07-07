@@ -7,7 +7,7 @@ namespace Demon_Boss
     public class ThrowAttackState : MonsterBaseState<DemonBoss>
     {
         GameObject rock;
-        float time = 1f;
+        float time = 3f;
 
         public ThrowAttackState(DemonBoss owner) : base(owner)
         {
@@ -22,11 +22,12 @@ namespace Demon_Boss
         public override void Exit()
         {
             owner.animator.SetBool("Throw", false);
+
             if (owner.rockAttackRoutine != null)
             {
                 owner.StopCoroutine(owner.rockAttackRoutine);
                 if (rock.IsValid())
-                    GameManager.Resource.Destroy(rock);
+                    GameManager.Resource.Destroy(rock.gameObject);
             }
 
             owner.coolTime = 0f;
@@ -49,23 +50,18 @@ namespace Demon_Boss
 
             Vector3 start = rock.transform.position;
             Vector3 end = Player.Instance.transform.position;
+            Vector3 center = ((start + end) / 2) + (Vector3.up * 10f);
 
-            float xSpeed = (end.x - start.x) / time;
-            float zSpeed = (end.z - start.z) / time;
-            float ySpeed = -1 * (0.5f * Physics.gravity.y * time * time + start.y) / time;
+            float time = 0f;
+            float duration = 1f;
 
-            owner.rockElapseTime = time;
-
-            float curTime = 0;
-
-            while (curTime < time)
+            while (time < duration)
             {
-                curTime += Time.deltaTime;
+                Vector3 temp1 = Vector3.Lerp(start, center, time);
+                Vector3 temp2 = Vector3.Lerp(center, end, time);
+                rock.transform.position = Vector3.Lerp(temp1, temp2, time);
 
-                if (rock.IsValid())
-                    rock.transform.position += new Vector3(xSpeed, ySpeed, zSpeed) * Time.deltaTime;
-
-                ySpeed += Physics.gravity.y * Time.deltaTime;
+                time += Time.deltaTime / duration;
 
                 yield return null;
             }
@@ -78,7 +74,7 @@ namespace Demon_Boss
             yield return null;
 
             if (rock.IsValid())
-                GameManager.Resource.Destroy(rock, 1f);
+                GameManager.Resource.Destroy(rock.gameObject, 0.5f);
         }
     }
 }

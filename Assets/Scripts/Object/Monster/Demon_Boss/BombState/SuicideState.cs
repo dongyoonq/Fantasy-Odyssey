@@ -54,7 +54,7 @@ namespace Demon_Bomb
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 3f;
+            end += hit.normal * 4f;
 
             while (rate < 1f)
             {

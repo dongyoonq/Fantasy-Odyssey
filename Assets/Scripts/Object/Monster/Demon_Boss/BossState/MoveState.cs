@@ -35,11 +35,12 @@ namespace Demon_Boss
             }
             else if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < owner.data.rangeMonsterData[0].detectRange && !isWait && owner.pharse2)
             {
-                owner.ChangeState(DemonBoss.State.Throw);
+                if (owner.currState == DemonBoss.State.Idle || owner.currState == DemonBoss.State.Move)
+                    owner.ChangeState(DemonBoss.State.Throw);
             }
             else if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < owner.data.agressiveMonsterData[0].detectRange)
             {
-                if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < 2.5f)
+                if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < 3.2f)
                 {
                     owner.animator.SetFloat("MoveSpeed", 0);
                     return;
@@ -51,7 +52,7 @@ namespace Demon_Boss
             }
             else if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < owner.data.agressiveMonsterData[1].detectRange)
             {
-                if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < 2.5f)
+                if (Vector3.Distance(owner.transform.position, Player.Instance.transform.position) < 3.2f)
                 {
                     owner.animator.SetFloat("MoveSpeed", 0);
                     return;

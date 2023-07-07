@@ -25,7 +25,7 @@ namespace Demon_Boss
             if (isGrabbed)
             {
                 Player.Instance.GetComponent<PlayerController>().enabled = true;
-                Player.Instance.transform.parent = null;
+                Player.Instance.transform.parent = GameManager.Instance.transform;
                 Player.Instance.transform.position = prevPlayerPos;
                 Player.Instance.transform.rotation = Quaternion.identity;
                 Player.Instance.GetComponent<CharacterController>().enabled = true;
@@ -68,7 +68,7 @@ namespace Demon_Boss
             RaycastHit hit;
             Physics.Raycast(owner.transform.position, (end - start).normalized, out hit, LayerMask.GetMask("Player"));
 
-            end += hit.normal * 2.5f;
+            end += hit.normal * 3f;
 
             while (rate < 1f)
             {

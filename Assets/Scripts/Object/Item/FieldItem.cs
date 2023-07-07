@@ -43,7 +43,7 @@ public class FieldItem : MonoBehaviour
 
     IEnumerator DisappearTimer()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(20f);
         if (gameObject.IsValid())
             Destroy(gameObject);
     }

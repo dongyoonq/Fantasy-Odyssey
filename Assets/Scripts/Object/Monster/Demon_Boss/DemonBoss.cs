@@ -19,6 +19,9 @@ public class DemonBoss : Monster, IHitable
     [NonSerialized] public float ySpeed;
     [NonSerialized] public DemonBomb summon1;
     [NonSerialized] public DemonBomb summon2;
+    [NonSerialized] public ParticleSystem spawnParticle;
+
+    [NonSerialized] public State currState;
 
     public int stunThreshold;
 
@@ -48,7 +51,6 @@ public class DemonBoss : Monster, IHitable
     public Coroutine rockIntervalRoutine;
 
     List<MonsterBaseState<DemonBoss>> states;
-    State currState;
 
     private void Awake()
     {
@@ -314,7 +316,6 @@ public class DemonBoss : Monster, IHitable
             ChangeState(State.Rage);
             return;
         }
-
 
         if (currState == State.Idle || currState == State.Move)
         {

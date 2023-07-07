@@ -1,8 +1,8 @@
 using Cinemachine;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class BossScene : MonoBehaviour
 {
@@ -14,6 +14,7 @@ public class BossScene : MonoBehaviour
     [SerializeField] Transform playerBattlePoint;
     [SerializeField] Transform bossBattlePoint;
     [SerializeField] Transform endingPortalPoint;
+    [SerializeField] Transform bossHpBar;
 
     bool sceneActivity;
 
@@ -28,6 +29,11 @@ public class BossScene : MonoBehaviour
             StartCoroutine(BossSceneTrigger());
             GetComponent<Collider>().enabled = false;
         }
+    }
+
+    private void Start()
+    {
+        bossHpBar = GameObject.Find("SceneUI").transform.GetChild(0).GetChild(0).GetChild(2).transform;
     }
 
     Canvas fadeCanvas;
@@ -85,6 +91,7 @@ public class BossScene : MonoBehaviour
         Player.Instance.GetComponent<PlayerInput>().enabled = true;
         boss.enabled = true;
         Destroy(fadeCanvas.gameObject);
+        bossHpBar.gameObject.SetActive(true);
     }
 
     void ShakeCamera(float intensity, float time)
@@ -137,15 +144,31 @@ public class BossScene : MonoBehaviour
                     bossCam.Priority = playerCam.Priority - 1;
                 }
 
-                endingCam.LookAt = boss.transform;
-                StartCoroutine(PositionSetting());
-                Player.Instance.GetComponent<PlayerInput>().enabled = true;
-                sceneActivity = false;
-                dollyCart.gameObject.SetActive(false);
-                if (fadeCanvas.IsValid())
-                    Destroy(fadeCanvas.gameObject);
+                StartCoroutine(SkipSceneRoutine());
             }
         }
+    }
+
+    IEnumerator SkipSceneRoutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        boss.animator.SetBool("Spawn", false);
+        boss.StopAllCoroutines();
+
+        //bossHpBar.gameObject.SetActive(true);
+        boss.ChangeState(DemonBoss.State.Idle);
+
+        if (boss.spawnParticle.IsValid())
+            GameManager.Resource.Destroy(boss.spawnParticle.gameObject);
+
+        endingCam.LookAt = boss.transform;
+        StartCoroutine(PositionSetting());
+        Player.Instance.GetComponent<PlayerInput>().enabled = true;
+        sceneActivity = false;
+        dollyCart.gameObject.SetActive(false);
+        if (fadeCanvas.IsValid())
+            Destroy(fadeCanvas.gameObject);
     }
 
     IEnumerator PositionSetting()
@@ -162,15 +185,25 @@ public class BossScene : MonoBehaviour
     IEnumerator EndBossSceneRoutine()
     {
         yield return null;
+        bossHpBar.gameObject.SetActive(false);
+        Player.Instance.animator.SetBool("Victory", true);
         boss.animator.SetFloat("DieSpeed", 0.3f);
 
-        endingCam.transform.position = boss.transform.position + (boss.transform.up * 8f) + (boss.transform.right * 8f);
+        for (int i = 0; i < 10; i++)
+        {
+            GameObject party = GameManager.Resource.Instantiate<GameObject>("Prefabs/Player/VictoryParty", Player.Instance.transform.position + 
+                (Player.Instance.transform.up * Random.Range(0f,2f)) + (Player.Instance.transform.up * Random.Range(0f, 2f)) + (Player.Instance.transform.up * Random.Range(0f, 2f)), Quaternion.identity);
+            Destroy(party, 4f);
+        }
+
+        endingCam.transform.position = boss.transform.position + (boss.transform.up * 5f) + (-boss.transform.right * 5f) + (boss.transform.forward * 5f);
         endingCam.Priority = playerCam.Priority + 1;
         Time.timeScale = 0.8f;
         Player.Instance.GetComponent<PlayerInput>().enabled = false;
 
         StartCoroutine(CameraZoomRoutine(endingCam, 40f, 5f));
         yield return new WaitForSeconds(7f);
+        Player.Instance.animator.SetBool("Victory", false);
 
         Time.timeScale = 1f;
         playerCam.Priority = endingCam.Priority + 1;

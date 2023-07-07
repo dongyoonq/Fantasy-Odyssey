@@ -16,8 +16,13 @@ public class HpBar : MonoBehaviour
 
     void Update()
     {
-        hpBar.value = Player.Instance.CurrentHP;
-        hpBar.maxValue = Player.Instance.Status.MaxHp;
-        HpText.text = $"{Player.Instance.CurrentHP}/{Player.Instance.Status.MaxHp}";
+        if (hpBar.IsValid())
+        {
+            hpBar.value = Player.Instance.CurrentHP;
+            hpBar.maxValue = Player.Instance.Status.MaxHp;
+        }
+
+        if (HpText.IsValid())
+            HpText.text = $"{Player.Instance.CurrentHP}/{Player.Instance.Status.MaxHp}";
     }
 }

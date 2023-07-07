@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DungeonScene : BaseScene
 {
@@ -28,6 +29,9 @@ public class DungeonScene : BaseScene
         yield return null;
 
         Player.Instance.controller.enabled = true;
+        Player.Instance.GetComponent<PlayerInput>().enabled = true;
+        if (Player.Instance.noticeUI.noticePanel.IsValid())
+            Player.Instance.noticeUI.noticePanel.gameObject.SetActive(false);
 
         progress = 1f;
     }

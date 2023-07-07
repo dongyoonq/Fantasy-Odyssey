@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class HpPotion : Potion
+public class BigHpPotion : Potion
 {
-    public HpPotion(PotionData data) : base(data)
+    public BigHpPotion(PotionData data) : base(data)
     {
     }
 
     private void OnEnable()
     {
-        potionData = Resources.Load<PotionData>("Data/ItemData/PotionData/Hp Potion");
+        potionData = Resources.Load<PotionData>("Data/ItemData/PotionData/Big Hp Potion");
     }
 
     public override void Use()
