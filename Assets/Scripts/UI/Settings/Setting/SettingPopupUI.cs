@@ -46,7 +46,8 @@ public class SettingPopupUI : PopUpUI
     {
         GameManager.Sound.MusicVolume(bgmSlider.value);
         GameManager.Sound.SFXVolume(sfxSlider.value);
-        Player.Instance.mouseController.mouseSensitivity = mouseSlider.value;
+        if (Player.Instance.IsValid())
+            Player.Instance.mouseController.mouseSensitivity = mouseSlider.value;
     }
 
     IEnumerator ReturnTitle()

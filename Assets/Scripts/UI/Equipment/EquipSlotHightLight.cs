@@ -65,13 +65,13 @@ public class EquipSlotHightLight : MonoBehaviour, IPointerEnterHandler, IPointer
 
             Rect deatilRect = detail.GetChild(0).GetComponent<RectTransform>().rect;
             if (eventData.position.y > Screen.height / 2 && eventData.position.x > Screen.width / 2)
-                detail.position = new Vector2(eventData.position.x - deatilRect.xMax - 15, eventData.position.y - deatilRect.yMax - 15);
+                detail.position = new Vector2(eventData.position.x - deatilRect.xMax - 130, eventData.position.y - deatilRect.yMax - 20);
             else if (eventData.position.y < Screen.height / 2 && eventData.position.x > Screen.width / 2)
-                detail.position = new Vector2(eventData.position.x - deatilRect.xMax - 15, eventData.position.y + deatilRect.yMax + 15);
+                detail.position = new Vector2(eventData.position.x - deatilRect.xMax - 130, eventData.position.y + deatilRect.yMax + 20);
             else if (eventData.position.y > Screen.height / 2 && eventData.position.x < Screen.width / 2)
-                detail.position = new Vector2(eventData.position.x + deatilRect.xMax + 15, eventData.position.y - deatilRect.yMax - 15);
+                detail.position = new Vector2(eventData.position.x + deatilRect.xMax + 130, eventData.position.y - deatilRect.yMax - 20);
             else if (eventData.position.y < Screen.height / 2 && eventData.position.x < Screen.width / 2)
-                detail.position = new Vector2(eventData.position.x + deatilRect.xMax + 15, eventData.position.y + deatilRect.yMax + 15);
+                detail.position = new Vector2(eventData.position.x + deatilRect.xMax + 130, eventData.position.y + deatilRect.yMax + 20);
         }
     }
 

@@ -454,14 +454,15 @@ public class Player : MonoBehaviour, IHitable
             foreach (Collider collider in colliders)
             {
                 Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
-                if (Vector3.Dot(transform.forward, dirTarget) >= Mathf.Cos(160 * 0.5f * Mathf.Deg2Rad))
+                if (Vector3.Dot(transform.forward, dirTarget) >= Mathf.Cos(90 * 0.5f * Mathf.Deg2Rad))
                 {
                     NPC npc = collider.GetComponent<NPC>();
 
                     if (UnityEngine.Input.GetKeyDown(KeyCode.F))
                     {
                         playerInput.enabled = false;
-                        mouseController.prevMousSens = mouseController.mouseSensitivity;
+                        if (mouseController.mouseSensitivity != 0)
+                            mouseController.prevMousSens = mouseController.mouseSensitivity;
                         mouseController.mouseSensitivity = 0f;
 
                         lookrot = npc.transform.rotation.eulerAngles;

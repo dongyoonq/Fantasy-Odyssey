@@ -67,13 +67,31 @@ public class TitleScene : BaseScene
 
     protected override IEnumerator LoadingRoutine()
     {
+        foreach (NpcData npc in GameManager.Quest.npcList)
+        {
+            if (npc.isQuestNPC)
+            {
+                npc.quest.goal.currentAmount = 0;
+                npc.quest.goal.isCompleteTalked = false;
+            }
+        }
+
+        yield return null;
+        progress = 0.3f;
+
         GameManager.Sound.PlayMusic("Title2");
         GameManager.Sound.musicSource.loop = true;
+
+        yield return null;
+        progress = 0.6f;
 
         if (GameManager.Quest.IsValid())
             Destroy(GameManager.Quest.gameObject);
 
         yield return null;
         progress = 1f;
+
+        GameManager.Sound.PlayMusic("Title2");
+        GameManager.Sound.musicSource.loop = true;
     }
 }
