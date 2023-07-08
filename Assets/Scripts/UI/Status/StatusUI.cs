@@ -22,13 +22,13 @@ public class StatusUI : PopUpUI
         Player.Instance.statusUI = this;
         Player.Instance.OnChangeEquipment.AddListener(ShowStatus);
         orgPosition = statusPanel.transform.GetChild(0).position;
-        statusPanel.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenStatus(); });
+        statusPanel.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenStatus(); GameManager.Sound.PlaySFX("Click"); });
     }
 
     public void OpenStatus()
     {
+        GameManager.Sound.PlaySFX("OpenUI");
         activeStatus = !activeStatus;
-        GameManager.Ui.activePopupUI = activeStatus;
         statusPanel.transform.GetChild(0).gameObject.SetActive(activeStatus);
         statusPanel.transform.GetChild(0).position = orgPosition;
         ShowStatus();
@@ -39,8 +39,8 @@ public class StatusUI : PopUpUI
     {
         if (context.performed)
         {
+            GameManager.Sound.PlaySFX("OpenUI");
             activeStatus = !activeStatus;
-            GameManager.Ui.activePopupUI = activeStatus;
             statusPanel.transform.GetChild(0).gameObject.SetActive(activeStatus);
             statusPanel.transform.GetChild(0).position = orgPosition;
             ShowStatus();

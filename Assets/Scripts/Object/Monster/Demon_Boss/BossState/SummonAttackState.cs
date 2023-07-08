@@ -11,6 +11,7 @@ namespace Demon_Boss
 
         public override void Enter()
         {
+            GameManager.Sound.PlaySFX("Summon");
             owner.summonAttackRoutine = owner.StartCoroutine(SummonRoutine());
         }
 

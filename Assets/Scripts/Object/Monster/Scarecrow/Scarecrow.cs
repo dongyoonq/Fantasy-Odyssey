@@ -21,6 +21,7 @@ public class Scarecrow : Monster, IHitable
         animator.SetBool("Damage", true);
         currHp -= damage;
         GameManager.Ui.SetFloating(gameObject, -damage);
+        GameManager.Sound.PlaySFX("ScareCrowHit");
 
         if (currHp <= 0)
         {

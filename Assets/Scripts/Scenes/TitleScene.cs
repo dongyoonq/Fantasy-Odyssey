@@ -24,16 +24,20 @@ public class TitleScene : BaseScene
 
     public void OpenCreate()
     {
+        GameManager.Sound.PlaySFX("Click");
         createPanel.SetActive(true);
     }
 
     public void CloseCreate()
     {
+        GameManager.Sound.PlaySFX("Click");
         createPanel.SetActive(false);
     }
 
     public void Quit()
     {
+        GameManager.Sound.PlaySFX("Click");
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #elif UNITY_WEBPLAYER
@@ -45,6 +49,8 @@ public class TitleScene : BaseScene
 
     public void CreatePlayer()
     {
+        GameManager.Sound.PlaySFX("Click");
+
         if (string.IsNullOrEmpty(inputText.text))
             return;
 
@@ -61,8 +67,11 @@ public class TitleScene : BaseScene
 
     protected override IEnumerator LoadingRoutine()
     {
-        GameManager.Sound.PlayMusic("Title");
+        GameManager.Sound.PlayMusic("Title2");
         GameManager.Sound.musicSource.loop = true;
+
+        if (GameManager.Quest.IsValid())
+            Destroy(GameManager.Quest.gameObject);
 
         yield return null;
         progress = 1f;

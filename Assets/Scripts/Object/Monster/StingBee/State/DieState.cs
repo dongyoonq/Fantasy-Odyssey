@@ -12,6 +12,7 @@ namespace StingBeeState
 
         public override void Enter()
         {
+            GameManager.Sound.PlaySFX("BeeDie");
             owner.animator.SetBool("Die", true);
             owner.StartCoroutine(DissapearRoutine());
             owner.GetComponent<CharacterController>().enabled = false;

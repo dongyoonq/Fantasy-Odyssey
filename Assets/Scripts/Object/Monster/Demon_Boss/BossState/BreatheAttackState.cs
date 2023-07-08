@@ -55,6 +55,7 @@ namespace Demon_Boss
         IEnumerator AnimationRoutine()
         {
             yield return new WaitForSeconds(0.5f);
+            GameManager.Sound.PlaySFX("Breath");
             particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Monster/DemonBoss/Flame", owner.jaw.transform.position, owner.jaw.transform.rotation, owner.jaw.transform);
             yield return new WaitForSeconds(3f);
             owner.ChangeState(DemonBoss.State.Idle);

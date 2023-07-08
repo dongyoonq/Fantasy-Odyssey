@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Dynamic;
 using UnityEngine;
 
 namespace StingBeeState
@@ -76,6 +77,7 @@ namespace StingBeeState
 
             owner.animator.SetBool("Move", false);
             owner.animator.SetBool("Attack1", true);
+            GameManager.Sound.PlaySFX("BeeAttack");
 
             yield return new WaitForSeconds(0.5f);
             AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance, owner.data.meleeMonsterData[0].angle, 330f);
@@ -107,8 +109,9 @@ namespace StingBeeState
 
             owner.animator.SetBool("Move", false);
             owner.animator.SetBool("Attack2", true);
-
-            yield return new WaitForSeconds(0.9f);
+            yield return new WaitForSeconds(0.5f);
+            GameManager.Sound.PlaySFX("BeeAttack");
+            yield return new WaitForSeconds(0.4f);
             AttackCircleJudgement(owner.data.meleeMonsterData[1].attackDamage, owner.data.meleeMonsterData[1].attackDistance, owner.data.meleeMonsterData[1].angle, 330f);
             yield return new WaitForSeconds(0.4f);
             owner.ChangeState(StingBee.State.Trace);
@@ -138,6 +141,7 @@ namespace StingBeeState
 
             owner.animator.SetBool("Move", false);
             owner.animator.SetBool("Attack3", true);
+            GameManager.Sound.PlaySFX("BeeAttack");
 
             yield return new WaitForSeconds(0.5f);
             AttackCircleJudgement(owner.data.meleeMonsterData[2].attackDamage, owner.data.meleeMonsterData[2].attackDistance, owner.data.meleeMonsterData[2].angle, 330f);

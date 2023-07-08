@@ -40,6 +40,11 @@ public class QuestManager : MonoBehaviour
         Player.Instance.OnChangeGatheringQuestUpdate.AddListener(UpdateGatheringQuest);
         Player.Instance.OnChangeUseQuestUpdate.AddListener(UpdateUseQuest);
         Player.Instance.OnChangeTalkQuestUpdate.AddListener(UpdateTalkQuest);
+        questDescriptionPanel.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() =>
+        {
+            Player.Instance.playerInput.enabled = true;
+            Player.Instance.mouseController.mouseSensitivity = Player.Instance.mouseController.prevMousSens;
+        });
     }
 
     void UpdateKillQuest(BaseMonsterData monsterData)
@@ -328,6 +333,9 @@ public class QuestManager : MonoBehaviour
 
     public void AcceptQuest(QuestData quest)
     {
+        Player.Instance.playerInput.enabled = true;
+        Player.Instance.mouseController.mouseSensitivity = Player.Instance.mouseController.prevMousSens;
+
         if (quest.goal.goalType == GoalType.Use)
         {
             quest.goal.currentAmount = 1;
@@ -343,7 +351,7 @@ public class QuestManager : MonoBehaviour
 
         instanceContent = Instantiate(contentPrefab, contentArea.transform);
         instanceContent.transform.GetChild(0).GetComponent<Text>().text = quest.title;
-        instanceContent.GetComponent<Button>().onClick.AddListener(() => OpenQuest(quest));
+        instanceContent.GetComponent<Button>().onClick.AddListener(() => { OpenQuest(quest); GameManager.Sound.PlaySFX("Click"); });
         instanceContent.transform.GetChild(1).gameObject.SetActive(true); // Progress Active
 
         acceptButton.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -351,6 +359,9 @@ public class QuestManager : MonoBehaviour
 
     public void CompleteQuest(QuestData quest)
     {
+        Player.Instance.playerInput.enabled = true;
+        Player.Instance.mouseController.mouseSensitivity = Player.Instance.mouseController.prevMousSens;
+
         if (quest.goal.IsReached())
         {
             questDescriptionPanel.SetActive(false);

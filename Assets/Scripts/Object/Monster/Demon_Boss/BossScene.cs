@@ -57,6 +57,7 @@ public class BossScene : MonoBehaviour
         yield return new WaitForSeconds(1f);
         fadeAnimator.SetBool("FadeOut", false);
         fadeAnimator.SetBool("FadeIn", true);
+        GameManager.Sound.PlaySFX("Earthquake 1");
         yield return new WaitForSeconds(1f);
         ShakeCamera(6f, 10f);
         StartCoroutine(CameraZoomRoutine(bossCam, 35f, 10f));
@@ -72,8 +73,9 @@ public class BossScene : MonoBehaviour
 
         yield return new WaitForSeconds(1.6f);
         boss.enabled = false;
-
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(4f);
+        GameManager.Sound.PlaySFX("Laugh");
+        yield return new WaitForSeconds(4f);
         fadeCanvas = GameManager.Resource.Instantiate<Canvas>("UI/FadeUI");
         fadeAnimator = fadeCanvas.GetComponent<Animator>();
         fadeAnimator.SetBool("FadeOut", true);

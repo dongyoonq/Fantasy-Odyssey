@@ -16,6 +16,7 @@ namespace Demon_Boss
 
         public override void Enter()
         {
+            GameManager.Sound.PlaySFX("BossJump");
             impulseSource = owner.GetComponent<CinemachineImpulseSource>();
             owner.animator.SetFloat("MoveSpeed", 0);
             owner.jumpAttackRoutine = owner.StartCoroutine(JumpAttackRoutine());
@@ -57,6 +58,7 @@ namespace Demon_Boss
             yield return new WaitForSeconds(0.6f);
             impulseSource.GenerateImpulse();
             AttackJudgeMent();
+            GameManager.Sound.PlaySFX("Ground Crush");
             particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Monster/DemonBoss/GroundCrack", owner.transform.position + (owner.transform.up * 0.2f), Quaternion.identity);
             GameManager.Resource.Destroy(particle.gameObject, 1f);
             yield return new WaitForSeconds(0.3f);

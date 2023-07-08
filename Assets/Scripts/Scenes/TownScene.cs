@@ -10,6 +10,7 @@ public class TownScene : BaseScene
     {
         progress = 0.2f;
         CinemachineFreeLook frCam = GameManager.Resource.Instantiate<CinemachineFreeLook>("Prefabs/Player/PlayerCam");
+        frCam.GetComponent<CinemachineCollider>().enabled = false;
         frCam.name = "PlayerCam";
         frCam.LookAt = Player.Instance.transform;
         frCam.Follow = Player.Instance.transform;
@@ -36,6 +37,9 @@ public class TownScene : BaseScene
 
         GameManager.Sound.PlayMusic("Town");
         GameManager.Sound.musicSource.loop = true;
+
+        yield return new WaitForSeconds(0.5f);
+        frCam.GetComponent<CinemachineCollider>().enabled = true;
     }
 
     void ReLoadUi()

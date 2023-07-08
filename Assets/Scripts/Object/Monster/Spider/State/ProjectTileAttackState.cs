@@ -41,6 +41,7 @@ namespace SpiderState
         IEnumerator attackRoutine()
         {
             yield return new WaitForSeconds(0.4f);
+            GameManager.Sound.PlaySFX("SpiderProjectile");
             particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Monster/Spider/SpiderProjectileAttack",
                 owner.transform.position + (owner.transform.forward * 0.8f) + (owner.transform.up * 0.5f), owner.transform.rotation, true);
             particle.GetComponent<SpiderProjectile>().spider = owner;

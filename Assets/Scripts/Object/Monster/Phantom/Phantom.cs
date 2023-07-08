@@ -85,6 +85,7 @@ public class Phantom : Monster, IHitable
 
         currHp -= damage;
         GameManager.Ui.SetFloating(gameObject, -damage);
+        GameManager.Sound.PlaySFX("MonsterHit");
 
         if (currHp <= 0)
         {

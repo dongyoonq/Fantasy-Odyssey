@@ -47,6 +47,7 @@ public class NoticedUI : PopUpUI
 
     IEnumerator SpawnTown()
     {
+        GameManager.Sound.PlaySFX("Click");
         CloseNotice();
 
         if (GameObject.Find("BossPanel").IsValid())
@@ -67,6 +68,7 @@ public class NoticedUI : PopUpUI
 
     IEnumerator ReturnTitle()
     {
+        GameManager.Sound.PlaySFX("Click");
         CloseNotice();
 
         GameManager.Scene.LoadScene("Title");
@@ -79,6 +81,8 @@ public class NoticedUI : PopUpUI
 
     void ExitGame()
     {
+        GameManager.Sound.PlaySFX("Click");
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #elif UNITY_WEBPLAYER

@@ -11,6 +11,7 @@ namespace Demon_Boss
 
         public override void Enter()
         {
+            GameManager.Sound.PlaySFX("Groggy");
             owner.groggyRoutine = owner.StartCoroutine(AnimationRoutine());
         }
 

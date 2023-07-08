@@ -31,8 +31,10 @@ public class Player : MonoBehaviour, IHitable
     public PlayerController playerController { get; private set; }
     public StateMachine stateMachine { get; private set; }
     public CharacterController controller { get; private set; }
+    public MouseController mouseController { get; private set; }
     public Animator animator { get; private set; }
     public CapsuleCollider capsuleCollider { get; private set; }
+    public PlayerInput playerInput { get; private set; }
     public Inventory inventory { get; private set; }
     public InventoryUI inventoryUI { get; set; }
     public QuestUI questUI { get; set; }
@@ -114,6 +116,8 @@ public class Player : MonoBehaviour, IHitable
         completeQuest = new List<Quest>();
         inputBuffer = new Queue<Input>();
         controller = GetComponent<CharacterController>();
+        mouseController = GetComponent<MouseController>();
+        playerInput = GetComponent<PlayerInput>();
         animator = GetComponent<Animator>();
         defaultAnimator = GetComponent<Animator>().runtimeAnimatorController;
         playerController = GetComponent<PlayerController>();
@@ -456,6 +460,10 @@ public class Player : MonoBehaviour, IHitable
 
                     if (UnityEngine.Input.GetKeyDown(KeyCode.F))
                     {
+                        playerInput.enabled = false;
+                        mouseController.prevMousSens = mouseController.mouseSensitivity;
+                        mouseController.mouseSensitivity = 0f;
+
                         lookrot = npc.transform.rotation.eulerAngles;
                         animator.SetBool("Talk", true);
                         npc.transform.LookAt(transform.position);
@@ -590,6 +598,7 @@ public class Player : MonoBehaviour, IHitable
 
     void LevelUpEffect()
     {
+        GameManager.Sound.PlaySFX("LevelUp");
         GameObject party = GameManager.Resource.Instantiate<GameObject>("Prefabs/Player/PartyParticle", transform.position + (transform.up * 2f), Quaternion.identity);
         Destroy(party, 4f);
     }

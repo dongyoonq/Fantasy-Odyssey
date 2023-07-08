@@ -72,6 +72,8 @@ namespace Demon_Boss
                 yield return null;
             }
 
+            GameManager.Sound.PlaySFX($"Claw{randomValue}");
+
             // animation Timing
             yield return new WaitForSeconds(0.3f);
             AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance, owner.data.meleeMonsterData[0].angle, 360f);
@@ -106,11 +108,14 @@ namespace Demon_Boss
                 yield return null;
             }
 
+            GameManager.Sound.PlaySFX("Claw1");
+
             // animation Timing
             yield return new WaitForSeconds(0.3f);
             AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance, owner.data.meleeMonsterData[0].angle, 360f);
             yield return new WaitForSeconds(0.3f);
             owner.animator.SetBool($"Claw1", false);
+            GameManager.Sound.PlaySFX("Claw2");
             owner.animator.SetBool($"Claw2", true);
             yield return new WaitForSeconds(0.8f);
             AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance, owner.data.meleeMonsterData[0].angle, 360f);

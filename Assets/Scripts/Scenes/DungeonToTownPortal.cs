@@ -7,6 +7,8 @@ public class DungeonToTownPortal : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            GameManager.Sound.PlaySFX("Portal");
+
             StartCoroutine(ReColliderOn());
 
             GameManager.Scene.LoadScene("Town");

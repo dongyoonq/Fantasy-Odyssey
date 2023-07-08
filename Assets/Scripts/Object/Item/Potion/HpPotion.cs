@@ -15,6 +15,8 @@ public class HpPotion : Potion
     {
         base.Use();
 
+        GameManager.Sound.PlaySFX("Potion 01");
+
         if (Player.Instance.CurrentHP >= Player.Instance.Status.MaxHp)
             return;
 

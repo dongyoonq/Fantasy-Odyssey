@@ -109,6 +109,7 @@ public class StingBee : Monster, IHitable, IHearable
 
         currHp -= damage;
         GameManager.Ui.SetFloating(gameObject, -damage);
+        GameManager.Sound.PlaySFX("MonsterHit");
 
         if (currHp <= 0)
         {

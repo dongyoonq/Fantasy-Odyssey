@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,8 @@ using UnityEngine.InputSystem;
 public class MouseController : MonoBehaviour
 {
     float zoomScroll;
-    [SerializeField, Range(0, 10f)] float mouseSensitivity;
+    [NonSerialized] public float prevMousSens;
+    [SerializeField, Range(0, 10f)] public float mouseSensitivity;
     [SerializeField] public CinemachineFreeLook FrCam;
 
     private void LateUpdate()
@@ -29,8 +31,8 @@ public class MouseController : MonoBehaviour
 
         if (FrCam.m_Lens.FieldOfView < 1)
             FrCam.m_Lens.FieldOfView = 1;
-        else if (FrCam.m_Lens.FieldOfView > 70)
-            FrCam.m_Lens.FieldOfView = 70;
+        else if (FrCam.m_Lens.FieldOfView > 90)
+            FrCam.m_Lens.FieldOfView = 90;
         else
             FrCam.m_Lens.FieldOfView -= zoomScroll * Time.deltaTime;
     }

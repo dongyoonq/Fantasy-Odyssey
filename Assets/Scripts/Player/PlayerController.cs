@@ -103,9 +103,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnLeftAttack(InputAction.CallbackContext context)
     {
-        if (GameManager.Ui.activePopupUI)
-            return;
-
         if (context.performed)
         {
             if (context.interaction is HoldInteraction)         // 차지 공격
@@ -151,9 +148,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnRightAttack(InputAction.CallbackContext context)
     {
-        if (GameManager.Ui.activePopupUI)
-            return;
-
         if (context.performed && !attackState.IsLeftAttack && GetWeapon() != null)
         {
             if (context.interaction is PressInteraction)
@@ -169,9 +163,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnUltAttack(InputAction.CallbackContext context)
     {
-        if (GameManager.Ui.activePopupUI)
-            return;
-
         if (context.performed && !attackState.IsLeftAttack && GetWeapon() != null && !Player.Instance.animator.GetBool("Dash"))
         {
             if (context.interaction is PressInteraction)
@@ -211,9 +202,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (GameManager.Ui.activePopupUI)
-            return;
-
         if (context.performed && context.interaction is PressInteraction && isGrounded && !Player.Instance.animator.GetBool("Dash")
             && !Player.Instance.animator.GetBool("IsDashAttack") && !Player.Instance.animator.GetBool("IsLeftAttack") &&
             !Player.Instance.animator.GetBool("IsRightAttack") && !Player.Instance.animator.GetBool("IsChargingAttack") && !Player.Instance.animator.GetBool("IsSkillAttack") && !Player.Instance.animator.GetBool("IsUltAttack"))

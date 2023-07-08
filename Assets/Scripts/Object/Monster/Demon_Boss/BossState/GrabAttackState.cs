@@ -86,6 +86,7 @@ namespace Demon_Boss
             }
 
             owner.animator.SetBool($"Grab", true);
+            GameManager.Sound.PlaySFX("Grab");
 
             // animation Timing
             yield return new WaitForSeconds(0.5f);

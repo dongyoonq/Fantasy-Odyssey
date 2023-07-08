@@ -17,7 +17,7 @@ public class QuestUI : PopUpUI
         if (questPanel.IsValid())
             questPanel.SetActive(activeQuest);
 
-        questPanel.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => { OpenQuest(); });
+        questPanel.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => { OpenQuest(); GameManager.Sound.PlaySFX("Click"); });
         orgPosition = questPanel.transform.position;
     }
 
@@ -25,9 +25,9 @@ public class QuestUI : PopUpUI
     {
         if (context.performed)
         {
+            GameManager.Sound.PlaySFX("OpenUI");
             questPanel.transform.position = orgPosition;
             activeQuest = !activeQuest;
-            GameManager.Ui.activePopupUI = activeQuest;
             questPanel.SetActive(activeQuest);
             questPanel.transform.parent.SetAsLastSibling();
         }
@@ -35,9 +35,9 @@ public class QuestUI : PopUpUI
 
     public void OpenQuest()
     {
+        GameManager.Sound.PlaySFX("OpenUI");
         questPanel.transform.position = orgPosition;
         activeQuest = !activeQuest;
-        GameManager.Ui.activePopupUI = activeQuest;
         questPanel.SetActive(activeQuest);
         questPanel.transform.parent.SetAsLastSibling();
     }

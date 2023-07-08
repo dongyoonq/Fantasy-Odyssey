@@ -14,6 +14,7 @@ namespace SpiderState
 
         public override void Enter()
         {
+            GameManager.Sound.PlaySFX("SpiderDie");
             owner.animator.SetBool("Die", true);
             owner.GetComponent<CharacterController>().enabled = false;
             Player.Instance.OnChangeKillQuestUpdate?.Invoke(owner.data);

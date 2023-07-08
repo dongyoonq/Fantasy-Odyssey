@@ -31,6 +31,7 @@ public class ShopNpc : MonoBehaviour
 
     public void CloseShop()
     {
+        Player.Instance.mouseController.mouseSensitivity = Player.Instance.mouseController.prevMousSens;
         Player.Instance.GetComponent<PlayerInput>().enabled = true;
         GameManager.Resource.Destroy(shopUI.gameObject);
         shopUI.closeButton.onClick.RemoveAllListeners();
@@ -38,6 +39,8 @@ public class ShopNpc : MonoBehaviour
 
     public void ShopSell(ItemData itemData)
     {
+        GameManager.Sound.PlaySFX("Click");
+
         // 가격 추가시 조건문으로 Player Money와 itemData의 Price비교해 구매, 구매불가 가능
         Player.Instance.AddItemToInventory(itemData);
     }

@@ -29,7 +29,7 @@ namespace Demon_Boss
                     GameManager.Resource.Destroy(rock.gameObject);
             }
 
-            owner.coolTime = 0f;
+            owner.coolTime = 0.3f;
         }
 
         public override void Update()
@@ -46,6 +46,7 @@ namespace Demon_Boss
             rock = GameManager.Resource.Instantiate<GameObject>("Prefabs/Monster/DemonBoss/Rock", owner.righthand.transform.position + (owner.transform.up * 0.5f), Quaternion.identity);
             rock.GetComponent<BossRock>().owner = owner;
             yield return new WaitForSeconds(0.6f);
+            GameManager.Sound.PlaySFX("Throw");
 
             Vector3 start = rock.transform.position;
             Vector3 end = Player.Instance.transform.position;

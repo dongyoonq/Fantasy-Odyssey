@@ -30,7 +30,7 @@ public class InventoryUI : PopUpUI
 
         inventoryPanel.transform.GetChild(0).gameObject.SetActive(activeInventory);
 
-        inventoryPanel.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenInventory(); });
+        inventoryPanel.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenInventory(); GameManager.Sound.PlaySFX("Click"); });
         inventory.onChangeInventory.AddListener(() => InventoryChange());
 
         orgPosition = inventoryPanel.transform.GetChild(0).position;
@@ -57,8 +57,8 @@ public class InventoryUI : PopUpUI
 
     public void OpenInventory()
     {
+        GameManager.Sound.PlaySFX("OpenUI");
         activeInventory = !activeInventory;
-        GameManager.Ui.activePopupUI = activeInventory;
         inventoryPanel.transform.GetChild(0).gameObject.SetActive(activeInventory);
         inventoryPanel.transform.GetChild(0).position = orgPosition;
         inventoryPanel.transform.SetAsLastSibling();
@@ -68,8 +68,8 @@ public class InventoryUI : PopUpUI
     {
         if (context.performed)
         {
+            GameManager.Sound.PlaySFX("OpenUI");
             activeInventory = !activeInventory;
-            GameManager.Ui.activePopupUI = activeInventory;
             inventoryPanel.transform.GetChild(0).gameObject.SetActive(activeInventory);
             inventoryPanel.transform.GetChild(0).position = orgPosition;
             inventoryPanel.transform.SetAsLastSibling();

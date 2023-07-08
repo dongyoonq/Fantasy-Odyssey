@@ -6,8 +6,6 @@ using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
-    public bool activePopupUI;
-
     private EventSystem eventSystem;
     public Stack<PopUpUI> popUpUIStack;
     private Canvas popUpCanvas;
@@ -59,9 +57,6 @@ public class UIManager : MonoBehaviour
 
         popUpUIStack.Push(ui);
 
-        activePopupUI = true;
-        //Time.timeScale = 0f;
-
         return ui;
     }
 
@@ -76,6 +71,7 @@ public class UIManager : MonoBehaviour
 
     public void ClosePopUpUI()
     {
+        GameManager.Sound.PlaySFX("OpenUI");
         PopUpUI ui = popUpUIStack?.Pop();
         GameManager.Pool.Release(ui.gameObject);
 
@@ -89,8 +85,6 @@ public class UIManager : MonoBehaviour
             //Time.timeScale = 1;
             //Cursor.lockState = CursorLockMode.Confined;
         }
-
-        activePopupUI = false;
     }
 
     public T ShowWindowUI<T>(T windowUI) where T : WindowUI

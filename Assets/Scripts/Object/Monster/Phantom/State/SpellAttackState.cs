@@ -32,7 +32,9 @@ namespace PhantomState
 
         IEnumerator SpellAttackRoutine()
         {
+            GameManager.Sound.PlaySFX("PhantomSpellAttack");
             yield return new WaitForSeconds(0.5f);
+            GameManager.Sound.PlaySFX("PhantomSpell");
             particle = GameManager.Resource.Instantiate<ParticleSystem>("Prefabs/Monster/Phantom/BarrageIce", Player.Instance.transform.position + (Player.Instance.transform.up * 1f), Quaternion.Euler(new Vector3(-90f, 0f, 0f)));
             BarrageIceHitBox hitBox = particle.transform.GetChild(4).GetComponent<BarrageIceHitBox>();
             hitBox.owner = owner;

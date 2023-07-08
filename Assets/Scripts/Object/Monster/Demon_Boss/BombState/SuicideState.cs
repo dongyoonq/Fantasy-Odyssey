@@ -67,6 +67,7 @@ namespace Demon_Bomb
                 yield return null;
             }
 
+            GameManager.Sound.PlaySFX("Explosion");
             AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance, owner.data.meleeMonsterData[0].angle, owner.data.meleeMonsterData[0].angle);
             owner.animator.SetBool("Suicide", false);
             GameManager.Resource.Destroy(owner.gameObject);

@@ -167,6 +167,7 @@ public class Sword : Weapon
     IEnumerator syncSkillParticle()
     {
         yield return new WaitForSeconds(0.3f);
+        GameManager.Sound.PlaySFX("NormalSword6");
         particle = GameManager.Resource.Instantiate(weaponData.Effects[3],
             playerHandPos, Quaternion.Euler(playerRot), Player.Instance.transform, true);
         Destroy(particle.gameObject, 0.8f);

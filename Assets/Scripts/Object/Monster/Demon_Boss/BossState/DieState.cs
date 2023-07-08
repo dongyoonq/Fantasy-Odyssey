@@ -11,6 +11,8 @@ namespace Demon_Boss
 
         public override void Enter()
         {
+            GameManager.Sound.PlaySFX("BossDead");
+
             if (owner.summon1.IsValid())
                 GameManager.Resource.Destroy(owner.summon1.gameObject);
 

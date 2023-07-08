@@ -67,6 +67,7 @@ namespace Demon_Boss
             }
 
             owner.animator.SetBool($"Smash", true);
+            GameManager.Sound.PlaySFX("Smash");
 
             // animation Timing
             yield return new WaitForSeconds(1f);

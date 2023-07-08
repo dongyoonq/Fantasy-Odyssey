@@ -33,7 +33,9 @@ namespace StingBeeState
             else
             {
                 if (owner.controller.enabled)
+                {
                     owner.controller.Move(targetDir * owner.data.moveSpeed * Time.deltaTime);
+                }
             }
 
             Quaternion targetRot = Quaternion.LookRotation(targetDir);

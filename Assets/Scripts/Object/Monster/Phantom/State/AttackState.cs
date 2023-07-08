@@ -59,10 +59,12 @@ namespace PhantomState
             }
 
             // animation Timing
+            GameManager.Sound.PlaySFX("PhantomLeft");
             yield return new WaitForSeconds(0.3f);
             AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance, owner.data.meleeMonsterData[0].angle, 360f);
             yield return new WaitForSeconds(0.3f);
             owner.animator.SetBool("AttackLeft", false);
+            GameManager.Sound.PlaySFX("PhantomRight");
             owner.animator.SetBool("AttackRight", true);
             yield return new WaitForSeconds(0.3f);
             AttackCircleJudgement(owner.data.meleeMonsterData[0].attackDamage, owner.data.meleeMonsterData[0].attackDistance, owner.data.meleeMonsterData[0].angle, 360f);

@@ -35,6 +35,7 @@ namespace Demon_Boss
         IEnumerator HealRoutine()
         {
             yield return new WaitForSeconds(0.5f);
+            GameManager.Sound.PlaySFX("Heal");
             food = GameManager.Resource.Instantiate<GameObject>("Prefabs/Monster/DemonBoss/Chicken", owner.lefthand.transform.position, Quaternion.identity, owner.lefthand.transform);
             yield return new WaitForSeconds(1.1f);
             owner.currHp += 400;

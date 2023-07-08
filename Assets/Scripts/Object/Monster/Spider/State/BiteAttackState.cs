@@ -60,6 +60,7 @@ namespace SpiderState
 
             owner.animator.SetBool("Move", false);
             owner.animator.SetBool("Attack", true);
+            GameManager.Sound.PlaySFX("SpiderAttack");
 
             // Wait for the specified animation timing
             yield return new WaitForSeconds(0.5f);

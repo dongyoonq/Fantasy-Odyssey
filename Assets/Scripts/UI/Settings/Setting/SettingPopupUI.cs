@@ -7,16 +7,19 @@ public class SettingPopupUI : PopUpUI
 {
     Slider bgmSlider;
     Slider sfxSlider;
+    Slider mouseSlider;
 
     protected override void Awake()
     {
         base.Awake();
 
-        buttons["Button_Close"].onClick.AddListener(() => { base.CloseUI(); });
-        buttons["TitleButton"].onClick.AddListener(() => { StartCoroutine(ReturnTitle()); });
-        buttons["ExitButton"].onClick.AddListener(() => { ExitGame(); });
+        buttons["Button_Close"].onClick.AddListener(() => { base.CloseUI(); GameManager.Sound.PlaySFX("Click"); });
+        buttons["TitleButton"].onClick.AddListener(() => { StartCoroutine(ReturnTitle()); GameManager.Sound.PlaySFX("Click"); });
+        buttons["ExitButton"].onClick.AddListener(() => { ExitGame(); GameManager.Sound.PlaySFX("Click"); });
         buttons["BgmButton"].onClick.AddListener(() =>
         {
+            GameManager.Sound.PlaySFX("Click");
+
             GameManager.Sound.ToggleMusic();
             if (GameManager.Sound.musicSource.mute)
                 buttons["BgmButton"].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
@@ -25,6 +28,8 @@ public class SettingPopupUI : PopUpUI
         });
         buttons["SfxButton"].onClick.AddListener(() =>
         {
+            GameManager.Sound.PlaySFX("Click");
+
             GameManager.Sound.ToggleSFX();
             if (GameManager.Sound.sfxSource.mute)
                 buttons["SfxButton"].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
@@ -33,12 +38,15 @@ public class SettingPopupUI : PopUpUI
         });
         bgmSlider = transforms["SliderBgm"].GetComponent<Slider>();
         sfxSlider = transforms["SliderSfx"].GetComponent<Slider>();
+        mouseSlider = transforms["SliderMouse"].GetComponent<Slider>();
+        mouseSlider.maxValue = 10f;
     }
 
     private void Update()
     {
         GameManager.Sound.MusicVolume(bgmSlider.value);
         GameManager.Sound.SFXVolume(sfxSlider.value);
+        Player.Instance.mouseController.mouseSensitivity = mouseSlider.value;
     }
 
     IEnumerator ReturnTitle()

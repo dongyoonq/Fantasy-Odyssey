@@ -12,6 +12,7 @@ namespace PhantomState
 
         public override void Enter()
         {
+            GameManager.Sound.PlaySFX("PhantomDie");
             owner.animator.SetBool("Die", true);
             owner.StartCoroutine(DissapearRoutine());
             owner.GetComponent<CharacterController>().enabled = false;

@@ -37,15 +37,15 @@ public class EquipmentUI : PopUpUI
             orgSprite[i] = slots[i].transform.GetChild(0).GetComponent<Image>().sprite;
 
         Player.Instance.OnChangeEquipment.AddListener(UpdateEquipmentUI);
-        equipmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenEquipment(); });
+        equipmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenEquipment(); GameManager.Sound.PlaySFX("Click"); });
 
         orgPosition = equipmentPanel.transform.GetChild(0).position;
     }
 
     public void OpenEquipment()
     {
+        GameManager.Sound.PlaySFX("OpenUI");
         activeEquipment = !activeEquipment;
-        GameManager.Ui.activePopupUI = activeEquipment;
         equipmentPanel.transform.GetChild(0).gameObject.SetActive(activeEquipment);
         equipmentPanel.transform.GetChild(0).position = orgPosition;
         equipmentPanel.transform.SetAsLastSibling();
@@ -55,8 +55,8 @@ public class EquipmentUI : PopUpUI
     {
         if (context.performed)
         {
+            GameManager.Sound.PlaySFX("OpenUI");
             activeEquipment = !activeEquipment;
-            GameManager.Ui.activePopupUI = activeEquipment;
             equipmentPanel.transform.GetChild(0).gameObject.SetActive(activeEquipment);
             equipmentPanel.transform.GetChild(0).position = orgPosition;
             equipmentPanel.transform.SetAsLastSibling();

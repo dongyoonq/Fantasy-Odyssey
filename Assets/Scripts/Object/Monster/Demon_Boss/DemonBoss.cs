@@ -290,6 +290,7 @@ public class DemonBoss : Monster, IHitable
 
         currHp -= damage;
         GameManager.Ui.SetFloating(gameObject, -damage);
+        GameManager.Sound.PlaySFX("BossHit");
 
         if (!isGroggyed)
             stunValue += 10;

@@ -48,6 +48,7 @@ public class NPC : MonoBehaviour
             npcContentText.text = data.talkData.talkContents[0];
 
             okButton.onClick.AddListener(() => {
+                GameManager.Sound.PlaySFX("Click");
                 transform.GetComponent<ShopNpc>().OpenShop();
                 npcNameText.transform.parent.gameObject.SetActive(false);
             });
@@ -64,11 +65,12 @@ public class NPC : MonoBehaviour
             npcContentText.text = data.talkData.talkContents[4];
 
             okButton.onClick.AddListener(() => {
+                GameManager.Sound.PlaySFX("Click");
                 GameManager.Quest.OpenQuestfromNPC(questData);
                 npcNameText.transform.parent.gameObject.SetActive(false);
             });
 
-            GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Quest.CompleteQuest(questData));
+            GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { GameManager.Quest.CompleteQuest(questData); GameManager.Sound.PlaySFX("Click"); });
 
             return;
         }
@@ -81,7 +83,10 @@ public class NPC : MonoBehaviour
                 {
                     npcContentText.text = data.talkData.talkContents[0];
                     okButton.onClick.AddListener(() => {
+                        GameManager.Sound.PlaySFX("Click");
                         npcNameText.transform.parent.gameObject.SetActive(false);
+                        Player.Instance.playerInput.enabled = true;
+                        Player.Instance.mouseController.mouseSensitivity = Player.Instance.mouseController.prevMousSens;
                     });
                     return;
                 }
@@ -98,7 +103,10 @@ public class NPC : MonoBehaviour
                     npcContentText.text = data.talkData.talkContents[0];
                     okButton.onClick.AddListener(() =>
                     {
+                        GameManager.Sound.PlaySFX("Click");
                         npcNameText.transform.parent.gameObject.SetActive(false);
+                        Player.Instance.playerInput.enabled = true;
+                        Player.Instance.mouseController.mouseSensitivity = Player.Instance.mouseController.prevMousSens;
                     });
                     return;
                 }
@@ -107,11 +115,12 @@ public class NPC : MonoBehaviour
                     npcContentText.text = data.talkData.talkContents[1];
 
                     okButton.onClick.AddListener(() => {
+                        GameManager.Sound.PlaySFX("Click");
                         GameManager.Quest.OpenQuestfromNPC(data.quest);
                         npcNameText.transform.parent.gameObject.SetActive(false);
                     });
 
-                    GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Quest.AcceptQuest(data.quest));
+                    GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { GameManager.Quest.AcceptQuest(data.quest); GameManager.Sound.PlaySFX("Click"); });
                 }
             }
             else
@@ -119,8 +128,9 @@ public class NPC : MonoBehaviour
                 if (playerQuest.questData.goal.IsReached())
                 {
                     npcContentText.text = data.talkData.talkContents[3];
-                    GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Quest.CompleteQuest(data.quest));
+                    GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { GameManager.Quest.CompleteQuest(data.quest); GameManager.Sound.PlaySFX("Click"); });
                     okButton.onClick.AddListener(() => {
+                        GameManager.Sound.PlaySFX("Click");
                         GameManager.Quest.OpenQuestfromNPC(data.quest);
                         npcNameText.transform.parent.gameObject.SetActive(false);
                     });
@@ -130,7 +140,10 @@ public class NPC : MonoBehaviour
                 npcContentText.text = data.talkData.talkContents[2];
 
                 okButton.onClick.AddListener(() => {
+                    GameManager.Sound.PlaySFX("Click");
                     npcNameText.transform.parent.gameObject.SetActive(false);
+                    Player.Instance.playerInput.enabled = true;
+                    Player.Instance.mouseController.mouseSensitivity = Player.Instance.mouseController.prevMousSens;
                 });
             }
         }
@@ -138,7 +151,10 @@ public class NPC : MonoBehaviour
         {
             npcContentText.text = data.talkData.talkContents[0];
             okButton.onClick.AddListener(() => {
+                GameManager.Sound.PlaySFX("Click");
                 npcNameText.transform.parent.gameObject.SetActive(false);
+                Player.Instance.playerInput.enabled = true;
+                Player.Instance.mouseController.mouseSensitivity = Player.Instance.mouseController.prevMousSens;
             });
         }
     }

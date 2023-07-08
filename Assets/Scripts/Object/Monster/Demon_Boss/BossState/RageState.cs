@@ -13,6 +13,7 @@ namespace Demon_Boss
 
         public override void Enter()
         {
+            GameManager.Sound.PlaySFX("Rage");
             owner.animator.SetBool("Rage", true);
             owner.rageRoutine = owner.StartCoroutine(RageRoutine());
         }
