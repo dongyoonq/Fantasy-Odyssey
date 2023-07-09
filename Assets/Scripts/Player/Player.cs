@@ -131,7 +131,11 @@ public class Player : MonoBehaviour, IHitable
     private void Start()
     {
         inventory = GetComponent<Inventory>();
-        OnLevelUp.AddListener(LevelUpEffect);
+        OnLevelUp.AddListener(() =>
+        {
+            LevelUp();
+            LevelUpEffect();
+        });
         OnDied.AddListener(() => GameManager.Sound.PlayMusic("Die"));
     }
 
@@ -140,10 +144,7 @@ public class Player : MonoBehaviour, IHitable
         stateMachine?.UpdateState();
 
         if (exp >= nextLevelExp)
-        {
-            LevelUp();
             OnLevelUp?.Invoke();
-        }
 
         ScanNpc();
         ScanMonster();
@@ -544,7 +545,7 @@ public class Player : MonoBehaviour, IHitable
     void LevelUp()
     {
         level++;
-
+        currentHp = Status.MaxHp;
         exp -= nextLevelExp;
 
         switch (level)

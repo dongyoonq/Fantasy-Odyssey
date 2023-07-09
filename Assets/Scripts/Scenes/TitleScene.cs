@@ -79,7 +79,7 @@ public class TitleScene : BaseScene
         yield return null;
         progress = 0.3f;
 
-        GameManager.Sound.PlayMusic("Title2");
+        GameManager.Sound.PlayMusic($"Title{UnityEngine.Random.Range(1, 4)}");
         GameManager.Sound.musicSource.loop = true;
 
         yield return null;

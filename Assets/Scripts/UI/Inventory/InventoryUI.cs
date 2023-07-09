@@ -16,8 +16,6 @@ public class InventoryUI : PopUpUI
 
     public InventorySlot[] slots;
 
-    Vector2 orgPosition;
-
     private void Start()
     {
         inventory = Player.Instance.inventory;
@@ -32,8 +30,6 @@ public class InventoryUI : PopUpUI
 
         inventoryPanel.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenInventory(); GameManager.Sound.PlaySFX("Click"); });
         inventory.onChangeInventory.AddListener(() => InventoryChange());
-
-        orgPosition = inventoryPanel.transform.GetChild(0).position;
     }
 
     private void SlotChange(int val)
@@ -60,7 +56,7 @@ public class InventoryUI : PopUpUI
         GameManager.Sound.PlaySFX("OpenUI");
         activeInventory = !activeInventory;
         inventoryPanel.transform.GetChild(0).gameObject.SetActive(activeInventory);
-        inventoryPanel.transform.GetChild(0).position = orgPosition;
+        inventoryPanel.transform.GetChild(0).localPosition = new Vector2(0, 0);
         inventoryPanel.transform.SetAsLastSibling();
     }
 
@@ -71,7 +67,7 @@ public class InventoryUI : PopUpUI
             GameManager.Sound.PlaySFX("OpenUI");
             activeInventory = !activeInventory;
             inventoryPanel.transform.GetChild(0).gameObject.SetActive(activeInventory);
-            inventoryPanel.transform.GetChild(0).position = orgPosition;
+            inventoryPanel.transform.GetChild(0).localPosition = new Vector2(0, 0);
             inventoryPanel.transform.SetAsLastSibling();
         }
     }

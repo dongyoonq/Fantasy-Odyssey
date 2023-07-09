@@ -15,13 +15,10 @@ public class StatusUI : PopUpUI
     public TMP_Text applyStatusText;
     public bool activeStatus = false;
 
-    Vector2 orgPosition;
-
     private void Start()
     {
         Player.Instance.statusUI = this;
         Player.Instance.OnChangeEquipment.AddListener(ShowStatus);
-        orgPosition = statusPanel.transform.GetChild(0).position;
         statusPanel.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenStatus(); GameManager.Sound.PlaySFX("Click"); });
     }
 
@@ -30,7 +27,7 @@ public class StatusUI : PopUpUI
         GameManager.Sound.PlaySFX("OpenUI");
         activeStatus = !activeStatus;
         statusPanel.transform.GetChild(0).gameObject.SetActive(activeStatus);
-        statusPanel.transform.GetChild(0).position = orgPosition;
+        statusPanel.transform.GetChild(0).localPosition = new Vector2(0, 0);
         ShowStatus();
         statusPanel.transform.SetAsLastSibling();
     }
@@ -42,7 +39,7 @@ public class StatusUI : PopUpUI
             GameManager.Sound.PlaySFX("OpenUI");
             activeStatus = !activeStatus;
             statusPanel.transform.GetChild(0).gameObject.SetActive(activeStatus);
-            statusPanel.transform.GetChild(0).position = orgPosition;
+            statusPanel.transform.GetChild(0).localPosition = new Vector2(0, 0);
             ShowStatus();
             statusPanel.transform.SetAsLastSibling();
         }

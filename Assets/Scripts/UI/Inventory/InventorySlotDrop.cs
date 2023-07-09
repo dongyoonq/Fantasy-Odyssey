@@ -44,7 +44,7 @@ public class InventorySlotDrop : MonoBehaviour, IDropHandler
         start.SetAsFirstSibling();
         target.SetAsFirstSibling();
 
-        // ¹Ù²î°í ³­µÚ
+        // ë°”ë€Œê³  ë‚œë’¤
 
         // dataSwap
         ItemData tmpData = start.parent.GetComponent<InventorySlot>().data;
@@ -84,6 +84,5 @@ public class InventorySlotDrop : MonoBehaviour, IDropHandler
         target.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = $"<color=#D76A2E>{target.parent.GetComponent<InventorySlot>().amount}</color>";
 
         InventorySlotDrag.draggingItem = null;
-
     }
 }

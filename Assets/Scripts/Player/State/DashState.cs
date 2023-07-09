@@ -41,7 +41,12 @@ public class DashState : PlayerBaseState
         while (rate < 1f)
         {
             rate += Time.deltaTime / totalTime;
-            Controller.transform.position = Vector3.Lerp(start, end, rate);
+
+            Vector3 targetPosition = Vector3.Lerp(start, end, rate);
+            Vector3 moveDirection = (targetPosition - Controller.transform.position).normalized;
+
+            Player.Instance.controller.Move(moveDirection * dashSpeed * Time.deltaTime);
+
             yield return null;
         }
 
