@@ -10,8 +10,10 @@ public class TownToDungeonPortal : MonoBehaviour
             GameManager.Sound.PlaySFX("Portal");
 
             StartCoroutine(ReColliderOn());
+            
             GameManager.Scene.LoadScene("Dungeon");
 
+            Player.Instance.playerController.StopAllCoroutines();
             Player.Instance.controller.enabled = false;
             Player.Instance.transform.position = new Vector3(3.06f, 9.07f, -13.49f);
         }

@@ -18,8 +18,8 @@ public class InventorySlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDrag
 
     void Start()
     {
-        shortSlotPanel = GameObject.Find("ShortUI");
         baseRect = transform.parent.parent.GetComponent<RectTransform>().rect;
+        shortSlotPanel = GameObject.Find("ShortUI");
         shortSlotRect = shortSlotPanel.GetComponent<RectTransform>().rect;
     }
 
@@ -59,10 +59,10 @@ public class InventorySlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDrag
     {
         if (draggingItem != null && GetComponent<InventorySlot>().data != null && ShortSlotDrop.isShortSlotDrop)
         {
-            if (target.localPosition.x > shortSlotRect.xMin
-                || target.localPosition.x < shortSlotRect.xMax
-                || target.localPosition.y > shortSlotRect.yMin
-                || target.localPosition.y < shortSlotRect.yMax)
+            if (target.position.x > shortSlotPanel.transform.position.x - (shortSlotRect.width / 2)
+                && target.position.x < shortSlotPanel.transform.position.x + (shortSlotRect.width / 2)
+                && target.position.y > shortSlotPanel.transform.position.y - (shortSlotRect.height / 2)
+                && target.position.y < shortSlotPanel.transform.position.y + (shortSlotRect.height / 2))
             {
                 transform.GetChild(0).gameObject.SetActive(true);
                 Destroy(target.gameObject);
@@ -74,10 +74,10 @@ public class InventorySlotDrag : MonoBehaviour, IPointerClickHandler, IBeginDrag
 
         if (draggingItem != null && GetComponent<InventorySlot>().data != null && !ShortSlotDrop.isShortSlotDrop)
         {
-            if (target.localPosition.x < baseRect.xMin
-                || target.localPosition.x > baseRect.xMax
-                || target.localPosition.y < baseRect.yMin
-                || target.localPosition.y > baseRect.yMax)
+            if (target.position.x < transform.parent.parent.position.x - (baseRect.width / 2)
+                || target.position.x > transform.parent.parent.position.x + (baseRect.width / 2)
+                || target.position.y < transform.parent.parent.position.y - (baseRect.height / 2)
+                || target.position.y > transform.parent.parent.position.y + (baseRect.height / 2))
             {
                 Item fieldItem = Instantiate(GetComponent<InventorySlot>().data.prefab, Player.Instance.foot.position, Quaternion.Euler(-30f,-45f,0));
                 ItemData tempData = GetComponent<InventorySlot>().data;

@@ -131,7 +131,11 @@ public class Player : MonoBehaviour, IHitable
     private void Start()
     {
         inventory = GetComponent<Inventory>();
-        OnLevelUp.AddListener(LevelUpEffect);
+        OnLevelUp.AddListener(() =>
+        {
+            LevelUp();
+            LevelUpEffect();
+        });
         OnDied.AddListener(() => GameManager.Sound.PlayMusic("Die"));
     }
 
@@ -140,10 +144,7 @@ public class Player : MonoBehaviour, IHitable
         stateMachine?.UpdateState();
 
         if (exp >= nextLevelExp)
-        {
-            LevelUp();
             OnLevelUp?.Invoke();
-        }
 
         ScanNpc();
         ScanMonster();
@@ -454,14 +455,15 @@ public class Player : MonoBehaviour, IHitable
             foreach (Collider collider in colliders)
             {
                 Vector3 dirTarget = (collider.transform.position - transform.position).normalized;
-                if (Vector3.Dot(transform.forward, dirTarget) >= Mathf.Cos(160 * 0.5f * Mathf.Deg2Rad))
+                if (Vector3.Dot(transform.forward, dirTarget) >= Mathf.Cos(90 * 0.5f * Mathf.Deg2Rad))
                 {
                     NPC npc = collider.GetComponent<NPC>();
 
                     if (UnityEngine.Input.GetKeyDown(KeyCode.F))
                     {
                         playerInput.enabled = false;
-                        mouseController.prevMousSens = mouseController.mouseSensitivity;
+                        if (mouseController.mouseSensitivity != 0)
+                            mouseController.prevMousSens = mouseController.mouseSensitivity;
                         mouseController.mouseSensitivity = 0f;
 
                         lookrot = npc.transform.rotation.eulerAngles;
@@ -543,7 +545,7 @@ public class Player : MonoBehaviour, IHitable
     void LevelUp()
     {
         level++;
-
+        currentHp = Status.MaxHp;
         exp -= nextLevelExp;
 
         switch (level)

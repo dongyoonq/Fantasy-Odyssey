@@ -27,7 +27,7 @@ public class EquipSlotHightLight : MonoBehaviour, IPointerEnterHandler, IPointer
             ItemData itemData = GetComponent<EquipmentSlot>().data;
 
             detail.gameObject.SetActive(true);
-            GameObject itemInfo = detail.GetChild(0).GetChild(0).gameObject;
+            GameObject itemInfo = detail.GetChild(0).gameObject;
             itemInfo.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = GetComponent<EquipmentSlot>().data.sprite;
             itemInfo.transform.GetChild(1).GetComponent<TMP_Text>().text = GetComponent<EquipmentSlot>().data.itemName;
             itemInfo.transform.GetChild(2).GetComponent<TMP_Text>().text = GetComponent<EquipmentSlot>().data.Tooltip;
@@ -63,15 +63,15 @@ public class EquipSlotHightLight : MonoBehaviour, IPointerEnterHandler, IPointer
 
             itemInfo.transform.GetChild(3).GetComponent<TMP_Text>().text = applyStat.ToString();
 
-            Rect deatilRect = detail.GetChild(0).GetComponent<RectTransform>().rect;
+            Rect deatilRect = detail.GetComponent<RectTransform>().rect;
             if (eventData.position.y > Screen.height / 2 && eventData.position.x > Screen.width / 2)
-                detail.position = new Vector2(eventData.position.x - deatilRect.xMax - 15, eventData.position.y - deatilRect.yMax - 15);
+                detail.position = new Vector2(eventData.position.x - (deatilRect.width / 2), eventData.position.y - (deatilRect.height / 2));
             else if (eventData.position.y < Screen.height / 2 && eventData.position.x > Screen.width / 2)
-                detail.position = new Vector2(eventData.position.x - deatilRect.xMax - 15, eventData.position.y + deatilRect.yMax + 15);
+                detail.position = new Vector2(eventData.position.x - (deatilRect.width / 2), eventData.position.y + (deatilRect.height / 2));
             else if (eventData.position.y > Screen.height / 2 && eventData.position.x < Screen.width / 2)
-                detail.position = new Vector2(eventData.position.x + deatilRect.xMax + 15, eventData.position.y - deatilRect.yMax - 15);
+                detail.position = new Vector2(eventData.position.x + (deatilRect.width / 2), eventData.position.y - (deatilRect.height / 2));
             else if (eventData.position.y < Screen.height / 2 && eventData.position.x < Screen.width / 2)
-                detail.position = new Vector2(eventData.position.x + deatilRect.xMax + 15, eventData.position.y + deatilRect.yMax + 15);
+                detail.position = new Vector2(eventData.position.x + (deatilRect.width / 2), eventData.position.y + (deatilRect.height / 2));
         }
     }
 

@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour
     {
         musicSounds = new List<Sound>()
         {
-            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/TitleSceneBgm"), "Title"),
+            CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/TitleSceneBgm"), "Title1"),
             CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/Title2"), "Title2"),
             CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/Title3"), "Title3"),
             CreateSound(GameManager.Resource.Load<AudioClip>("Sound/Bgm/TownBgm"), "Town"),
@@ -92,7 +92,7 @@ public class SoundManager : MonoBehaviour
         _sfxSource.transform.parent = transform;
         sfxSource = _sfxSource.GetComponent<AudioSource>();
 
-        PlayMusic("Title2");
+        PlayMusic($"Title{UnityEngine.Random.Range(1,4)}");
         musicSource.loop = true;
     }
 

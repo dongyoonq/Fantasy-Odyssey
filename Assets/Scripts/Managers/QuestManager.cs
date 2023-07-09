@@ -1,22 +1,22 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class QuestManager : MonoBehaviour
 {
     [NonSerialized] public GameObject questDescriptionPanel;
 
+    [SerializeField] public List<NpcData> npcList;
+
     GameObject questPanel;
     GameObject contentArea;
     GameObject questListUI;
 
-    GameObject contentPrefab;
-    GameObject instanceContent;
+    QuestSlot contentPrefab;
+    List<QuestSlot> questSlots;
 
     TMP_Text titleText;
     TMP_Text descriptionText;
@@ -25,6 +25,8 @@ public class QuestManager : MonoBehaviour
 
     private void Start()
     {
+        questSlots = new List<QuestSlot>();
+        npcList = new List<NpcData>();
         questPanel = GameObject.Find("QuestUI");
         questListUI = questPanel.transform.GetChild(0).gameObject;
         contentArea = questListUI.transform.GetChild(1).GetChild(0).GetChild(0).gameObject;
@@ -34,7 +36,7 @@ public class QuestManager : MonoBehaviour
         titleText = questDescriptionPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         descriptionText = questDescriptionPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<TMP_Text>();
         rewardText = questDescriptionPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetComponent<TMP_Text>();
-        contentPrefab = GameManager.Resource.Load<GameObject>("UI/QuestSlot");
+        contentPrefab = GameManager.Resource.Load<QuestSlot>("UI/QuestSlot");
 
         Player.Instance.OnChangeKillQuestUpdate.AddListener(UpdateKillQuest);
         Player.Instance.OnChangeGatheringQuestUpdate.AddListener(UpdateGatheringQuest);
@@ -349,10 +351,12 @@ public class QuestManager : MonoBehaviour
 
         Player.Instance.questList.Add(newQuest);
 
-        instanceContent = Instantiate(contentPrefab, contentArea.transform);
+        QuestSlot instanceContent = Instantiate(contentPrefab, contentArea.transform);
         instanceContent.transform.GetChild(0).GetComponent<Text>().text = quest.title;
         instanceContent.GetComponent<Button>().onClick.AddListener(() => { OpenQuest(quest); GameManager.Sound.PlaySFX("Click"); });
         instanceContent.transform.GetChild(1).gameObject.SetActive(true); // Progress Active
+        instanceContent.questData = quest;
+        questSlots.Add(instanceContent);
 
         acceptButton.GetComponent<Button>().onClick.RemoveAllListeners();
     }
@@ -369,7 +373,7 @@ public class QuestManager : MonoBehaviour
 
             RemoveQuest(quest);
 
-            Destroy(instanceContent);
+            Destroy(questSlots.Find(x => x.questData == quest).gameObject);
             acceptButton.GetComponent<Button>().onClick.RemoveAllListeners();
         }
     }

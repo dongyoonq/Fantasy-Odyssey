@@ -42,15 +42,12 @@ public class ShortSlotDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (draggingItem == null)
-            return;
-
         if (draggingItem != null && GetComponent<ShortSlot>().usableItem != null)
         {
-            if (target.localPosition.x < baseRect.xMin
-                || target.localPosition.x > baseRect.xMax
-                || target.localPosition.y < baseRect.yMin
-                || target.localPosition.y > baseRect.yMax)
+            if (target.position.x < transform.parent.position.x - (baseRect.width / 2)
+                || target.position.x > transform.parent.position.x + (baseRect.width / 2)
+                || target.position.y < transform.parent.position.y - (baseRect.height / 2)
+                || target.position.y > transform.parent.position.y + (baseRect.height / 2))
             {
                 draggingItem.transform.parent.parent.GetComponent<ShortSlot>().usableItem = null;
                 draggingItem.transform.parent.parent.GetComponent<ShortSlot>().amount = 0;
@@ -58,23 +55,23 @@ public class ShortSlotDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 draggingItem.GetComponent<Image>().sprite = null;
                 draggingItem.transform.parent.parent.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = "0";
 
+                ShortSlotDrop.isShortSlotDrop = false;
                 Destroy(target.gameObject);
                 draggingItem = null;
                 return;
             }
         }
 
-        draggingItem.SetActive(true);
-        Destroy(target.gameObject);
+        if (target.IsValid())
+            Destroy(target.gameObject);
 
         if (ShortSlotDrop.isSuccessMove)
-        {
-            ShortSlotDrop.isSuccessMove = false;
-            draggingItem.SetActive(false);
-        }
+            transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+        else
+            transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
 
-        draggingItem = null;
-
+        ShortSlotDrop.isSuccessMove = false;
         ShortSlotDrop.isShortSlotDrop = false;
+        draggingItem = null;
     }
 }

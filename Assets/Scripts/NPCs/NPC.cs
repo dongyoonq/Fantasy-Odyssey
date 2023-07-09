@@ -96,10 +96,13 @@ public class NPC : MonoBehaviour
 
             Quest playerQuest;
 
+            // 플레이어에 이 퀘스트가 없다면
             if (!CheckPlayerQuest(out playerQuest))
             {
+                // 완료된 퀘스트인지 확인
                 if (CheckCompleteQuest())
                 {
+                    // 이미 완료된 퀘스트
                     npcContentText.text = data.talkData.talkContents[0];
                     okButton.onClick.AddListener(() =>
                     {
@@ -112,6 +115,7 @@ public class NPC : MonoBehaviour
                 }
                 else
                 {
+                    // 수락, 처음시작 하는 퀘스트
                     npcContentText.text = data.talkData.talkContents[1];
 
                     okButton.onClick.AddListener(() => {
@@ -120,15 +124,29 @@ public class NPC : MonoBehaviour
                         npcNameText.transform.parent.gameObject.SetActive(false);
                     });
 
-                    GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { GameManager.Quest.AcceptQuest(data.quest); GameManager.Sound.PlaySFX("Click"); });
+                    GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => 
+                    {
+                        if (!GameManager.Quest.npcList.Contains(data))
+                            GameManager.Quest.npcList.Add(data);
+                        GameManager.Quest.AcceptQuest(data.quest); 
+                        GameManager.Sound.PlaySFX("Click"); 
+                    });
                 }
             }
+            // 플레이어에 이 퀘스트가 있으면
             else
             {
+                // 달성조건 확인
                 if (playerQuest.questData.goal.IsReached())
                 {
+                    // 달성시
                     npcContentText.text = data.talkData.talkContents[3];
-                    GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => { GameManager.Quest.CompleteQuest(data.quest); GameManager.Sound.PlaySFX("Click"); });
+                    GameManager.Quest.questDescriptionPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => 
+                    { 
+                        GameManager.Quest.CompleteQuest(data.quest); GameManager.
+                        Sound.PlaySFX("Click"); 
+                    });
+
                     okButton.onClick.AddListener(() => {
                         GameManager.Sound.PlaySFX("Click");
                         GameManager.Quest.OpenQuestfromNPC(data.quest);
@@ -136,15 +154,18 @@ public class NPC : MonoBehaviour
                     });
                     return;
                 }
+                else
+                {
+                    // 미달성시
+                    npcContentText.text = data.talkData.talkContents[2];
 
-                npcContentText.text = data.talkData.talkContents[2];
-
-                okButton.onClick.AddListener(() => {
-                    GameManager.Sound.PlaySFX("Click");
-                    npcNameText.transform.parent.gameObject.SetActive(false);
-                    Player.Instance.playerInput.enabled = true;
-                    Player.Instance.mouseController.mouseSensitivity = Player.Instance.mouseController.prevMousSens;
-                });
+                    okButton.onClick.AddListener(() => {
+                        GameManager.Sound.PlaySFX("Click");
+                        npcNameText.transform.parent.gameObject.SetActive(false);
+                        Player.Instance.playerInput.enabled = true;
+                        Player.Instance.mouseController.mouseSensitivity = Player.Instance.mouseController.prevMousSens;
+                    });
+                }
             }
         }
         else
