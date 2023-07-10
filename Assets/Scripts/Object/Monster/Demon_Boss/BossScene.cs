@@ -33,7 +33,7 @@ public class BossScene : MonoBehaviour
 
     private void Start()
     {
-        bossHpBar = GameObject.Find("SceneUI").transform.GetChild(0).GetChild(0).GetChild(2).transform;
+        bossHpBar = GameObject.Find("SceneUI").transform.GetChild(3).transform;
     }
 
     Canvas fadeCanvas;
