@@ -334,6 +334,9 @@ public class Player : MonoBehaviour, IHitable
             // 스텟 미적용
             wearingEquip[equipment.equipmentData.equipType].RemoveStatusModifier();
 
+            if (equipment.equipmentData.equipType == EquipmentData.EquipType.Weapon)
+                UnRegisterWeapon(wearingEquip[equipment.equipmentData.equipType] as Weapon);
+
             // 착용중인 장비를 지워준다.
             Destroy(wearingEquip[equipment.equipmentData.equipType].gameObject);
             wearingEquip.Remove(equipment.equipmentData.equipType);
@@ -347,9 +350,6 @@ public class Player : MonoBehaviour, IHitable
             // 인벤토리에 착용 중인 장비를 넣어주고
             inventory.list[index] = temp;
             AddItemToInventory(temp, index);
-
-            if (equipment.equipmentData.equipType == EquipmentData.EquipType.Weapon)
-                UnRegisterWeapon(equipment.gameObject);
 
             OnChangeEquipment?.Invoke();
             return true;
@@ -382,6 +382,12 @@ public class Player : MonoBehaviour, IHitable
             }
         }
 
+        // 스텟 미적용
+        equipment.RemoveStatusModifier();
+
+        if (equipment.equipmentData.equipType == EquipmentData.EquipType.Weapon)
+            UnRegisterWeapon(wearingEquip[equipment.equipmentData.equipType] as Weapon);
+
         // 착용중인 장비를 지워준다.
         Destroy(wearingEquip[equipment.equipmentData.equipType].gameObject);
         wearingEquip.Remove(equipment.equipmentData.equipType);
@@ -389,12 +395,6 @@ public class Player : MonoBehaviour, IHitable
         // 인벤토리에 착용 중인 장비를 넣어주고
         inventory.list[index] = equipment.Data;
         AddItemToInventory(equipment.Data, index);
-
-        // 스텟 미적용
-        equipment.RemoveStatusModifier();
-
-        if (equipment.equipmentData.equipType == EquipmentData.EquipType.Weapon)
-            UnRegisterWeapon(equipment.gameObject);
 
         OnChangeEquipment?.Invoke();
         return true;
@@ -416,10 +416,12 @@ public class Player : MonoBehaviour, IHitable
     }
 
     // 무기 삭제
-    public void UnRegisterWeapon(GameObject weapon)
+    public void UnRegisterWeapon(Weapon weapon)
     {
-        animator.runtimeAnimatorController = defaultAnimator;    
-        weapon.gameObject.SetActive(false);
+        if (weapon.equipmentData.equipType == EquipmentData.EquipType.Weapon)
+        {
+            animator.runtimeAnimatorController = defaultAnimator;
+        }
     }
 
     public void useItem(ItemData itemData, int index = -1)

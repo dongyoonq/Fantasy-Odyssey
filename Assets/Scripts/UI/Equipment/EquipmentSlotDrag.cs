@@ -27,5 +27,6 @@ public class EquipmentSlotDrag : MonoBehaviour, IPointerClickHandler
         equip.Data = transform.GetComponent<EquipmentSlot>().data;
         transform.GetComponent<EquipmentSlot>().data = null; 
         Player.Instance.UnEquip(equip);
+        Destroy(equip.gameObject);
     }
 }

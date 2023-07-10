@@ -103,6 +103,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnLeftAttack(InputAction.CallbackContext context)
     {
+        if (isOpendUI())
+            return;
+
         if (context.performed)
         {
             if (context.interaction is HoldInteraction)         // 차지 공격
@@ -148,6 +151,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnRightAttack(InputAction.CallbackContext context)
     {
+        if (isOpendUI())
+            return;
+
         if (context.performed && !attackState.IsLeftAttack && GetWeapon() != null)
         {
             if (context.interaction is PressInteraction)
@@ -163,6 +169,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnUltAttack(InputAction.CallbackContext context)
     {
+        if (isOpendUI())
+            return;
+
         if (context.performed && !attackState.IsLeftAttack && GetWeapon() != null && !Player.Instance.animator.GetBool("Dash"))
         {
             if (context.interaction is PressInteraction)
@@ -282,5 +291,10 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, walkStepRange);
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, runStepRange);
+    }
+
+    bool isOpendUI()
+    {
+        return player.equipUI.activeEquipment || player.inventoryUI.activeInventory || player.statusUI.activeStatus || player.questUI.activeQuest;
     }
 }
