@@ -58,8 +58,8 @@ public class Player : MonoBehaviour, IHitable
     [SerializeField] int level;
     [SerializeField] string playerName;
 
-    int exp;
-    int nextLevelExp;
+    public int exp;
+    public int nextLevelExp;
 
     RuntimeAnimatorController defaultAnimator;
 

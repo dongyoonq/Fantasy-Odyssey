@@ -129,7 +129,14 @@ public class NPC : MonoBehaviour
                         if (!GameManager.Quest.npcList.Contains(data))
                             GameManager.Quest.npcList.Add(data);
                         GameManager.Quest.AcceptQuest(data.quest); 
-                        GameManager.Sound.PlaySFX("Click"); 
+                        GameManager.Sound.PlaySFX("Click");
+
+                        if (data.quest.goal.goalType == GoalType.Use)
+                            data.quest.goal.currentAmount = 1;
+                        else
+                            data.quest.goal.currentAmount = 0;
+
+                        data.quest.goal.isCompleteTalked = false;
                     });
                 }
             }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,44 @@ public class QuestManager : MonoBehaviour
     TMP_Text descriptionText;
     TMP_Text rewardText;
     Button acceptButton;
+
+    readonly Dictionary<string, QuestCheckData> questTable = new Dictionary<string, QuestCheckData>();
+
+    const string attackTutorial = "AttackTutorial";
+    const string spiderKill = "SpiderKill";
+    const string spiderGathering = "SpiderGather";
+    const string stingBeeKill = "StingBeeKill";
+    const string stingBeeGathering = "StingBeeGather";
+    const string phantomKill = "PhantomKill";
+    const string phantomGahtering = "PhantomGather";
+    const string bossKill = "BossKill";
+    const string bossGathering = "BossGather";
+    const string potionTutorial = "PotionTutorial";
+    const string talkNoa = "TalkNoa";
+    const string talkRayleigh = "TalkRayleigh";
+    const string talkNox = "TalkNox";   
+    const string talkCassius = "TalkCassius";
+    const string talkKing = "TalkKing";
+
+    private void Awake()
+    {
+        questTable.Add(attackTutorial, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/이솔"));
+        questTable.Add(spiderKill, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/녹스"));
+        questTable.Add(stingBeeKill, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/마리엘"));
+        questTable.Add(phantomKill, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/카시우스"));
+        questTable.Add(bossKill, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/고딘"));
+        questTable.Add(spiderGathering, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/진"));
+        questTable.Add(stingBeeGathering, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/올리비아"));
+        questTable.Add(phantomGahtering, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/이자벨"));
+        questTable.Add(bossGathering, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/아델라인"));
+        questTable.Add(potionTutorial, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/한스"));
+        questTable.Add(talkNoa, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/토마스"));
+        questTable.Add(talkRayleigh, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/노아"));
+        questTable.Add(talkNox, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/레일리"));
+        questTable.Add(talkCassius, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/슌"));
+        questTable.Add(talkKing, Resources.Load<QuestCheckData>("Data/NpcData/QuestCheck/제스터"));
+
+    }
 
     private void Start()
     {
@@ -51,235 +90,78 @@ public class QuestManager : MonoBehaviour
 
     void UpdateKillQuest(BaseMonsterData monsterData)
     {
-        for (int i = 0; i < Player.Instance.questList.Count; i++)
-        {
-            // Spider Kill QuestData
-            if (Player.Instance.questList[i].questData.questName == "SpiderKill" 
-                && monsterData.id == "Spider" && Player.Instance.questList[i].questData.goal.goalType == GoalType.Kill)
-            {
-                Player.Instance.questList[i].questData.goal.EnemyKilled();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
-                {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
-                }
-            }
-
-            // Attack Tutorial Kill QuestData
-            if (Player.Instance.questList[i].questData.questName == "AttackTutorial"
-                && monsterData.id == "ScareCrow" && Player.Instance.questList[i].questData.goal.goalType == GoalType.Kill)
-            {
-                Player.Instance.questList[i].questData.goal.EnemyKilled();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
-                {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
-                }
-            }
-
-            // StingBee Kill QuestData
-            if (Player.Instance.questList[i].questData.questName == "StingBee"
-                && monsterData.id == "StingBee" && Player.Instance.questList[i].questData.goal.goalType == GoalType.Kill)
-            {
-                Player.Instance.questList[i].questData.goal.EnemyKilled();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
-                {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
-                }
-            }
-
-            // Phantom Kill QuestData
-            if (Player.Instance.questList[i].questData.questName == "Phantom"
-                && monsterData.id == "Phantom" && Player.Instance.questList[i].questData.goal.goalType == GoalType.Kill)
-            {
-                Player.Instance.questList[i].questData.goal.EnemyKilled();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
-                {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
-                }
-            }
-
-            // DemonBoss QuestData
-            if (Player.Instance.questList[i].questData.questName == "DemonBoss"
-                && monsterData.id == "DemonBoss" && Player.Instance.questList[i].questData.goal.goalType == GoalType.Kill)
-            {
-                Player.Instance.questList[i].questData.goal.EnemyKilled();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
-                {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
-                }
-            }
-        }
+        UpdateQuest(GoalType.Kill, monsterData);
     }
 
     void UpdateGatheringQuest(ItemData item)
     {
-        for (int i = 0; i < Player.Instance.questList.Count; i++)
-        {
-            // Spider Gathering QuestData
-            if (Player.Instance.questList[i].questData.questName == "SpiderGathering" &&
-                Player.Instance.questList[i].questData.goal.goalType == GoalType.Gathering && item.itemName == "SpiderBooty")
-            {
-                Player.Instance.questList[i].questData.goal.ItemCollected();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
-                {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
-                }
-            }
-
-            // StingVenom Gathering QuestData
-            if (Player.Instance.questList[i].questData.questName == "StingVenom" &&
-                Player.Instance.questList[i].questData.goal.goalType == GoalType.Gathering && item.itemName == "Venomous Sting")
-            {
-                Player.Instance.questList[i].questData.goal.ItemCollected();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
-                {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
-                }
-            }
-
-            // PhantomEye Gathering QuestData
-            if (Player.Instance.questList[i].questData.questName == "PhantomEye" &&
-                Player.Instance.questList[i].questData.goal.goalType == GoalType.Gathering && item.itemName == "Spectral Eye")
-            {
-                Player.Instance.questList[i].questData.goal.ItemCollected();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
-                {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
-                }
-            }
-
-            // DemonBossHeart Gathering QuestData
-            if (Player.Instance.questList[i].questData.questName == "DemonBossHeart" &&
-                Player.Instance.questList[i].questData.goal.goalType == GoalType.Gathering && item.itemName == "Demon's Heart")
-            {
-                Player.Instance.questList[i].questData.goal.ItemCollected();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
-                {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
-                }
-            }
-        }
+        UpdateQuest(GoalType.Gathering, item);
     }
 
     void UpdateUseQuest(ItemData item)
     {
-        for (int i = 0; i < Player.Instance.questList.Count; i++)
-        {
-            // Spider Gathering QuestData
-            if (Player.Instance.questList[i].questData.questName == "UsePotion" &&
-                Player.Instance.questList[i].questData.goal.goalType == GoalType.Use && item.itemName == "Hp Potion")
-            {
-                Player.Instance.questList[i].questData.goal.ItemUse();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
-                {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
-                }
-            }
-        }
+        UpdateQuest(GoalType.Use, item);
     }
 
     void UpdateTalkQuest(NpcData npc)
     {
+        UpdateQuest(GoalType.Talk, npc);
+    }
+
+    private void UpdateQuest(GoalType goalType, ScriptableObject checkData)
+    {
         for (int i = 0; i < Player.Instance.questList.Count; i++)
         {
-            // Talk Noa Quest
-            if (Player.Instance.questList[i].questData.questName == "TalkNoa" &&
-                Player.Instance.questList[i].questData.goal.goalType == GoalType.Talk && Player.Instance.questList[i].questData.goal.targetNpc == npc)
+            foreach (QuestCheckData questCheckData in questTable.Values)
             {
-                Player.Instance.questList[i].questData.goal.TalkNpc();
+                if (questCheckData.questData != Player.Instance.questList[i].questData)
+                    continue;
 
-                if (Player.Instance.questList[i].questData.goal.IsReached())
+                if (goalType == GoalType.Kill && questCheckData.targetMonster == checkData)
                 {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                    QuestContentUpdate(i);
+                    Debug.Log("킬 호출");
+                    return;
                 }
-            }
-        }
-
-        for (int i = 0; i < Player.Instance.questList.Count; i++)
-        {
-            // Talk Rayleigh Quest
-            if (Player.Instance.questList[i].questData.questName == "TalkRayleigh" &&
-                Player.Instance.questList[i].questData.goal.goalType == GoalType.Talk && Player.Instance.questList[i].questData.goal.targetNpc == npc)
-            {
-                Player.Instance.questList[i].questData.goal.TalkNpc();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
+                else if (goalType == GoalType.Gathering && questCheckData.targetItem == checkData)
                 {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                    QuestContentUpdate(i);
+                    return;
                 }
-            }
-        }
-
-        for (int i = 0; i < Player.Instance.questList.Count; i++)
-        {
-            // Talk Alice Quest
-            if (Player.Instance.questList[i].questData.questName == "TalkAlice" &&
-                Player.Instance.questList[i].questData.goal.goalType == GoalType.Talk && Player.Instance.questList[i].questData.goal.targetNpc == npc)
-            {
-                Player.Instance.questList[i].questData.goal.TalkNpc();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
+                else if (goalType == GoalType.Use && Player.Instance.questList[i].questData.goal.item == checkData)
                 {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                    QuestContentUpdate(i);
+                    return;
                 }
-            }
-        }
-
-        for (int i = 0; i < Player.Instance.questList.Count; i++)
-        {
-            // Talk Cassius Quest
-            if (Player.Instance.questList[i].questData.questName == "TalkCassius" &&
-                Player.Instance.questList[i].questData.goal.goalType == GoalType.Talk && Player.Instance.questList[i].questData.goal.targetNpc == npc)
-            {
-                Player.Instance.questList[i].questData.goal.TalkNpc();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
+                else if (goalType == GoalType.Talk && Player.Instance.questList[i].questData.goal.targetNpc == checkData)
                 {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
-                }
-            }
-        }
-
-        for (int i = 0; i < Player.Instance.questList.Count; i++)
-        {
-            // Talk King Quest
-            if (Player.Instance.questList[i].questData.questName == "TalkKing" &&
-                Player.Instance.questList[i].questData.goal.goalType == GoalType.Talk && Player.Instance.questList[i].questData.goal.targetNpc == npc)
-            {
-                Player.Instance.questList[i].questData.goal.TalkNpc();
-
-                if (Player.Instance.questList[i].questData.goal.IsReached())
-                {
-                    contentArea.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);  // progress
-                    contentArea.transform.GetChild(i).GetChild(2).gameObject.SetActive(true);   // complete
+                    QuestContentUpdate(i);
+                    return;
                 }
             }
         }
     }
 
+    private void QuestContentUpdate(int index)
+    {
+        switch (Player.Instance.questList[index].questData.goal.goalType)
+        {
+            case GoalType.Kill:
+                Player.Instance.questList[index].questData.goal.EnemyKilled(); break;
+            case GoalType.Gathering:
+                Player.Instance.questList[index].questData.goal.ItemCollected(); break;
+            case GoalType.Use:
+                Player.Instance.questList[index].questData.goal.ItemUse(); break;
+            case GoalType.Talk:
+                Player.Instance.questList[index].questData.goal.TalkNpc(); break;
+        }
+
+        if (Player.Instance.questList[index].questData.goal.IsReached())
+        {
+            contentArea.transform.GetChild(index).GetChild(1).gameObject.SetActive(false);  // progress
+            contentArea.transform.GetChild(index).GetChild(2).gameObject.SetActive(true);   // complete
+        }
+    }
 
     public void OpenQuestfromNPC(QuestData quest)
     {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Net;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Demon_Boss
 {
@@ -14,6 +15,7 @@ namespace Demon_Boss
 
         public override void Enter()
         {
+            owner.rockElapseTime = 0;
             owner.animator.SetBool("Throw", true);
             owner.rockAttackRoutine = owner.StartCoroutine(ThrowRoutine());
         }
@@ -54,6 +56,7 @@ namespace Demon_Boss
 
             float time = 0f;
             float duration = 1f;
+            owner.rockElapseTime = duration;
 
             while (time < duration)
             {

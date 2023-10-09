@@ -14,6 +14,8 @@ namespace SpiderState
 
         public override void Enter()
         {
+            Debug.Log("다이스테이트 몇번호출");
+
             GameManager.Sound.PlaySFX("SpiderDie");
             owner.animator.SetBool("Die", true);
             owner.GetComponent<CharacterController>().enabled = false;
