@@ -74,8 +74,8 @@ public class ResourceManager : MonoBehaviour
     public void Destroy<T>(T original, float delay) where T : Object
     {
         if (GameManager.Pool.isContain(original))
-            GameManager.Pool.ReleaseRoutine(original, delay);
-
-        Object.Destroy(original, delay);
+            StartCoroutine(GameManager.Pool.ReleaseRoutine(original, delay));
+        else
+            Object.Destroy(original, delay);
     }
 }

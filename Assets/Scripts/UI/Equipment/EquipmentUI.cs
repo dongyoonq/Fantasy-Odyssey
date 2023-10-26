@@ -14,12 +14,11 @@ public class EquipmentUI : PopUpUI
 
     public EquipmentSlot[] slots;
 
-    Sprite[] orgSprite = new Sprite[8];
+    Sprite[] orgSprite = new Sprite[(int)EquipmentData.EquipType.Size];
 
     private void Start()
     {
         Player.Instance.equipUI = this;
-        slots = new EquipmentSlot[8];
         slots = equipmentPanel.transform.GetChild(0).GetComponentsInChildren<EquipmentSlot>();
 
         slots[0].equipType = EquipmentData.EquipType.Head;
@@ -32,7 +31,7 @@ public class EquipmentUI : PopUpUI
         slots[7].equipType = EquipmentData.EquipType.Boots;
 
         for (int i = 0; i < slots.Length; i++)
-            orgSprite[i] = slots[i].transform.GetChild(0).GetComponent<Image>().sprite;
+            orgSprite[i] = slots[i].itemImage.sprite;
 
         Player.Instance.OnChangeEquipment.AddListener(UpdateEquipmentUI);
         equipmentPanel.transform.GetChild(0).GetChild(0).GetComponent<Button>().onClick.AddListener(() => { OpenEquipment(); GameManager.Sound.PlaySFX("Click"); });
@@ -63,16 +62,16 @@ public class EquipmentUI : PopUpUI
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            if (Player.Instance.wearingEquip.ContainsKey(slots[i].equipType))
+            if (Player.Instance.wearingEquip[(int)slots[i].equipType] != null)
             {
-                slots[i].transform.GetChild(0).GetComponent<Image>().sprite = Player.Instance.wearingEquip[slots[i].equipType].Data.sprite;
-                slots[i].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                slots[i].data = Player.Instance.wearingEquip[slots[i].equipType].Data as EquipmentData;
+                slots[i].itemImage.sprite = Player.Instance.wearingEquip[(int)slots[i].equipType].Data.sprite;
+                slots[i].itemImage.color = new Color(1, 1, 1, 1);
+                slots[i].data = Player.Instance.wearingEquip[(int)slots[i].equipType].equipmentData;
             }
             else
             {
-                slots[i].transform.GetChild(0).GetComponent<Image>().sprite = orgSprite[i];
-                slots[i].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0.15f);
+                slots[i].itemImage.sprite = orgSprite[i];
+                slots[i].itemImage.color = new Color(1, 1, 1, 0.15f);
             }
         }
     }

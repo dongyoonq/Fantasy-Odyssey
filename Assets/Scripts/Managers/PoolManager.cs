@@ -39,7 +39,7 @@ public class PoolManager : MonoBehaviour
     public T Get<T>(T original, Vector3 position, Quaternion rotation, Transform parent) where T : Object
     {
         if (original == null)
-            Debug.Log("NULL 참조 오류");
+            Debug.Log("NULL");
 
         if (original is GameObject)
         {
@@ -204,7 +204,7 @@ public class PoolManager : MonoBehaviour
     public T GetUI<T>(T original) where T : Object
     {
         if (original == null)
-            Debug.Log("NULL 참조 오류");
+            Debug.Log("NULL ���� ����");
 
         if (original is GameObject)
         {

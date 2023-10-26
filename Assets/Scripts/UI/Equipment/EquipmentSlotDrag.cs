@@ -7,6 +7,13 @@ public class EquipmentSlotDrag : MonoBehaviour, IPointerClickHandler
 {
     float clickTime = 0;
 
+    EquipmentSlot slot;
+
+    private void Start()
+    {
+        slot = GetComponent<EquipmentSlot>();
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if ((Time.time - clickTime) < 0.3f)
@@ -23,9 +30,8 @@ public class EquipmentSlotDrag : MonoBehaviour, IPointerClickHandler
         if (transform.GetComponent<EquipmentSlot>().data == null)
             return;
 
-        Equipment equip = Instantiate(GetComponent<EquipmentSlot>().data.prefab) as Equipment;
-        equip.Data = transform.GetComponent<EquipmentSlot>().data;
-        transform.GetComponent<EquipmentSlot>().data = null; 
+        Equipment equip = Instantiate(slot.data.prefab) as Equipment;
+        slot.data = null; 
         Player.Instance.UnEquip(equip);
         Destroy(equip.gameObject);
     }

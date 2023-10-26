@@ -17,6 +17,7 @@ public abstract class EquipmentData : ItemData
         Boots,
         Gloves,
         Cloak,
+        Size,
     }
 
     [SerializeField] int requireLevel;

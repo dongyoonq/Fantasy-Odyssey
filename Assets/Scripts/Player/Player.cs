@@ -46,7 +46,8 @@ public class Player : MonoBehaviour, IHitable
     public List<Quest> questList { get; private set; }
     public List<Quest> completeQuest { get; private set; }
 
-    public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }
+    // public Dictionary<EquipmentData.EquipType, Equipment> wearingEquip { get; private set; }
+    public Equipment[] wearingEquip = new Equipment[(int)EquipmentData.EquipType.Size];
     public Queue<Input> inputBuffer { get; private set; }
 
     [SerializeField] PlayerStatusData status;
@@ -111,7 +112,6 @@ public class Player : MonoBehaviour, IHitable
         }
 
         instance = this;
-        wearingEquip = new Dictionary<EquipmentData.EquipType, Equipment>();
         questList = new List<Quest>();
         completeQuest = new List<Quest>();
         inputBuffer = new Queue<Input>();
@@ -285,26 +285,21 @@ public class Player : MonoBehaviour, IHitable
     /// 장비 착용 이벤트 핸들러
     /// </summary>
     /// <param questName="sender"></param>
-    /// <param questName="equipment"></param>
+    /// <param questName="equipment"></param>   
     public bool OnEquip(Equipment equipment, int index = -1)
     {
-        // 들어온 아이템이 그 부위에 착용중이면 장비를 벗는다.
-        if (wearingEquip.ContainsKey(equipment.equipmentData.equipType))
-        {
-            UnEquip(equipment, index);
-            // 그 장비에 대한 스텟 적용
-            equipment.ApplyStatusModifier();
-            if (equipment.equipmentData.equipType == EquipmentData.EquipType.Weapon)
-                RegisterWeapon(equipment.gameObject);
-            OnChangeEquipment?.Invoke();
-            return true;    
-        }
-
         // 인벤토리에 장비를 지우고
         RemoveItemFromInventory(equipment.Data, index);
 
+        // 들어온 아이템이 그 부위에 착용중이면 장비를 벗는다.
+        if (wearingEquip[(int)equipment.equipmentData.equipType] != null)
+        {
+            UnEquip(equipment, index);
+        }
+
         // 착용한 분위에 이 장비를 착용 시킨다.
-        wearingEquip.Add(equipment.equipmentData.equipType, equipment);
+        wearingEquip[(int)equipment.equipmentData.equipType] = equipment;
+
         // 그 장비에 대한 스텟 적용
         equipment.ApplyStatusModifier();
 
@@ -327,20 +322,29 @@ public class Player : MonoBehaviour, IHitable
             return false;
 
         // 착용중인 부위에 아이템이 있으면
-        if (wearingEquip.ContainsKey(equipment.equipmentData.equipType))
+        if (wearingEquip[(int)equipment.equipmentData.equipType] != null)
         {
-            EquipmentData temp = wearingEquip[equipment.equipmentData.equipType].equipmentData;
+            // 임시 착용중인 장비
+            Equipment temp = wearingEquip[(int)equipment.equipmentData.equipType];
 
             // 스텟 미적용
-            wearingEquip[equipment.equipmentData.equipType].RemoveStatusModifier();
+            temp.RemoveStatusModifier();
 
             if (equipment.equipmentData.equipType == EquipmentData.EquipType.Weapon)
-                UnRegisterWeapon(wearingEquip[equipment.equipmentData.equipType] as Weapon);
+                UnRegisterWeapon(wearingEquip[(int)equipment.equipmentData.equipType] as Weapon);
 
             // 착용중인 장비를 지워준다.
-            Destroy(wearingEquip[equipment.equipmentData.equipType].gameObject);
-            wearingEquip.Remove(equipment.equipmentData.equipType);
+            Destroy(wearingEquip[(int)equipment.equipmentData.equipType].gameObject);
+            wearingEquip[(int)equipment.equipmentData.equipType] = null;
 
+            inventory.list[index] = temp.equipmentData;
+            AddItemToInventory(temp.equipmentData, index);
+
+            OnChangeEquipment?.Invoke();
+
+            return true;
+
+            /*
             // 착용한 분위에 이 장비를 착용 시킨다.
             wearingEquip.Add(equipment.equipmentData.equipType, equipment);
 
@@ -352,7 +356,7 @@ public class Player : MonoBehaviour, IHitable
             AddItemToInventory(temp, index);
 
             OnChangeEquipment?.Invoke();
-            return true;
+            return true;*/
         }
         else
         {
@@ -382,19 +386,20 @@ public class Player : MonoBehaviour, IHitable
             }
         }
 
+        Equipment temp = wearingEquip[(int)equipment.equipmentData.equipType];
+
         // 스텟 미적용
-        equipment.RemoveStatusModifier();
+        temp.RemoveStatusModifier();
 
         if (equipment.equipmentData.equipType == EquipmentData.EquipType.Weapon)
-            UnRegisterWeapon(wearingEquip[equipment.equipmentData.equipType] as Weapon);
+            UnRegisterWeapon(wearingEquip[(int)equipment.equipmentData.equipType] as Weapon);
 
         // 착용중인 장비를 지워준다.
-        Destroy(wearingEquip[equipment.equipmentData.equipType].gameObject);
-        wearingEquip.Remove(equipment.equipmentData.equipType);
+        Destroy(wearingEquip[(int)equipment.equipmentData.equipType].gameObject);
+        wearingEquip[(int)equipment.equipmentData.equipType] = null;
 
-        // 인벤토리에 착용 중인 장비를 넣어주고
-        inventory.list[index] = equipment.Data;
-        AddItemToInventory(equipment.Data, index);
+        inventory.list[index] = temp.equipmentData;
+        AddItemToInventory(temp.equipmentData, index);
 
         OnChangeEquipment?.Invoke();
         return true;
@@ -403,7 +408,7 @@ public class Player : MonoBehaviour, IHitable
     // 무기 등록
     public void RegisterWeapon(GameObject weapon)
     {
-        if (wearingEquip.ContainsKey(EquipmentData.EquipType.Weapon))
+        if (wearingEquip[(int)EquipmentData.EquipType.Weapon] != null)
         {
             Weapon weaponInfo = weapon.GetComponent<Weapon>();
             weapon.transform.SetParent(hand);

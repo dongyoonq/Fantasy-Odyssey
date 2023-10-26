@@ -15,6 +15,18 @@ public class Sword : Weapon
     Vector3 playerPos;
     Vector3 playerHandPos;
 
+    WaitForSeconds[] cacheYield;
+
+    private void Awake()
+    {
+        cacheYield = new WaitForSeconds[11];
+
+        for (int i = 1; i < cacheYield.Length; i++)
+        {
+            cacheYield[i] = new WaitForSeconds(i * 0.1f);
+        }
+    }
+
     private void OnEnable()
     {
         equipmentData = Resources.Load<EquipmentData>("Data/ItemData/WeaponData/NormalSword");
@@ -65,7 +77,7 @@ public class Sword : Weapon
         AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
         particle = GameManager.Resource.Instantiate(weaponData.Effects[0],
             playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -160), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.4f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.4f);
     }
 
     void SecondAttack()
@@ -76,7 +88,7 @@ public class Sword : Weapon
         particle =
             GameManager.Resource.Instantiate(weaponData.Effects[0],
             playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 25f, 15), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.4f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.4f);
     }
 
     void FinishAttack()
@@ -86,7 +98,7 @@ public class Sword : Weapon
         AttackCircleJudgement(TotalDamage, 2.5f, 360f, 240f);
         particle = GameManager.Resource.Instantiate(weaponData.Effects[1],
             playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y - 60f, 0), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.7f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.7f);
     }
 
     public override void RightAttack()
@@ -99,11 +111,11 @@ public class Sword : Weapon
 
     IEnumerator syncRightAttackParticle()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return cacheYield[3];
         GameManager.Sound.PlaySFX("NormalSword5");
         particle = GameManager.Resource.Instantiate(weaponData.Effects[2],
             new Vector3(playerHandPos.x, playerHandPos.y - 0.2f, playerHandPos.z), Quaternion.Euler(playerRot), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.4f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.4f);
     }
 
     public override void ChargingAttack()
@@ -115,22 +127,22 @@ public class Sword : Weapon
 
     IEnumerator syncChargeAttackParticle()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return cacheYield[4];
         GameManager.Sound.PlaySFX("NormalSword4");
         particle = GameManager.Resource.Instantiate(weaponData.Effects[4],
             playerPos + (Player.Instance.transform.forward * 3.5f), Quaternion.Euler(playerRot), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.8f);
-        yield return new WaitForSeconds(0.6f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.8f);
+        yield return cacheYield[6];
         particle = GameManager.Resource.Instantiate(weaponData.Effects[5],
             new Vector3(playerPos.x, 0, playerPos.z) + Player.Instance.transform.forward * 5f, Quaternion.identity, true);
-        Destroy(particle.gameObject, 0.5f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.5f);
     }
 
     IEnumerator ActiveChargeAttackHitBox()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return cacheYield[7];
         transform.GetChild(0).gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return cacheYield[5];
         transform.GetChild(0).gameObject.SetActive(false);
     }
 
@@ -143,18 +155,18 @@ public class Sword : Weapon
 
     IEnumerator syncDashttackParticle()
     {
-        yield return new WaitForSeconds(0.9f);
+        yield return cacheYield[9];
         GameManager.Sound.PlaySFX("NormalSword4");
         particle = GameManager.Resource.Instantiate(weaponData.Effects[0],
             playerPos, Quaternion.Euler(playerRot.x, playerRot.y, playerRot.z - 90), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.3f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.3f);
     }
 
     IEnumerator ActiveDashAttackHitBox()
     {
-        yield return new WaitForSeconds(0.9f);
+        yield return cacheYield[9];
         transform.GetChild(1).gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.3f);
+        yield return cacheYield[3];
         transform.GetChild(1).gameObject.SetActive(false);
     }
 
@@ -166,11 +178,11 @@ public class Sword : Weapon
 
     IEnumerator syncSkillParticle()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return cacheYield[3];
         GameManager.Sound.PlaySFX("NormalSword6");
         particle = GameManager.Resource.Instantiate(weaponData.Effects[3],
             playerHandPos, Quaternion.Euler(playerRot), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.8f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.8f);
     }
 
     IEnumerator ActiveSkillAttackHitBox()
@@ -189,7 +201,7 @@ public class Sword : Weapon
             yield return null;
         }
 
-        Destroy(hitObj);
+        GameManager.Resource.Destroy(hitObj);
     }
 
     public override void UltimateSkill()
@@ -201,31 +213,31 @@ public class Sword : Weapon
     IEnumerator syncUltParticle()
     {
         TotalDamage = Player.Instance.Status.AttackPower;
-        yield return new WaitForSeconds(0.1f);
+        yield return cacheYield[1];
         GameManager.Sound.PlaySFX("NormalSword1");
         AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
         particle = GameManager.Resource.Instantiate(weaponData.Effects[0],
             playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, -140), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.5f);
-        yield return new WaitForSeconds(0.5f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.5f);
+        yield return cacheYield[5];
         GameManager.Sound.PlaySFX("NormalSword2");
         AttackCircleJudgement(TotalDamage, 2.2f, 190f, 240f);
         particle = GameManager.Resource.Instantiate(weaponData.Effects[0],
             new Vector3(playerHandPos.x - 0.5f, playerHandPos.y, playerHandPos.z), Quaternion.Euler(playerRot.x, playerRot.y, 40), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.5f);
-        yield return new WaitForSeconds(0.5f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.5f);
+        yield return cacheYield[5];
         GameManager.Sound.PlaySFX("NormalSword3");
         AttackCircleJudgement(TotalDamage + 20, 2.5f, 190f, 240f);
         particle = GameManager.Resource.Instantiate(weaponData.Effects[0],
             playerHandPos, Quaternion.Euler(playerRot.x, playerRot.y, 140), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.5f);
-        yield return new WaitForSeconds(0.5f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.5f);
+        yield return cacheYield[5];
         GameManager.Sound.PlaySFX("NormalSword5");
         AttackBoxJudgement(TotalDamage + 30, transform.position + transform.forward * 1f, new Vector3(0.4f, 0.4f, 1.8f),
             Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles));
         particle = GameManager.Resource.Instantiate(weaponData.Effects[2],
             playerHandPos, Quaternion.Euler(new Vector3(playerRot.x + 25f, playerRot.y, playerRot.z)), Player.Instance.transform, true);
-        Destroy(particle.gameObject, 0.2f);
+        GameManager.Resource.Destroy(particle.gameObject, 0.2f);
     }
 
     public override void Attack()

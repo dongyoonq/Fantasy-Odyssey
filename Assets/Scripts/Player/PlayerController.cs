@@ -223,9 +223,9 @@ public class PlayerController : MonoBehaviour
 
     public Weapon GetWeapon()
     {
-        if (player.wearingEquip.ContainsKey(EquipmentData.EquipType.Weapon))
+        if (player.wearingEquip[(int)EquipmentData.EquipType.Weapon] != null)
         {
-            Equipment equipment = player.wearingEquip[EquipmentData.EquipType.Weapon];
+            Equipment equipment = player.wearingEquip[(int)EquipmentData.EquipType.Weapon];
             Weapon weapon = equipment as Weapon;
             return weapon;
         }
